@@ -1,0 +1,8 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/DfT.DTRO.Admin/bin/Debug/net6.0
+/DfT.DTRO.Admin/.vs/DfT.DTRO.Admin
+/DfT.DTRO.Admin/obj
+/.vs/DfT.DTRO.Admin
