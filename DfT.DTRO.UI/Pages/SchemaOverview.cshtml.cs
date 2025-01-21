@@ -30,7 +30,7 @@ public class SchemaOverviewModel : PageModel
         try
         {
             OnGetAsync().Wait();
-            SchemaTemplateOverview? schema = Schemas.Items.Find(s => s.SchemaVersion == version);
+            var schema = Schemas.Items.Find(s => s.SchemaVersion == version);
             if (schema == null)
             {
                 return NotFound();
