@@ -53,7 +53,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          path: dft-dtro-beta
+          path: dft-dtro-beta-ui
 
       - name: Set up Docker
         uses: docker/setup-buildx-action@v3.3.0
@@ -67,19 +67,10 @@ jobs:
       - name: Authenticate Docker with the Artifact Registry repository
         run: gcloud auth configure-docker europe-west1-docker.pkg.dev
 
-      - name: Build and push DTRO Docker image to Artifact Registry
-        uses: docker/build-push-action@v6.1.0
-        with:
-          context: dft-dtro-beta/Src/DfT.DTRO
-          platforms: linux/amd64
-          push: true
-          provenance: false
-          tags: ${{ env.TF_VAR_artifact_registry_dtro_image_path }}:${{ env.TF_VAR_dtro_tag }}
-
       - name: Build and push Service Portal Docker image to Artifact Registry
         uses: docker/build-push-action@v6.1.0
         with:
-          context: dft-dtro-beta/Src/Dft.DTRO.Admin
+          context: dft-dtro-beta-ui/Src/Dft.DTRO.Admin
           platforms: linux/amd64
           push: true
           provenance: false
