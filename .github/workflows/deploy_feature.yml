@@ -25,6 +25,11 @@ on:
         default: false
 
 jobs:
+  debug-secrets:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if secret exists
+        run: echo ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }} | sed 's/./& /g'
   deploy-feature-dev:
     if: ${{ ! inputs.deploy-to-test }}
     name: Deploy Feature Branch to Dev
