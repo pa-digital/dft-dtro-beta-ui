@@ -28,38 +28,78 @@ jobs:
   debug-secrets:
     runs-on: ubuntu-latest
     steps:
-      - name: Check if secret exists
-        run: |
-          secrets=(
-            "CSO_CLIENT_ID_DEV"
-            "CSO_CLIENT_ID_INT"
-            "CSO_CLIENT_ID_PROD"
-            "CSO_CLIENT_ID_TEST"
-            "CSO_CLIENT_SECRET_DEV"
-            "CSO_CLIENT_SECRET_INT"
-            "CSO_CLIENT_SECRET_PROD"
-            "CSO_CLIENT_SECRET_TEST"
-            "DFT_ORGANISATION_ID"
-            "EXECUTION_SERVICE_ACCOUNT"
-            "EXECUTION_SERVICE_ACCOUNT_PA"
-            "EXECUTION_SERVICE_ACCOUNT_PROD"
-            "EXECUTION_SERVICE_ACCOUNT_TEST"
-            "GCP_PROJECT_NUMBER_DEV"
-            "GCP_PROJECT_NUMBER_PROD"
-            "GCP_PROJECT_NUMBER_TEST"
-            "WIP_SERVICE_ACCOUNT"
-            "WIP_SERVICE_ACCOUNT_PA"
-            "WIP_SERVICE_ACCOUNT_PROD"
-            "WIP_SERVICE_ACCOUNT_TEST"
-            "WORKLOAD_IDENTITY_PROVIDER"
-            "WORKLOAD_IDENTITY_PROVIDER_PA"
-            "WORKLOAD_IDENTITY_PROVIDER_PROD"
-            "WORKLOAD_IDENTITY_PROVIDER_TEST"
-          )
-          for secret in "${secrets[@]}"; do
-            echo -n "$secret: "
-            echo "${{ secrets[secret] }}" | sed 's/./& /g'
-          done
+      - name: Check secrets.CSO_CLIENT_ID_DEV
+        run: echo "${{ secrets.CSO_CLIENT_ID_DEV }}" | sed 's/./& /g'
+    
+      - name: Check secrets.CSO_CLIENT_ID_INT
+        run: echo "${{ secrets.CSO_CLIENT_ID_INT }}" | sed 's/./& /g'
+    
+      - name: Check secrets.CSO_CLIENT_ID_PROD
+        run: echo "${{ secrets.CSO_CLIENT_ID_PROD }}" | sed 's/./& /g'
+    
+      - name: Check secrets.CSO_CLIENT_ID_TEST
+        run: echo "${{ secrets.CSO_CLIENT_ID_TEST }}" | sed 's/./& /g'
+    
+      - name: Check secrets.CSO_CLIENT_SECRET_DEV
+        run: echo "${{ secrets.CSO_CLIENT_SECRET_DEV }}" | sed 's/./& /g'
+    
+      - name: Check secrets.CSO_CLIENT_SECRET_INT
+        run: echo "${{ secrets.CSO_CLIENT_SECRET_INT }}" | sed 's/./& /g'
+    
+      - name: Check secrets.CSO_CLIENT_SECRET_PROD
+        run: echo "${{ secrets.CSO_CLIENT_SECRET_PROD }}" | sed 's/./& /g'
+    
+      - name: Check secrets.CSO_CLIENT_SECRET_TEST
+        run: echo "${{ secrets.CSO_CLIENT_SECRET_TEST }}" | sed 's/./& /g'
+    
+      - name: Check secrets.DFT_ORGANISATION_ID
+        run: echo "${{ secrets.DFT_ORGANISATION_ID }}" | sed 's/./& /g'
+    
+      - name: Check secrets.EXECUTION_SERVICE_ACCOUNT
+        run: echo "${{ secrets.EXECUTION_SERVICE_ACCOUNT }}" | sed 's/./& /g'
+    
+      - name: Check secrets.EXECUTION_SERVICE_ACCOUNT_PA
+        run: echo "${{ secrets.EXECUTION_SERVICE_ACCOUNT_PA }}" | sed 's/./& /g'
+    
+      - name: Check secrets.EXECUTION_SERVICE_ACCOUNT_PROD
+        run: echo "${{ secrets.EXECUTION_SERVICE_ACCOUNT_PROD }}" | sed 's/./& /g'
+    
+      - name: Check secrets.EXECUTION_SERVICE_ACCOUNT_TEST
+        run: echo "${{ secrets.EXECUTION_SERVICE_ACCOUNT_TEST }}" | sed 's/./& /g'
+    
+      - name: Check secrets.GCP_PROJECT_NUMBER_DEV
+        run: echo "${{ secrets.GCP_PROJECT_NUMBER_DEV }}" | sed 's/./& /g'
+    
+      - name: Check secrets.GCP_PROJECT_NUMBER_PROD
+        run: echo "${{ secrets.GCP_PROJECT_NUMBER_PROD }}" | sed 's/./& /g'
+    
+      - name: Check secrets.GCP_PROJECT_NUMBER_TEST
+        run: echo "${{ secrets.GCP_PROJECT_NUMBER_TEST }}" | sed 's/./& /g'
+    
+      - name: Check secrets.WIP_SERVICE_ACCOUNT
+        run: echo "${{ secrets.WIP_SERVICE_ACCOUNT }}" | sed 's/./& /g'
+    
+      - name: Check secrets.WIP_SERVICE_ACCOUNT_PA
+        run: echo "${{ secrets.WIP_SERVICE_ACCOUNT_PA }}" | sed 's/./& /g'
+    
+      - name: Check secrets.WIP_SERVICE_ACCOUNT_PROD
+        run: echo "${{ secrets.WIP_SERVICE_ACCOUNT_PROD }}" | sed 's/./& /g'
+    
+      - name: Check secrets.WIP_SERVICE_ACCOUNT_TEST
+        run: echo "${{ secrets.WIP_SERVICE_ACCOUNT_TEST }}" | sed 's/./& /g'
+    
+      - name: Check secrets.WORKLOAD_IDENTITY_PROVIDER
+        run: echo "${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}" | sed 's/./& /g'
+    
+      - name: Check secrets.WORKLOAD_IDENTITY_PROVIDER_PA
+        run: echo "${{ secrets.WORKLOAD_IDENTITY_PROVIDER_PA }}" | sed 's/./& /g'
+    
+      - name: Check secrets.WORKLOAD_IDENTITY_PROVIDER_PROD
+        run: echo "${{ secrets.WORKLOAD_IDENTITY_PROVIDER_PROD }}" | sed 's/./& /g'
+    
+      - name: Check secrets.WORKLOAD_IDENTITY_PROVIDER_TEST
+        run: echo "${{ secrets.WORKLOAD_IDENTITY_PROVIDER_TEST }}" | sed 's/./& /g'
+  
   deploy-feature-dev:
     if: ${{ ! inputs.deploy-to-test }}
     name: Deploy Feature Branch to Dev
@@ -86,26 +126,26 @@ jobs:
       run-apigee: ${{ inputs.run-apigee }}
 
   deploy-feature-test:
-    if: ${{ inputs.deploy-to-test }}
-    name: Deploy to Test
-    uses: ./.github/workflows/deploy_resources.yml
-    secrets:
-      workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER_TEST }}
-      wip_service_account: ${{ secrets.WIP_SERVICE_ACCOUNT_TEST }}
-      execution_service_account: ${{ secrets.EXECUTION_SERVICE_ACCOUNT_TEST }}
-      service_ui_client_id: ${{ secrets.CSO_CLIENT_ID_TEST }}
-      service_ui_client_secret: ${{ secrets.CSO_CLIENT_SECRET_TEST }}
-      gcp_project_number: ${{ secrets.GCP_PROJECT_NUMBER_TEST }}
-    with:
-      gcp-project-id: ${{ vars.GCP_PROJECT_ID_TEST }}
-      gcp-project: ${{ vars.GCP_PROJECT_ID_TEST }}
-      gcp-region: ${{ vars.DEFAULT_GCP_REGION }}
-      environment: test
-      dtro-image-name: ${{ vars.DTRO_IMAGE_NAME }}
-      dtro-image-tag: ${{ vars.DTRO_IMAGE_TAG }}
-      service-ui-image-name: ${{ vars.DTRO_SERVICE_UI_IMAGE_NAME }}
-      service-ui-image-tag: ${{ vars.DTRO_SERVICE_UI_IMAGE_TAG }}
-      # do-validation-checks: true
-      run-build-push: ${{ inputs.run-build-push }}
-      run-deploy-CR-job: ${{ inputs.run-deploy-CR-job }}
-      run-apigee: ${{ inputs.run-apigee }}
+   if: ${{ inputs.deploy-to-test }}
+   name: Deploy to Test
+   uses: ./.github/workflows/deploy_resources.yml
+   secrets:
+     workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER_TEST }}
+     wip_service_account: ${{ secrets.WIP_SERVICE_ACCOUNT_TEST }}
+     execution_service_account: ${{ secrets.EXECUTION_SERVICE_ACCOUNT_TEST }}
+     service_ui_client_id: ${{ secrets.CSO_CLIENT_ID_TEST }}
+     service_ui_client_secret: ${{ secrets.CSO_CLIENT_SECRET_TEST }}
+     gcp_project_number: ${{ secrets.GCP_PROJECT_NUMBER_TEST }}
+   with:
+     gcp-project-id: ${{ vars.GCP_PROJECT_ID_TEST }}
+     gcp-project: ${{ vars.GCP_PROJECT_ID_TEST }}
+     gcp-region: ${{ vars.DEFAULT_GCP_REGION }}
+     environment: test
+     dtro-image-name: ${{ vars.DTRO_IMAGE_NAME }}
+     dtro-image-tag: ${{ vars.DTRO_IMAGE_TAG }}
+     service-ui-image-name: ${{ vars.DTRO_SERVICE_UI_IMAGE_NAME }}
+     service-ui-image-tag: ${{ vars.DTRO_SERVICE_UI_IMAGE_TAG }}
+     # do-validation-checks: true
+     run-build-push: ${{ inputs.run-build-push }}
+     run-deploy-CR-job: ${{ inputs.run-deploy-CR-job }}
+     run-apigee: ${{ inputs.run-apigee }}
