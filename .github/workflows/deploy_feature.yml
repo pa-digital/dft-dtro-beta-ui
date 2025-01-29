@@ -29,7 +29,37 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check if secret exists
-        run: echo ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }} | sed 's/./& /g'
+        run: |
+          secrets=(
+            "CSO_CLIENT_ID_DEV"
+            "CSO_CLIENT_ID_INT"
+            "CSO_CLIENT_ID_PROD"
+            "CSO_CLIENT_ID_TEST"
+            "CSO_CLIENT_SECRET_DEV"
+            "CSO_CLIENT_SECRET_INT"
+            "CSO_CLIENT_SECRET_PROD"
+            "CSO_CLIENT_SECRET_TEST"
+            "DFT_ORGANISATION_ID"
+            "EXECUTION_SERVICE_ACCOUNT"
+            "EXECUTION_SERVICE_ACCOUNT_PA"
+            "EXECUTION_SERVICE_ACCOUNT_PROD"
+            "EXECUTION_SERVICE_ACCOUNT_TEST"
+            "GCP_PROJECT_NUMBER_DEV"
+            "GCP_PROJECT_NUMBER_PROD"
+            "GCP_PROJECT_NUMBER_TEST"
+            "WIP_SERVICE_ACCOUNT"
+            "WIP_SERVICE_ACCOUNT_PA"
+            "WIP_SERVICE_ACCOUNT_PROD"
+            "WIP_SERVICE_ACCOUNT_TEST"
+            "WORKLOAD_IDENTITY_PROVIDER"
+            "WORKLOAD_IDENTITY_PROVIDER_PA"
+            "WORKLOAD_IDENTITY_PROVIDER_PROD"
+            "WORKLOAD_IDENTITY_PROVIDER_TEST"
+          )
+          for secret in "${secrets[@]}"; do
+            echo -n "$secret: "
+            echo "${{ secrets[secret] }}" | sed 's/./& /g'
+          done
   deploy-feature-dev:
     if: ${{ ! inputs.deploy-to-test }}
     name: Deploy Feature Branch to Dev
@@ -56,26 +86,26 @@ jobs:
       run-apigee: ${{ inputs.run-apigee }}
 
   deploy-feature-test:
-   if: ${{ inputs.deploy-to-test }}
-   name: Deploy to Test
-   uses: ./.github/workflows/deploy_resources.yml
-   secrets:
-     workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER_TEST }}
-     wip_service_account: ${{ secrets.WIP_SERVICE_ACCOUNT_TEST }}
-     execution_service_account: ${{ secrets.EXECUTION_SERVICE_ACCOUNT_TEST }}
-     service_ui_client_id: ${{ secrets.CSO_CLIENT_ID_TEST }}
-     service_ui_client_secret: ${{ secrets.CSO_CLIENT_SECRET_TEST }}
-     gcp_project_number: ${{ secrets.GCP_PROJECT_NUMBER_TEST }}
-   with:
-     gcp-project-id: ${{ vars.GCP_PROJECT_ID_TEST }}
-     gcp-project: ${{ vars.GCP_PROJECT_ID_TEST }}
-     gcp-region: ${{ vars.DEFAULT_GCP_REGION }}
-     environment: test
-     dtro-image-name: ${{ vars.DTRO_IMAGE_NAME }}
-     dtro-image-tag: ${{ vars.DTRO_IMAGE_TAG }}
-     service-ui-image-name: ${{ vars.DTRO_SERVICE_UI_IMAGE_NAME }}
-     service-ui-image-tag: ${{ vars.DTRO_SERVICE_UI_IMAGE_TAG }}
-     # do-validation-checks: true
-     run-build-push: ${{ inputs.run-build-push }}
-     run-deploy-CR-job: ${{ inputs.run-deploy-CR-job }}
-     run-apigee: ${{ inputs.run-apigee }}
+    if: ${{ inputs.deploy-to-test }}
+    name: Deploy to Test
+    uses: ./.github/workflows/deploy_resources.yml
+    secrets:
+      workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER_TEST }}
+      wip_service_account: ${{ secrets.WIP_SERVICE_ACCOUNT_TEST }}
+      execution_service_account: ${{ secrets.EXECUTION_SERVICE_ACCOUNT_TEST }}
+      service_ui_client_id: ${{ secrets.CSO_CLIENT_ID_TEST }}
+      service_ui_client_secret: ${{ secrets.CSO_CLIENT_SECRET_TEST }}
+      gcp_project_number: ${{ secrets.GCP_PROJECT_NUMBER_TEST }}
+    with:
+      gcp-project-id: ${{ vars.GCP_PROJECT_ID_TEST }}
+      gcp-project: ${{ vars.GCP_PROJECT_ID_TEST }}
+      gcp-region: ${{ vars.DEFAULT_GCP_REGION }}
+      environment: test
+      dtro-image-name: ${{ vars.DTRO_IMAGE_NAME }}
+      dtro-image-tag: ${{ vars.DTRO_IMAGE_TAG }}
+      service-ui-image-name: ${{ vars.DTRO_SERVICE_UI_IMAGE_NAME }}
+      service-ui-image-tag: ${{ vars.DTRO_SERVICE_UI_IMAGE_TAG }}
+      # do-validation-checks: true
+      run-build-push: ${{ inputs.run-build-push }}
+      run-deploy-CR-job: ${{ inputs.run-deploy-CR-job }}
+      run-apigee: ${{ inputs.run-apigee }}
