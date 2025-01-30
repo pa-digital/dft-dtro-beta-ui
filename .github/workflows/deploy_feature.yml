@@ -18,11 +18,6 @@ on:
         description: Run deploy Cloud Run job?
         required: false
         default: false
-      run-apigee:
-        type: boolean
-        description: Run Apigee job?
-        required: false
-        default: false
 
 jobs:
   debug-secrets:
@@ -116,14 +111,11 @@ jobs:
       gcp-project: ${{ vars.GCP_PROJECT_DEV }}
       gcp-region: ${{ vars.DEFAULT_GCP_REGION }}
       environment: dev
-      dtro-image-name: ${{ vars.DTRO_IMAGE_NAME }}
-      dtro-image-tag: ${{ vars.DTRO_IMAGE_TAG }}
       service-ui-image-name: ${{ vars.DTRO_SERVICE_UI_IMAGE_NAME }}
       service-ui-image-tag: ${{ vars.DTRO_SERVICE_UI_IMAGE_TAG }}
       # do-validation-checks: true
       run-build-push: ${{ inputs.run-build-push }}
       run-deploy-CR-job: ${{ inputs.run-deploy-CR-job }}
-      run-apigee: ${{ inputs.run-apigee }}
 
   deploy-feature-test:
    if: ${{ inputs.deploy-to-test }}
@@ -141,11 +133,8 @@ jobs:
      gcp-project: ${{ vars.GCP_PROJECT_ID_TEST }}
      gcp-region: ${{ vars.DEFAULT_GCP_REGION }}
      environment: test
-     dtro-image-name: ${{ vars.DTRO_IMAGE_NAME }}
-     dtro-image-tag: ${{ vars.DTRO_IMAGE_TAG }}
      service-ui-image-name: ${{ vars.DTRO_SERVICE_UI_IMAGE_NAME }}
      service-ui-image-tag: ${{ vars.DTRO_SERVICE_UI_IMAGE_TAG }}
      # do-validation-checks: true
      run-build-push: ${{ inputs.run-build-push }}
      run-deploy-CR-job: ${{ inputs.run-deploy-CR-job }}
-     run-apigee: ${{ inputs.run-apigee }}
