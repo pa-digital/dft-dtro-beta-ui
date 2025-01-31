@@ -83,5 +83,8 @@
 /Src/.idea/.idea.DfT.DTRO/.idea/projectSettingsUpdater.xml
 /Src/.idea/.idea.DfT.DTRO/.idea/vcs.xml
 /Src/.idea/.idea.DfT.DTRO/.idea/workspace.xml
-
+/terraform/terraform.tfvars
+/terraform/terraform.backend
+**/.terraform
+/terraform/.terraform.lock.hcl
 .env
