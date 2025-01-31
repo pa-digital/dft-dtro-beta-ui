@@ -18,7 +18,8 @@ locals {
 resource "google_cloud_run_v2_service" "service_portal_service" {
   name     = local.Service_ui_cloud_run_service_name
   location = var.region
-  ingress  = "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER"
+  deletion_protection = false
+  ingress  = "INGRESS_TRAFFIC_ALL"
 
   template {
     service_account = var.execution_service_account
