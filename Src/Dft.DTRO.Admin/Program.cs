@@ -26,9 +26,7 @@ ConfigHelper.XAppIdOverride =
     Environment.GetEnvironmentVariable("X_APP_ID_OVERRIDE") ??
     builder.Configuration.GetValue<string>("X_APP_ID_OVERRIDE");
 
-ConfigHelper.TokenEndpoint =
-    Environment.GetEnvironmentVariable("TOKEN_ENDPOINT") ??
-    builder.Configuration.GetValue<string>("https://dtro-dev.dft.gov.uk/v1/oauth-generator");
+ConfigHelper.TokenEndpoint = "https://dtro-dev.dft.gov.uk/v1/oauth-generator";
 
 builder.Services.AddHttpClient("ExternalApi", client =>
 {
