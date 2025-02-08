@@ -7,9 +7,6 @@
     width: 100%;
     position: relative;
     display: inline-block;
-    width: 100%;
-    border: 1px solid rgb(221, 221, 221);
-    border-radius: 12px;
 }
 
 input {
@@ -23,6 +20,9 @@ input {
     transition: border-color 0.3s ease-in-out;
     font-size: var(--font-size);
     color: rgba(26, 7, 16, 0.85);
+    border-radius: 12px;
+    border: 1px solid rgb(221, 221, 221);
+    box-sizing: border-box;
 }
 
 .label {
@@ -40,4 +40,16 @@ input {
     top: 5px;
     font-size: var(--font-size-sm);
     transform: translateY(0);
+}
+
+.notEditable {
+    background-color: rgb(238, 241, 242);
+    ;
+}
+
+.icon {
+    position: absolute;
+    top: calc(50% - 8px);
+    right: 12px;
+    cursor: pointer;
 }
