@@ -13,7 +13,7 @@ interface InputComponentProps {
   label?: string;
   editable?: boolean;
   trailingIcon?: string;
-  onChange: (value: string) => void;
+  onChange?: (value: string) => void;
   onIconClick?: () => void;
 }
 
