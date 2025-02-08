@@ -1,0 +1,19 @@
+:root {
+    --border-colour: rgb(98, 98, 98);
+}
+
+.container {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+input {
+    all: unset;
+}
+
+.input {
+    width: 48px;
+    height: 48px;
+    border: 1px solid var(--border-colour);
+    border-radius: 6px;
+}
