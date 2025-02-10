@@ -12,9 +12,14 @@ interface InputComponentProps {
   type: InputType;
   label?: string;
   editable?: boolean;
-  trailingIcon?: string;
+  trailingIcons?: TrailingIcon[];
   onChange?: (value: string) => void;
-  onIconClick?: () => void;
+}
+
+interface TrailingIcon {
+  src?: string;
+  text?: string;
+  onClick?: () => void;
 }
 
 const InputComponent: React.FC<InputComponentProps> = ({
@@ -22,9 +27,8 @@ const InputComponent: React.FC<InputComponentProps> = ({
   type,
   label,
   editable = true,
-  trailingIcon,
+  trailingIcons,
   onChange,
-  onIconClick,
 }) => {
   const [isFocused, setIsFocused] = useState<boolean>(false);
 
@@ -33,13 +37,13 @@ const InputComponent: React.FC<InputComponentProps> = ({
       <input
         className={classNames(styles.input, {
           [styles.notEditable]: !editable,
+          [styles.noLabel]: !label,
         })}
         value={value}
         type={type}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
-        onChange={(e) => onChange(e.target.value)}
-        // disabled={!editable}
+        onChange={(e) => onChange?.(e.target.value)}
       ></input>
       <label
         className={classNames(styles.label, {
@@ -49,13 +53,25 @@ const InputComponent: React.FC<InputComponentProps> = ({
       >
         {label}
       </label>
-      {trailingIcon && (
-        <img
-          className={styles.icon}
-          src={trailingIcon}
-          onClick={onIconClick}
-        ></img>
-      )}
+      {trailingIcons &&
+        trailingIcons.map((icon, index) =>
+          icon.src ? (
+            <img
+              key={index}
+              className={styles.icon}
+              src={icon.src}
+              onClick={icon.onClick}
+            />
+          ) : (
+            <div
+              key={index}
+              className={classNames(styles.icon, styles.textIcon)}
+              onClick={icon.onClick}
+            >
+              {icon.text}
+            </div>
+          )
+        )}
     </div>
   );
 };

@@ -44,7 +44,6 @@ input {
 
 .notEditable {
     background-color: rgb(238, 241, 242);
-    ;
 }
 
 .icon {
@@ -52,4 +51,18 @@ input {
     top: calc(50% - 8px);
     right: 12px;
     cursor: pointer;
+}
+
+.textIcon {
+    font-size: 11px;
+    font-weight: 400;
+    color: rgb(143, 141, 141);
+    right: 32px;
+}
+
+.noLabel {
+    padding: 16px 10px;
+    line-height: normal;
+    display: flex;
+    align-items: center;
 }
