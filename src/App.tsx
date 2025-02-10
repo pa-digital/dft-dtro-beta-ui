@@ -1,20 +1,20 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import TextComponent from './components/TypographyComponent'; // Ensure correct path
-
+import "./App.css";
+import FooterComponent from "./components/footer/footer.component";
+import NavbarComponent from "./components/navbar/navbar.component";
+import LoginPage from "./pages/login/login.page";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <TextComponent variant="heading" content="This is a Heading" />
-      <TextComponent variant="description" content="This is a paragraph" />
-      <TextComponent variant="info" content="This is inline text" />
-    </>
-  )
+    <div className="container">
+      <NavbarComponent />
+      <div className="content">
+        <LoginPage />
+      </div>
+      <div className="footer">
+        <FooterComponent />
+      </div>
+    </div>
+  );
 }
 
-export default App
+export default App;
