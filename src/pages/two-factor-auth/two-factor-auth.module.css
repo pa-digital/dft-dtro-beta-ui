@@ -4,16 +4,6 @@
     flex-direction: column;
 }
 
-.navContent {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.navContent > a {
-    color: rgb(0, 26, 112);
-}
-
 .headerContainer {
     width: 70%;
     border-bottom: 1px solid rgb(217, 217, 217);

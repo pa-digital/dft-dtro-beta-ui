@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import styles from "./two-factor-auth.module.css";
-import BackArrow from "../../assets/back-arrow.svg";
 import TwoFactorAuthComponent from "../../components/two-factor-auth/two-factor-auth.component";
 import ButtonComponent, {
   ButtonType,
 } from "../../components/button/button.component";
+import NavLinkComponent from "../../components/nav-link/nav-link.component";
 
 const TwoFactorAuthPage: React.FC = () => {
   const n = 6;
@@ -25,10 +25,7 @@ const TwoFactorAuthPage: React.FC = () => {
 
   return (
     <div className={styles.content}>
-      <div className={styles.navContent}>
-        <img src={BackArrow}></img>
-        <a href="/">Sign In</a>
-      </div>
+      <NavLinkComponent text="Sign in" link="/" />
       <div className={styles.headerContainer}>
         <h2>Two-Factor Authentication</h2>
       </div>
