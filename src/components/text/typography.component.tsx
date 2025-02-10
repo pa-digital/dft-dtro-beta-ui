@@ -1,28 +1,34 @@
-import styles from "./TypographyComponent.module.css";
+import styles from "./typography.component.module.css";
+
+export enum TypographyVariant {
+  MainHeading = "mainHeading",
+  SubHeading = "subHeading",
+  Description = "description"
+}
 
 interface TypographyComponentProps {
-    variant?: "heading" | "description" | "info";
+    variant?: TypographyVariant;
     content: string;
     className?: string;
     style?: React.CSSProperties;
   }
   
-  // Maps the custom names to html tages
+  
   const tagMap: Record<string, keyof JSX.IntrinsicElements> = {
-    heading: "h1",
-    description: "p",
-    info: "span",
+    [TypographyVariant.MainHeading]: "h1",
+    [TypographyVariant.SubHeading]: "h2",
+    [TypographyVariant.Description]: "p",
   };
   
   const TextComponent: React.FC<TypographyComponentProps> = ({
-    variant = "description",
+    variant = TypographyVariant.Description,
     content,
     className = "",
     style = {},
   }) => {
-    const Tag = tagMap[variant] || "p"; // Fallback to <p> if invalid
+    const Tag = tagMap[variant] || "p";
     const finalClassName = `${styles[variant]} ${className}`.trim();
     return <Tag className={finalClassName}>{content}</Tag>;
   };
-  
+
   export default TextComponent;
