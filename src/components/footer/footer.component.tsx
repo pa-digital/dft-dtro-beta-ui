@@ -13,7 +13,7 @@ const FooterComponent: React.FC = () => {
       <div className={styles.footerLogoContainer}>
         <img src={OGLLogo}></img>
         <img className={styles.armsLogo} src={ArmsLogo}></img>
-        <p>© Copyright 2023 DFT</p>
+        <p>© Copyright 2025 DFT</p>
       </div>
       <div className={styles.linkGrid}>
         <a href="/">Home</a>
@@ -25,10 +25,10 @@ const FooterComponent: React.FC = () => {
       <div className={styles.externalLinkContainer}>
         <div className={styles.spacer}></div>
         <div className={styles.socialMediaIconsContainer}>
-          <img src={YouTube}></img>
-          <img src={LinkedIn}></img>
-          <img src={Twitter}></img>
-          <img src={Facebook}></img>
+          <img tabIndex={0} src={YouTube}></img>
+          <img tabIndex={0} src={LinkedIn}></img>
+          <img tabIndex={0} src={Twitter}></img>
+          <img tabIndex={0} src={Facebook}></img>
         </div>
         <div className={styles.spacer}></div>
         <div className={styles.links}>
