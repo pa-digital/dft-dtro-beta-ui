@@ -1,0 +1,9 @@
+.navContent {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.navContent > a {
+    color: rgb(0, 26, 112);
+}
