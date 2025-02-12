@@ -1,34 +1,50 @@
+import classNames from "classnames";
+import React from "react";
 import styles from "./typography.component.module.css";
 
-export enum TypographyVariant {
+export enum TypographyType {
   MainHeading = "mainHeading",
   SubHeading = "subHeading",
-  Description = "description"
+  Description = "description",
+  SubDescription = "subDescription",
+  Label = "label",
+  Email = "email",
+  Error = "error",
 }
 
 interface TypographyComponentProps {
-    variant?: TypographyVariant;
-    content: string;
-    className?: string;
-    style?: React.CSSProperties;
-  }
-  
-  
-  const tagMap: Record<string, keyof JSX.IntrinsicElements> = {
-    [TypographyVariant.MainHeading]: "h1",
-    [TypographyVariant.SubHeading]: "h2",
-    [TypographyVariant.Description]: "p",
-  };
-  
-  const TextComponent: React.FC<TypographyComponentProps> = ({
-    variant = TypographyVariant.Description,
-    content,
-    className = "",
-    style = {},
-  }) => {
-    const Tag = tagMap[variant] || "p";
-    const finalClassName = `${styles[variant]} ${className}`.trim();
-    return <Tag className={finalClassName}>{content}</Tag>;
-  };
+  type?: TypographyType;
+  content: string;
+  className?: string;
+  href?: string;
+}
 
-  export default TextComponent;
+const TextComponent: React.FC<TypographyComponentProps> = ({
+  type = TypographyType.Description,
+  content,
+  className = "",
+  href,
+}) => {
+  const isLink = type === TypographyType.Email;
+
+  return isLink ? (
+    <a href={href ?? `mailto:${content}`} className={classNames(styles.email, className)}>
+      {content}
+    </a>
+  ) : (
+    <p
+      className={classNames(className, {
+        [styles.mainHeading]: type === TypographyType.MainHeading,
+        [styles.subHeading]: type === TypographyType.SubHeading,
+        [styles.description]: type === TypographyType.Description,
+        [styles.subDescription]: type === TypographyType.SubDescription,
+        [styles.label]: type === TypographyType.Label,
+        [styles.error]: type === TypographyType.Error,
+      })}
+    >
+      {content}
+    </p>
+  );
+};
+
+export default TextComponent;

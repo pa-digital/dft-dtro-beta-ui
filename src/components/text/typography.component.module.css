@@ -18,3 +18,31 @@
   line-height: 32px;
   color: #1A0710A6;
 }
+
+.email {
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 32px;
+  color: #1A0710A6;
+  text-decoration: underline;
+}
+
+.subDescription {
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 26px;
+  color: #1A0710A6;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16px;
+  color: #000000;
+}
+
+.error {
+  font-size: 8px;
+  line-height: 10px;
+  color: #e04136;
+}
