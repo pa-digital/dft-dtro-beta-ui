@@ -1,0 +1,20 @@
+.navbar {
+    width: 100vw;
+}
+
+.navbarTop {
+    height: 24px;
+    background-color: rgb(243, 242, 241);
+}
+
+.navbarContent {
+    height: 80px;
+    background-color: rgba(255, 255, 255);
+    display: flex;
+    padding: 8px 48px;
+}
+
+.navbarBottom {
+    height: 24px;
+    background-color: rgba(0, 0, 0);
+}

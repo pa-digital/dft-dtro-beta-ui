@@ -1,0 +1,25 @@
+:root {
+    --border-colour: rgb(98, 98, 98);
+    --valid-border-colour: rgb(21, 181, 66);
+}
+
+.container {
+    display: flex;
+    gap: 8px;
+}
+
+input {
+    all: unset;
+}
+
+.input {
+    width: 48px;
+    height: 48px;
+    border: 1px solid var(--border-colour);
+    border-radius: 6px;
+    text-align: center;
+}
+
+.input.valid {
+    border-color: var(--valid-border-colour);
+}
