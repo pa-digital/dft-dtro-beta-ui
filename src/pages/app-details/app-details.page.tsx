@@ -65,7 +65,7 @@ const AppDetailsPage: React.FC<AppDetailsPageProps> = ({ appID }) => {
         <h2>Your app credentials for {appDetails?.appName}</h2>
       </div>
       <div className={styles.inputContainer}>
-        <div className={styles.inputRow}>
+        <div className="inputRow">
           <div style={{ width: "480px" }}>
             <InputComponent
               type={InputType.Text}
@@ -83,7 +83,7 @@ const AppDetailsPage: React.FC<AppDetailsPageProps> = ({ appID }) => {
             />
           </div>
         </div>
-        <div className={styles.inputRow}>
+        <div className="inputRow">
           <div style={{ width: "560px" }}>
             <InputComponent
               type={InputType.Text}
@@ -94,7 +94,7 @@ const AppDetailsPage: React.FC<AppDetailsPageProps> = ({ appID }) => {
           </div>
         </div>
         <p>API key</p>
-        <div className={styles.inputRow}>
+        <div className="inputRow">
           <div style={{ width: "560px" }}>
             <InputComponent
               type={showAPIKey ? InputType.Text : InputType.Password}
@@ -111,7 +111,7 @@ const AppDetailsPage: React.FC<AppDetailsPageProps> = ({ appID }) => {
           </div>
         </div>
         <p>API secret</p>
-        <div className={styles.inputRow}>
+        <div className="inputRow">
           <div style={{ width: "560px" }}>
             <InputComponent
               type={showAPISecret ? InputType.Text : InputType.Password}

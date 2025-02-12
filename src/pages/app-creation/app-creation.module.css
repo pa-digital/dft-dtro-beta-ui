@@ -1,0 +1,16 @@
+.content {
+    padding: 24px 88px;
+    display: flex;
+    flex-direction: column;
+}
+
+.headerContainer {
+    width: 70%;
+    border-bottom: 1px solid rgb(217, 217, 217);
+}
+
+.content > p {
+    font-size: 18px;
+    font-weight: 400;
+    color: rgba(26, 7, 16, 0.65);
+}

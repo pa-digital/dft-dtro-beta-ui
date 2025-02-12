@@ -22,11 +22,6 @@
     padding: 24px 0;
 }
 
-.inputRow {
-    display: flex;
-    gap: 18px;
-}
-
 p {
     margin: 0;
     font-size: 14px;

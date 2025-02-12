@@ -1,3 +1,7 @@
+:root {
+  --primary-colour: rgb(0, 106, 176);
+}
+
 html, body {
   margin: 0;
   padding: 0;
@@ -20,4 +24,15 @@ html, body {
 
 .footer {
   margin-top: auto;
+}
+
+:focus-visible {
+  outline: 2px solid var(--primary-colour);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.inputRow {
+  display: flex;
+  gap: 18px;
 }
