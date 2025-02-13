@@ -7,6 +7,7 @@ import InputComponent, {
 import ButtonComponent, {
   ButtonType,
 } from "../../components/button/button.component";
+import TextComponent, { TypographyType } from "../../components/text/typography.component";
 
 const AppCreationPage: React.FC = () => {
   const [appName, setAppName] = useState<string>("");
@@ -19,9 +20,9 @@ const AppCreationPage: React.FC = () => {
     <div className={styles.content}>
       <NavLinkComponent text="Home" link="/" />
       <div className={styles.headerContainer}>
-        <h2>Create a new test app</h2>
+        <TextComponent type={TypographyType.SubHeading} content="Create a new test app"/>
       </div>
-      <p>Provide a unique name for your new test app.</p>
+      <TextComponent type={TypographyType.SubDescription} content="Provide a unique name for your new test app."/>
       <div className="inputRow">
         <div style={{ width: "720px" }}>
           <InputComponent

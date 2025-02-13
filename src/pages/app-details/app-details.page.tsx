@@ -6,6 +6,7 @@ import InputComponent, {
 } from "../../components/input/input.component";
 import Copy from "../../assets/copy.svg";
 import { ToastContainer, toast } from "react-toastify";
+import TextComponent, { TypographyType } from "../../components/text/typography.component";
 
 interface AppDetailsPageProps {
   appID: string;
@@ -62,7 +63,7 @@ const AppDetailsPage: React.FC<AppDetailsPageProps> = ({ appID }) => {
     <div className={styles.content}>
       <NavLinkComponent text="Create a new test app" link="/" />
       <div className={styles.headerContainer}>
-        <h2>Your app credentials for {appDetails?.appName}</h2>
+        <TextComponent type={TypographyType.SubHeading} content={`Your app credentials for ${appDetails?.appName}`}/>
       </div>
       <div className={styles.inputContainer}>
         <div className="inputRow">
@@ -93,7 +94,7 @@ const AppDetailsPage: React.FC<AppDetailsPageProps> = ({ appID }) => {
             />
           </div>
         </div>
-        <p>API key</p>
+        <TextComponent type={TypographyType.Label} content="API key"/>
         <div className="inputRow">
           <div style={{ width: "560px" }}>
             <InputComponent
@@ -110,7 +111,7 @@ const AppDetailsPage: React.FC<AppDetailsPageProps> = ({ appID }) => {
             />
           </div>
         </div>
-        <p>API secret</p>
+        <TextComponent type={TypographyType.Label} content="API secret"/>
         <div className="inputRow">
           <div style={{ width: "560px" }}>
             <InputComponent
