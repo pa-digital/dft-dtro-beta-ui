@@ -5,6 +5,7 @@ import ButtonComponent, {
   ButtonType,
 } from "../../components/button/button.component";
 import NavLinkComponent from "../../components/nav-link/nav-link.component";
+import TextComponent, { TypographyType } from "../../components/text/typography.component";
 
 const TwoFactorAuthPage: React.FC = () => {
   const n = 6;
@@ -27,9 +28,9 @@ const TwoFactorAuthPage: React.FC = () => {
     <div className={styles.content}>
       <NavLinkComponent text="Sign in" link="/" />
       <div className={styles.headerContainer}>
-        <h2>Two-Factor Authentication</h2>
+        <TextComponent type={TypographyType.SubHeading} content="Two-Factor Authentication"/>
       </div>
-      <p>Enter the 6-digit code sent to your email to verify your identity.</p>
+      <TextComponent type={TypographyType.SubDescription} content="Enter the 6-digit code sent to your email to verify your identity."/>
       <TwoFactorAuthComponent n={n} onChange={handleOnChange} />
       <div className={styles.buttonContainer}>
         <ButtonComponent
