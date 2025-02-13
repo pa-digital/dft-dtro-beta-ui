@@ -1,33 +1,40 @@
 import React from "react";
 import styles from "./login.module.css";
 import Logo from "../../assets/logo.svg";
-import TextComponent from "../../components/TypographyComponent";
+import TextComponent, { TypographyType } from "../../components/text/typography.component";
 import InputComponent, {
   InputType,
 } from "../../components/input/input.component";
 import ButtonComponent, {
   ButtonType,
 } from "../../components/button/button.component";
-
 const LoginPage: React.FC = () => {
   return (
     <div className={styles.container}>
-      <img src={Logo}></img>
+      <div className={styles.logoWrapper}>
+        <img src={Logo}></img>
+      </div>
       <div className={styles.something}>
-        <TextComponent content="Welcome to the DTRO service" />
-        <div style={{ width: "60%" }}>
+        <TextComponent type={TypographyType.MainHeading} content="Welcome to the DTRO service" />
+        <div className={styles.inlineText}>
+          <TextComponent type={TypographyType.Description} content="Enter your login details. If you can't log in or need to request access please email: " />
+          <TextComponent type={TypographyType.Email} content="dtro-cso@dft.gov.uk"/>
+        </div>
+        <div className={styles.formContainer}>
           <InputComponent
             value=""
             type={InputType.Text}
             label="Email address"
           />
+          <InputComponent value="" type={InputType.Password} label="Password" />
+          <div className={styles.logInButton}>
+          <ButtonComponent
+            type={ButtonType.Primary}
+            text="Log In"
+            onClick={() => {}}
+          />
+          </div>
         </div>
-        <InputComponent value="" type={InputType.Password} label="Password" />
-        <ButtonComponent
-          type={ButtonType.Primary}
-          text="Submit"
-          onClick={() => {}}
-        />
       </div>
     </div>
   );
