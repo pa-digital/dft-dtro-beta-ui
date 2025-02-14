@@ -8,7 +8,7 @@ import InputComponent, {
 import ButtonComponent, {
   ButtonType,
 } from "../../components/button/button.component";
-const LoginPage: React.FC = () => {
+const ConsumerLoginPage: React.FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles.logoWrapper}>
@@ -21,23 +21,19 @@ const LoginPage: React.FC = () => {
           <TextComponent type={TypographyType.Email} content="dtro-cso@dft.gov.uk"/>
         </div>
         <div className={styles.formContainer}>
-          <InputComponent
-            value=""
-            type={InputType.Text}
-            label="Email address"
-          />
-          <InputComponent value="" type={InputType.Password} label="Password" />
-          <div className={styles.logInButton}>
-          <ButtonComponent
-            type={ButtonType.Primary}
-            text="Log In"
-            onClick={() => {}}
-          />
-          </div>
+            <InputComponent value="" type={InputType.Text} label="Organisation name"/>
+            <InputComponent value="" type={InputType.Text} label="Email address"/>
+            <InputComponent value="" type={InputType.Password} label="Password" />
+            <div className={styles.logInButton}>
+                <ButtonComponent
+                type={ButtonType.Primary}
+                text="Log In"onClick={() => {}}
+                />
+            </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default LoginPage;
+export default ConsumerLoginPage;

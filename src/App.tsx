@@ -1,14 +1,14 @@
 import "./App.css";
 import FooterComponent from "./components/footer/footer.component";
 import NavbarComponent from "./components/navbar/navbar.component";
-import LoginPage from "./pages/login/login.page";
+import ConsumerLoginPage from "./pages/login/consumer-login.page";
 
 function App() {
   return (
     <div className="container">
       <NavbarComponent />
       <div className="content">
-        <LoginPage />
+        <ConsumerLoginPage />
       </div>
       <div className="footer">
         <FooterComponent />
