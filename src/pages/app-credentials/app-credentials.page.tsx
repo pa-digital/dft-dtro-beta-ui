@@ -26,6 +26,7 @@ const AppCredentialsPage: React.FC<AppCredentialsPageProps> = ({ appID }) => {
   const [appCredentials, setAppCredentials] = useState<AppCredentials>();
   const [showAPIKey, setShowAPIKey] = useState<boolean>(true);
   const [showAPISecret, setShowAPISecret] = useState<boolean>(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
 
   useEffect(() => {
     const appCredentials = {
@@ -49,6 +50,10 @@ const AppCredentialsPage: React.FC<AppCredentialsPageProps> = ({ appID }) => {
     if (!appCredentials?.apiSecret) return;
     navigator.clipboard.writeText(appCredentials.apiSecret);
     showToast("Copied to clipboard");
+  };
+
+  const handleGenerateNewCredentialsButtonClick = () => {
+    setIsButtonDisabled(true);
   };
 
   const showToast = (text: string) => {
@@ -133,8 +138,9 @@ const AppCredentialsPage: React.FC<AppCredentialsPageProps> = ({ appID }) => {
             <ButtonComponent
               type={ButtonType.Primary}
               text="Generate new credentials"
-              onClick={() => {}}
-            />
+              onClick={handleGenerateNewCredentialsButtonClick}
+              disabled={isButtonDisabled}
+              />
           </div>
         </div>
       </div>
