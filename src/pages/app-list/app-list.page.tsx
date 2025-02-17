@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./app-list.module.css";
 import NavLinkComponent from "../../components/nav-link/nav-link.component";
-import TableComponent from "../../components/table/table.component";
+import AppListTableComponent from "../../components/app-list-table/app-list-table.component";
 import Chevron from "../../assets/chevron.svg";
 import classNames from "classnames";
 
@@ -16,7 +16,8 @@ interface AppView {
   apps: App[];
 }
 
-interface App {
+export interface App {
+  id: string;
   name: string;
   type: AppType;
   tra?: string;
@@ -27,106 +28,127 @@ const AppListPage: React.FC = () => {
   const [page, setPage] = useState<number>(1);
   const allApps: App[] = [
     {
+      id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
       name: "Surrey County Council PUB",
       type: AppType.Publisher,
       tra: "Surrey County Council",
     },
     {
+      id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
       name: "Surrey County Council PUB",
       type: AppType.Publisher,
       tra: "Surrey County Council",
     },
     {
+      id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
       name: "Surrey County Council PUB",
       type: AppType.Publisher,
       tra: "Surrey County Council",
     },
     {
+      id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
       name: "Surrey County Council PUB",
       type: AppType.Publisher,
       tra: "Surrey County Council",
     },
     {
+      id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
       name: "Surrey County Council PUB",
       type: AppType.Publisher,
       tra: "Surrey County Council",
     },
     {
+      id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
       name: "Blurrey County Council PUB",
       type: AppType.Consumer,
       tra: "Blurrey County Council",
     },
     {
+      id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
       name: "Blurrey County Council PUB",
       type: AppType.Consumer,
       tra: "Blurrey County Council",
     },
     {
+      id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
       name: "Blurrey County Council PUB",
       type: AppType.Consumer,
       tra: "Blurrey County Council",
     },
     {
+      id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
       name: "Blurrey County Council PUB",
       type: AppType.Consumer,
       tra: "Blurrey County Council",
     },
     {
+      id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
       name: "Blurrey County Council PUB",
       type: AppType.Consumer,
       tra: "Blurrey County Council",
     },
     {
+      id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
       name: "Blurrey County Council PUB",
       type: AppType.Consumer,
       tra: "Blurrey County Council",
     },
     {
+      id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
       name: "Blurrey County Council PUB",
       type: AppType.Consumer,
       tra: "Blurrey County Council",
     },
     {
+      id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
       name: "Blurrey County Council PUB",
       type: AppType.Consumer,
       tra: "Blurrey County Council",
     },
     {
+      id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
       name: "Blurrey County Council PUB",
       type: AppType.Consumer,
       tra: "Blurrey County Council",
     },
     {
+      id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
       name: "Blurrey County Council PUB",
       type: AppType.Consumer,
       tra: "Blurrey County Council",
     },
     {
+      id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
       name: "Blurrey County Council PUB",
       type: AppType.Consumer,
       tra: "Blurrey County Council",
     },
     {
+      id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
       name: "Blurrey County Council PUB",
       type: AppType.Consumer,
       tra: "Blurrey County Council",
     },
     {
+      id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
       name: "Blurrey County Council PUB",
       type: AppType.Consumer,
       tra: "Blurrey County Council",
     },
     {
+      id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
       name: "Blurrey County Council PUB",
       type: AppType.Consumer,
       tra: "Blurrey County Council",
     },
     {
+      id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
       name: "Blurrey County Council PUB",
       type: AppType.Consumer,
       tra: "Blurrey County Council",
     },
     {
+      id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
       name: "Blurrey County Council PUB",
       type: AppType.Consumer,
       tra: "Blurrey County Council",
@@ -156,7 +178,7 @@ const AppListPage: React.FC = () => {
 
   return (
     <div className={styles.content}>
-      <NavLinkComponent text="Home" link="/" />
+      <NavLinkComponent text="Home" />
       <div className={styles.headerContainer}>
         <h2>View and refresh app credentials</h2>
       </div>
@@ -198,16 +220,7 @@ const AppListPage: React.FC = () => {
           ></img>
         </div>
       )}
-      <TableComponent
-        headers={["Name", "Type", "Linked TRA", "Action"]}
-        content={
-          apps?.apps.map((app) =>
-            Object.values(app).map((value) =>
-              value !== null ? String(value) : null
-            )
-          ) || []
-        }
-      />
+      {apps && <AppListTableComponent apps={apps.apps} />}
     </div>
   );
 };

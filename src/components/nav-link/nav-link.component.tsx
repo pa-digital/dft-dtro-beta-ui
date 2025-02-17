@@ -1,17 +1,19 @@
 import React from "react";
 import styles from "./nav-link.module.css";
 import BackArrow from "../../assets/back-arrow.svg";
+import { useNavigate } from "react-router-dom";
 
 interface NavLinkComponentProps {
   text: string;
-  link: string;
 }
 
-const NavLinkComponent: React.FC<NavLinkComponentProps> = ({ text, link }) => {
+const NavLinkComponent: React.FC<NavLinkComponentProps> = ({ text }) => {
+  const navigate = useNavigate();
+
   return (
-    <div className={styles.navContent}>
+    <div className={styles.navContent} onClick={() => navigate(-1)}>
       <img src={BackArrow}></img>
-      <a href={link}>{text}</a>
+      <a>{text}</a>
     </div>
   );
 };
