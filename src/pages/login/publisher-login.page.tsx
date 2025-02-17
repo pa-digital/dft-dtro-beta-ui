@@ -12,7 +12,7 @@ import ButtonComponent, {
 } from "../../components/button/button.component";
 import { useNavigate } from "react-router-dom";
 
-const LoginPage: React.FC = () => {
+const PublisherLoginPage: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -90,4 +90,4 @@ const LoginPage: React.FC = () => {
   );
 };
 
-export default LoginPage;
+export default PublisherLoginPage;

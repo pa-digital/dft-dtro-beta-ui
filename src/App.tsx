@@ -2,7 +2,7 @@ import "./App.css";
 import FooterComponent from "./components/footer/footer.component";
 import NavbarComponent from "./components/navbar/navbar.component";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import LoginPage from "./pages/login/login.page";
+import LoginPage from "./pages/login/publisher-login.page";
 import TwoFactorAuthPage from "./pages/two-factor-auth/two-factor-auth.page";
 import NavigationPage from "./pages/navigation/navigation.page";
 import AppCreationPage from "./pages/app-creation/app-creation.page";
