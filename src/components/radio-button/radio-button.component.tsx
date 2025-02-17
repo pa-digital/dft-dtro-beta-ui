@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./radio-button.module.css";
 
-interface RadioButtonOption {
+export interface RadioButtonOption {
   value: number;
   title: string;
   subtitle?: string;
@@ -9,15 +9,19 @@ interface RadioButtonOption {
 
 interface RadioButtonComponentProps {
   options: RadioButtonOption[];
+  onChange: (value: number) => void;
 }
 
 const RadioButtonComponent: React.FC<RadioButtonComponentProps> = ({
   options,
+  onChange,
 }) => {
-  const [selectedValue, setSelectedValue] = useState<number>(options[0].value);
+  const [selectedValue, setSelectedValue] = useState<number>();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedValue(parseInt(event.target.value));
+    const value = parseInt(event.target.value);
+    setSelectedValue(value);
+    onChange(value);
   };
 
   return (

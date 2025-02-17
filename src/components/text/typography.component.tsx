@@ -22,18 +22,20 @@ interface TypographyComponentProps {
 const TextComponent: React.FC<TypographyComponentProps> = ({
   type = TypographyType.Description,
   content,
-  className = "",
   href,
 }) => {
   const isLink = type === TypographyType.Email;
 
   return isLink ? (
-    <a href={href ?? `mailto:${content}`} className={classNames(styles.email, className)}>
+    <a
+      href={href ?? `mailto:${content}`}
+      className={classNames(styles.text, styles.email)}
+    >
       {content}
     </a>
   ) : (
     <p
-      className={classNames(className, {
+      className={classNames(styles.text, {
         [styles.mainHeading]: type === TypographyType.MainHeading,
         [styles.subHeading]: type === TypographyType.SubHeading,
         [styles.description]: type === TypographyType.Description,
