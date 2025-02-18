@@ -28,7 +28,7 @@ const PublisherAccountPage: React.FC = () => {
   return (
     <div className={styles.content}>
         <div className={styles.headerContainer}>
-            <NavLinkComponent link="#" text="Sign In"/>
+            <NavLinkComponent text="Sign In"/>
             <TextComponent type={TypographyType.SubHeading} content="Publisher account"/>
         </div>
             <ActionLinkComponent link="#" text="Create new test app" enabled={true}/>
