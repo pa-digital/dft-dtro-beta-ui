@@ -8,7 +8,7 @@ interface ActionLinkComponentProps {
   enabled?: boolean;
 }
 
-const ActionLinkComponent: React.FC<ActionLinkComponentProps> = ({ text, link, enabled = true}) => {
+const ActionLinkComponent: React.FC<ActionLinkComponentProps> = ({ text, link, enabled = false}) => {
     if (enabled == false) {
         return (
         <div className={`${styles.actionContent} ${styles.disabledLink}`}>
