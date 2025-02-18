@@ -6,11 +6,10 @@ import InputComponent, {
 } from "../../components/input/input.component";
 import Copy from "../../assets/copy.svg";
 import { ToastContainer, toast } from "react-toastify";
-import TextComponent, { TypographyType } from "../../components/text/typography.component";
-
-interface AppDetailsPageProps {
-  appID: string;
-}
+import TextComponent, {
+  TypographyType,
+} from "../../components/text/typography.component";
+import { useLocation } from "react-router-dom";
 
 interface AppDetails {
   appID: string;
@@ -21,13 +20,22 @@ interface AppDetails {
   apiSecret: string;
 }
 
-const AppDetailsPage: React.FC<AppDetailsPageProps> = ({ appID }) => {
+const AppDetailsPage: React.FC = () => {
   const [appDetails, setAppDetails] = useState<AppDetails>();
   const [showAPIKey, setShowAPIKey] = useState<boolean>(false);
   const [showAPISecret, setShowAPISecret] = useState<boolean>(false);
 
+  const location = useLocation();
+  const appID = location.state?.appID;
+
   useEffect(() => {
-    const appDetails = {
+    // TODO: Fetch app details for this app ID
+    const appDetails = fetchAppDetails(appID);
+    setAppDetails(appDetails);
+  }, []);
+
+  const fetchAppDetails = (appID: string) => {
+    return {
       appID,
       appName: "INT-Publisher-BenPauley",
       swaCode: 10526,
@@ -35,8 +43,7 @@ const AppDetailsPage: React.FC<AppDetailsPageProps> = ({ appID }) => {
       apiKey: "thisismyapikey",
       apiSecret: "thisismyapisecret",
     };
-    setAppDetails(appDetails);
-  }, []);
+  };
 
   const handleAPIKeyIconClick = () => {
     if (!appDetails?.apiKey) return;
@@ -63,7 +70,10 @@ const AppDetailsPage: React.FC<AppDetailsPageProps> = ({ appID }) => {
     <div className={styles.content}>
       <NavLinkComponent text="Create a new test app" link="/" />
       <div className={styles.headerContainer}>
-        <TextComponent type={TypographyType.SubHeading} content={`Your app credentials for ${appDetails?.appName}`}/>
+        <TextComponent
+          type={TypographyType.SubHeading}
+          content={`Your app credentials for ${appDetails?.appName}`}
+        />
       </div>
       <div className={styles.inputContainer}>
         <div className="inputRow">
@@ -94,7 +104,7 @@ const AppDetailsPage: React.FC<AppDetailsPageProps> = ({ appID }) => {
             />
           </div>
         </div>
-        <TextComponent type={TypographyType.Label} content="API key"/>
+        <TextComponent type={TypographyType.Label} content="API key" />
         <div className="inputRow">
           <div style={{ width: "560px" }}>
             <InputComponent
@@ -111,7 +121,7 @@ const AppDetailsPage: React.FC<AppDetailsPageProps> = ({ appID }) => {
             />
           </div>
         </div>
-        <TextComponent type={TypographyType.Label} content="API secret"/>
+        <TextComponent type={TypographyType.Label} content="API secret" />
         <div className="inputRow">
           <div style={{ width: "560px" }}>
             <InputComponent

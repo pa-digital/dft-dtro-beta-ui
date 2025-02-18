@@ -5,12 +5,17 @@ import ButtonComponent, {
   ButtonType,
 } from "../../components/button/button.component";
 import NavLinkComponent from "../../components/nav-link/nav-link.component";
-import TextComponent, { TypographyType } from "../../components/text/typography.component";
+import TextComponent, {
+  TypographyType,
+} from "../../components/text/typography.component";
+import { useNavigate } from "react-router-dom";
 
 const TwoFactorAuthPage: React.FC = () => {
   const n = 6;
   const [code, setCode] = useState<string[]>(Array(n).fill(""));
   const [verifyButtonValid, setVerifyButtonValid] = useState<boolean>(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     setVerifyButtonValid(code.every((digit) => digit !== ""));
@@ -24,19 +29,30 @@ const TwoFactorAuthPage: React.FC = () => {
     setCode(newCode);
   };
 
+  const handleClick = (): void => {
+    if (code.some((char) => char === "")) return;
+    navigate("/home");
+  };
+
   return (
     <div className={styles.content}>
-      <NavLinkComponent text="Sign in" link="/" />
+      <NavLinkComponent text="Sign in" />
       <div className={styles.headerContainer}>
-        <TextComponent type={TypographyType.SubHeading} content="Two-Factor Authentication"/>
+        <TextComponent
+          type={TypographyType.SubHeading}
+          content="Two-Factor Authentication"
+        />
       </div>
-      <TextComponent type={TypographyType.SubDescription} content="Enter the 6-digit code sent to your email to verify your identity."/>
+      <TextComponent
+        type={TypographyType.SubDescription}
+        content="Enter the 6-digit code sent to your email to verify your identity."
+      />
       <TwoFactorAuthComponent n={n} onChange={handleOnChange} />
       <div className={styles.buttonContainer}>
         <ButtonComponent
           type={ButtonType.Primary}
           text="Verify email"
-          onClick={() => {}}
+          onClick={handleClick}
           disabled={!verifyButtonValid}
         />
         <ButtonComponent
