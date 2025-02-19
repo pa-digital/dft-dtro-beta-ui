@@ -68,12 +68,13 @@ const AppDetailsPage: React.FC = () => {
 
   return (
     <div className={styles.content}>
-      <NavLinkComponent text="Create a new test app" link="/" />
+      <NavLinkComponent text="Create a new test app" />
       <div className={styles.headerContainer}>
-        <TextComponent
+        <h2>{`Your app credentials for ${appDetails?.appName}`}</h2>
+        {/* <TextComponent
           type={TypographyType.SubHeading}
           content={`Your app credentials for ${appDetails?.appName}`}
-        />
+        /> */}
       </div>
       <div className={styles.inputContainer}>
         <div className="inputRow">

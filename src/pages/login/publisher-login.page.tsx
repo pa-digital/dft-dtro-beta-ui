@@ -46,9 +46,9 @@ const PublisherLoginPage: React.FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles.logoWrapper}>
-        <img src={Logo}></img>
+        <img className={styles.logo} src={Logo}></img>
       </div>
-      <div className={styles.something}>
+      <div className={styles.loginContent}>
         <TextComponent
           type={TypographyType.MainHeading}
           content="Welcome to the DTRO service"
@@ -63,27 +63,25 @@ const PublisherLoginPage: React.FC = () => {
             content="dtro-cso@dft.gov.uk"
           />
         </div>
-        <div className={styles.formContainer}>
-          <InputComponent
-            value={email}
-            type={InputType.Text}
-            label="Email address"
-            onChange={handleEmailChange}
+        <InputComponent
+          value={email}
+          type={InputType.Text}
+          label="Email address"
+          onChange={handleEmailChange}
+        />
+        <InputComponent
+          value={password}
+          type={InputType.Password}
+          label="Password"
+          onChange={handlePasswordChange}
+        />
+        <div className={styles.buttonContainer}>
+          <ButtonComponent
+            type={ButtonType.Primary}
+            text="Login"
+            onClick={handleClick}
+            disabled={!isEmailRegex(email) || !isPasswordValid(password)}
           />
-          <InputComponent
-            value={password}
-            type={InputType.Password}
-            label="Password"
-            onChange={handlePasswordChange}
-          />
-          <div className={styles.logInButton}>
-            <ButtonComponent
-              type={ButtonType.Primary}
-              text="Submit"
-              onClick={handleClick}
-              disabled={!isEmailRegex(email) || !isPasswordValid(password)}
-            />
-          </div>
         </div>
       </div>
     </div>

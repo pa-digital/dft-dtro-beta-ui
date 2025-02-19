@@ -25,7 +25,7 @@ const NavigationPage: React.FC = () => {
           navTitle="Request new publisher app"
           navSubtitle="Request credentials for a new app to publish to the D-TRO production environment."
           disabled={createProductionAppDisabled}
-          link="/"
+          link="/publisher-create"
         />
         <NavigationItemComponent
           navTitle="View credentials"
