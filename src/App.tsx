@@ -8,6 +8,7 @@ import NavigationPage from "./pages/navigation/navigation.page";
 import AppCreationPage from "./pages/app-creation/app-creation.page";
 import AppDetailsPage from "./pages/app-details/app-details.page";
 import AppListPage from "./pages/app-list/app-list.page";
+import PublisherAppCreationPage from "./pages/publisher-app-creation/publisher-app-creation.page";
 
 function App() {
   return (
@@ -22,6 +23,10 @@ function App() {
             <Route path="/create" element={<AppCreationPage />}></Route>
             <Route path="/details" element={<AppDetailsPage />}></Route>
             <Route path="/list" element={<AppListPage />}></Route>
+            <Route
+              path="/publisher-create"
+              element={<PublisherAppCreationPage />}
+            ></Route>
           </Routes>
         </Router>
       </div>

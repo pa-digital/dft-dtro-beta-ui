@@ -15,6 +15,7 @@ button {
     font-weight: 500;
     cursor: pointer;
     text-align: center;
+    box-sizing: border-box;
 }
 
 .primary {

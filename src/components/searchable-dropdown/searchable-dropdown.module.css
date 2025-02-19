@@ -4,9 +4,8 @@
 }
 
 .container {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+    width: 100%;
+    position: relative;
 }
 
 .inputWrapper {
@@ -40,6 +39,7 @@
 }
 
 .itemList {
+    position: absolute;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -49,6 +49,8 @@
     border-bottom-left-radius: var(--border-radius);
     border-bottom-right-radius: var(--border-radius);
     padding: 0 42px;
+    background: rgb(255, 255, 255);
+    z-index: 1000;
 }
 
 .itemContainer {

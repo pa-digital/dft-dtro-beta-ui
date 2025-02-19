@@ -42,7 +42,7 @@ const SearchableDropdownComponent: React.FC<
   }, [items]);
 
   return (
-    <>
+    <div className={styles.container}>
       <div
         className={classNames(styles.inputWrapper, {
           [styles.rounded]: !isOpen,
@@ -85,7 +85,7 @@ const SearchableDropdownComponent: React.FC<
             ))}
         </div>
       )}
-    </>
+    </div>
   );
 };
 
