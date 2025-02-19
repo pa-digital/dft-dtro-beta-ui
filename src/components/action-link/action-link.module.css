@@ -1,0 +1,19 @@
+.actionContent a {
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 32px;
+    color: #000000DE;
+    text-decoration: underline;
+    text-underline-offset: 5px;
+}
+
+.actionContent img {
+    padding-left: 20px;
+}
+
+.disabledLink {
+    pointer-events: none;
+    opacity: 0.5;
+    text-decoration: none;
+    color: #D9D9D9;
+  }

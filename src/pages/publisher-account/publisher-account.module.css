@@ -1,0 +1,20 @@
+.content {
+    padding: 24px 88px;
+    display: flex;
+    flex-direction: column;
+    width: 55%;
+}
+
+.headerContainer {
+    width: 70%;
+    border-bottom: 1px solid rgb(217, 217, 217);
+    margin-bottom: 40px;
+}
+
+
+  
+@media (max-width: 600px) {
+    .content {
+        width: 95%;
+    }
+}
