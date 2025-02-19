@@ -115,9 +115,10 @@ const AppDetailsPage: React.FC = () => {
               trailingIcons={[
                 {
                   text: showAPIKey ? "Hide" : "Show",
+                  show: true,
                   onClick: () => setShowAPIKey((prev) => !prev),
                 },
-                { src: Copy, onClick: handleAPIKeyIconClick },
+                { src: Copy, show: true, onClick: handleAPIKeyIconClick },
               ]}
             />
           </div>
@@ -132,9 +133,10 @@ const AppDetailsPage: React.FC = () => {
               trailingIcons={[
                 {
                   text: showAPISecret ? "Hide" : "Show",
+                  show: true,
                   onClick: () => setShowAPISecret((prev) => !prev),
                 },
-                { src: Copy, onClick: handleAPISecretIconClick },
+                { src: Copy, show: true, onClick: handleAPISecretIconClick },
               ]}
             />
           </div>

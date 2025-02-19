@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styles from "./app-creation.module.css";
 import NavLinkComponent from "../../components/nav-link/nav-link.component";
 import InputComponent, {
@@ -11,14 +11,38 @@ import TextComponent, {
   TypographyType,
 } from "../../components/text/typography.component";
 import { useNavigate } from "react-router-dom";
+import Check from "../../assets/check.svg";
+import classNames from "classnames";
+
+interface ValidationResponse {
+  isValid: boolean;
+  message: string;
+}
 
 const AppCreationPage: React.FC = () => {
   const [appName, setAppName] = useState<string>("");
+  const [validationResponse, setValidationResponse] =
+    useState<ValidationResponse>();
+  const debounceTimeout = useRef<number>(null);
 
   const navigate = useNavigate();
 
   const handleOnChange = (name: string): void => {
     setAppName(name);
+    setValidationResponse(undefined);
+    if (name === "") return;
+
+    if (debounceTimeout.current) {
+      clearTimeout(debounceTimeout.current);
+    }
+
+    debounceTimeout.current = setTimeout(() => {
+      // TODO: make API call to validate app name
+      setValidationResponse({
+        isValid: true,
+        message: "Application name available",
+      });
+    }, 2000);
   };
 
   const handleClick = () => {
@@ -48,16 +72,34 @@ const AppCreationPage: React.FC = () => {
           <InputComponent
             type={InputType.Text}
             value={appName}
+            trailingIcons={[
+              {
+                show: appName !== "" && validationResponse?.isValid,
+                src: Check,
+              },
+            ]}
             onChange={handleOnChange}
           />
         </div>
+      </div>
+      <div
+        className={classNames(styles.validationMessageContainer, {
+          [styles.show]: appName !== "" && validationResponse,
+          [styles.valid]: validationResponse?.isValid,
+          [styles.invalid]: !validationResponse?.isValid,
+        })}
+      >
+        <TextComponent
+          type={TypographyType.Validation}
+          content={validationResponse?.message || ""}
+        />
       </div>
       <div style={{ width: "240px", padding: "24px 0" }}>
         <ButtonComponent
           type={ButtonType.Primary}
           text="Create"
           onClick={handleClick}
-          disabled={appName.length === 0}
+          disabled={appName.length === 0 || !validationResponse?.isValid}
         />
       </div>
     </div>
