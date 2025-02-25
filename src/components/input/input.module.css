@@ -44,6 +44,12 @@ input {
 
 .notEditable {
     background-color: rgb(238, 241, 242);
+    pointer-events: none;
+    user-select: none;
+}
+
+.notEditable:focus {
+    outline: none;
 }
 
 .icon {
