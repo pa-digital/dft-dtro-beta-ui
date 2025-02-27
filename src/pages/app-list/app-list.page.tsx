@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./app-list.module.css";
 import NavLinkComponent from "../../components/nav-link/nav-link.component";
 import AppListTableComponent from "../../components/app-list-table/app-list-table.component";
-import Chevron from "../../assets/chevron.svg";
-import classNames from "classnames";
+import PaginationComponent from "../../components/pagination/pagination.component";
 
 enum AppType {
   Publisher = "Publisher",
@@ -26,6 +25,7 @@ export interface App {
 const AppListPage: React.FC = () => {
   const [apps, setApps] = useState<AppView>();
   const [page, setPage] = useState<number>(1);
+  const appsPerPage = 5;
   const allApps: App[] = [
     {
       id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
@@ -165,7 +165,6 @@ const AppListPage: React.FC = () => {
   }, [page]);
 
   const fetchApps = (page: number): void => {
-    const appsPerPage = 5;
     const startIndex = (page - 1) * appsPerPage;
     const endIndex = startIndex + appsPerPage;
     const apps = allApps.slice(startIndex, endIndex);
@@ -182,42 +181,27 @@ const AppListPage: React.FC = () => {
       <div className={styles.headerContainer}>
         <h2>View and refresh app credentials</h2>
       </div>
-      <p>
+      <p className={styles.info}>
         Click view to see details of your test production app and to generate
         new credentials.
       </p>
       {apps && (
         <div className={styles.paginationContainer}>
-          <img
-            className={classNames(styles.chevron, styles.chevronBack, {
-              [styles.chevronDisabled]: apps.currentPage === 1,
-            })}
-            src={Chevron}
-            onClick={() => {
+          <PaginationComponent
+            currentPage={page}
+            totalPages={Math.floor(allApps.length / appsPerPage) + 1}
+            onClickDown={() => {
               if (apps.currentPage === 1) return;
               setPage(apps.currentPage - 1);
             }}
-          ></img>
-          {Array.from({ length: apps?.pages || 1 }, (_, index) => (
-            <p
-              className={classNames(styles.pageLink, {
-                [styles.activePage]: index === apps.currentPage - 1,
-              })}
-              onClick={() => setPage(index + 1)}
-            >
-              {index + 1}
-            </p>
-          ))}
-          <img
-            className={classNames(styles.chevron, {
-              [styles.chevronDisabled]: apps.currentPage === apps.pages,
-            })}
-            src={Chevron}
-            onClick={() => {
+            onClickNumber={(index: number) => {
+              setPage(index);
+            }}
+            onClickUp={() => {
               if (apps.currentPage === apps.pages) return;
               setPage(apps.currentPage + 1);
             }}
-          ></img>
+          />
         </div>
       )}
       {apps && <AppListTableComponent apps={apps.apps} />}
