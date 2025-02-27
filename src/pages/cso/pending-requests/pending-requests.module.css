@@ -1,0 +1,78 @@
+.content {
+    height: 100%;
+    width: 100%;
+    display: flex;
+}
+
+.dynamicContent {
+    flex-grow: 1;
+    padding: 0 36px;
+}
+
+h2 {
+    font-size: 36px;
+    font-weight: 600;
+    color: rgb(35, 35, 35);
+}
+
+p {
+    font-size: 18px;
+    font-weight: 400;
+    color: rgb(98,  98, 98);
+    margin-bottom: 48px;
+}
+
+.card {
+    padding: 16px;
+    border: 1px solid rgba(217, 217, 217, 1);
+    border-radius: 14px;
+}
+
+.cardHeader {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.tableControls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgb(217, 217, 217);
+}
+
+.controlItem {
+    display: flex;
+    align-items: center;
+    color: rgb(98, 98, 98);
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.downArrow {
+    transform: rotate(180deg);
+}
+
+.trailingControls {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.tableContainer {
+    margin-top: 8px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
