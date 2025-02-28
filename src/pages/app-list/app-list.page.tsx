@@ -169,7 +169,7 @@ const AppListPage: React.FC = () => {
     const endIndex = startIndex + appsPerPage;
     const apps = allApps.slice(startIndex, endIndex);
     setApps({
-      pages: Math.floor(allApps.length / appsPerPage) + 1,
+      pages: Math.ceil(allApps.length / appsPerPage),
       currentPage: page,
       apps,
     });
@@ -189,7 +189,7 @@ const AppListPage: React.FC = () => {
         <div className={styles.paginationContainer}>
           <PaginationComponent
             currentPage={page}
-            totalPages={Math.floor(allApps.length / appsPerPage) + 1}
+            totalPages={Math.ceil(allApps.length / appsPerPage)}
             onClickDown={() => {
               if (apps.currentPage === 1) return;
               setPage(apps.currentPage - 1);
