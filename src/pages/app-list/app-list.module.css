@@ -16,38 +16,12 @@
 
 }
 
-.content > p {
+.info {
     font-size: 18px;
     font-weight: 400;
     color: rgba(26, 7, 16, 0.65);
 }
 
 .paginationContainer {
-    display: flex;
-    justify-content: end;
-    align-items: center;
-    gap: 12px;
-    font-size: 13px;
-    color: rgb(118, 118, 118);
-}
-
-.pageLink {
-    cursor: pointer;
-}
-
-.activePage {
-    color: rgb(123, 97, 255);
-    text-decoration: underline;
-}
-
-.chevron {
-    cursor: pointer;
-}
-
-.chevronBack {
-    transform: rotate(180deg);
-}
-
-.chevronDisabled {
-    visibility: hidden;
+    padding-bottom: 12px;
 }
