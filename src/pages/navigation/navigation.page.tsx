@@ -5,7 +5,7 @@ import NavigationItemComponent from "../../components/navigation-item/navigation
 
 const NavigationPage: React.FC = () => {
   const [createProductionAppDisabled, setCreateProductionAppDisabled] =
-    useState<boolean>(true);
+    useState<boolean>(false);
 
   return (
     <div className={styles.content}>

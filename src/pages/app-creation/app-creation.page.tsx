@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./app-creation.module.css";
 import NavLinkComponent from "../../components/nav-link/nav-link.component";
 import InputComponent, {
@@ -13,14 +13,16 @@ import TextComponent, {
 import { useNavigate } from "react-router-dom";
 import Check from "../../assets/check.svg";
 import classNames from "classnames";
+import SpinnerComponent from "../../components/spinner/spinner.component";
 
-interface ValidationResponse {
+export interface ValidationResponse {
   isValid: boolean;
   message: string;
 }
 
 const AppCreationPage: React.FC = () => {
   const [appName, setAppName] = useState<string>("");
+  const [isValidating, setIsValidating] = useState<boolean>(false);
   const [validationResponse, setValidationResponse] =
     useState<ValidationResponse>();
   const debounceTimeout = useRef<number>(null);
@@ -31,6 +33,7 @@ const AppCreationPage: React.FC = () => {
     setAppName(name);
     setValidationResponse(undefined);
     if (name === "") return;
+    setIsValidating(true);
 
     if (debounceTimeout.current) {
       clearTimeout(debounceTimeout.current);
@@ -38,9 +41,13 @@ const AppCreationPage: React.FC = () => {
 
     debounceTimeout.current = setTimeout(() => {
       // TODO: make API call to validate app name
+      setIsValidating(false);
       setValidationResponse({
-        isValid: true,
-        message: "Application name available",
+        isValid: name !== "Duplicate App Name",
+        message:
+          name === "Duplicate App Name"
+            ? "App name already in use"
+            : "Application name available",
       });
     }, 2000);
   };
@@ -51,6 +58,10 @@ const AppCreationPage: React.FC = () => {
     const appID = "9abeda12-a123-4104-9b6a-2bb6a95339ab";
     navigate("/details", { state: { appID } });
   };
+
+  useEffect(() => {
+    console.log(validationResponse);
+  }, [validationResponse]);
 
   return (
     <div className={styles.content}>
@@ -66,8 +77,15 @@ const AppCreationPage: React.FC = () => {
             value={appName}
             trailingIcons={[
               {
-                show: appName !== "" && validationResponse?.isValid,
+                show:
+                  appName !== "" &&
+                  validationResponse?.isValid &&
+                  !isValidating,
                 src: Check,
+              },
+              {
+                show: appName !== "" && isValidating,
+                element: <SpinnerComponent />,
               },
             ]}
             onChange={handleOnChange}
@@ -81,10 +99,14 @@ const AppCreationPage: React.FC = () => {
           [styles.invalid]: !validationResponse?.isValid,
         })}
       >
-        <TextComponent
-          type={TypographyType.Validation}
-          content={validationResponse?.message || ""}
-        />
+        <p
+          className={classNames(styles.validation, {
+            [styles.valid]: validationResponse?.isValid,
+            [styles.invalid]: !validationResponse?.isValid,
+          })}
+        >
+          {validationResponse?.message}
+        </p>
       </div>
       <div style={{ width: "240px", padding: "24px 0" }}>
         <ButtonComponent

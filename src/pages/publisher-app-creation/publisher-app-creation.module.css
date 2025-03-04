@@ -29,3 +29,22 @@
         width: 100%;
     }
 }
+
+.validationMessageContainer {
+    visibility: hidden;
+    height: 32px;
+    padding-top: 8px;
+}
+
+.show {
+    visibility: visible;
+}
+
+.valid {
+    color: rgb(21, 181, 66);
+    
+}
+
+.invalid {
+    color: #e04136;
+}

@@ -2,7 +2,7 @@ import "./App.css";
 import FooterComponent from "./components/footer/footer.component";
 import NavbarComponent from "./components/navbar/navbar.component";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import LoginPage from "./pages/login/publisher-login.page";
+import LoginPage from "./pages/publisher/login/publisher-login.page";
 import TwoFactorAuthPage from "./pages/two-factor-auth/two-factor-auth.page";
 import NavigationPage from "./pages/navigation/navigation.page";
 import AppCreationPage from "./pages/app-creation/app-creation.page";
@@ -12,6 +12,7 @@ import PublisherAppCreationPage from "./pages/publisher-app-creation/publisher-a
 import PendingRequestsPage from "./pages/cso/pending-requests/pending-requests.page";
 import ActiveUsersPage from "./pages/cso/active-users/active-users.page";
 import UserDetailsPage from "./pages/cso/user-details/user-details.page";
+import CSONavigationPage from "./pages/cso/navigation/navigation.page";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
               path="/publisher-create"
               element={<PublisherAppCreationPage />}
             ></Route>
+            <Route path="/cso/nav" element={<CSONavigationPage />}></Route>
             <Route path="/requests" element={<PendingRequestsPage />}></Route>
             <Route path="/users" element={<ActiveUsersPage />}></Route>
             <Route path="/user" element={<UserDetailsPage />}></Route>

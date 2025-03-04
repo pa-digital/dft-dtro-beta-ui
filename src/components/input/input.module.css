@@ -6,7 +6,8 @@
 .inputWrapper {
     width: 100%;
     position: relative;
-    display: inline-block;
+    display: flex;
+    align-items: center;
 }
 
 input {
@@ -54,7 +55,6 @@ input {
 
 .icon {
     position: absolute;
-    top: calc(50% - 8px);
     right: 12px;
     cursor: pointer;
 }

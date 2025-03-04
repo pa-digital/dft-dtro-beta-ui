@@ -25,9 +25,12 @@
     visibility: visible;
 }
 
+.validation {
+    font-size: 11px;
+}
+
 .valid {
     color: rgb(21, 181, 66);
-    
 }
 
 .invalid {
