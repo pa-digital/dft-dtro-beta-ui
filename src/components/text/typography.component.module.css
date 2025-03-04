@@ -45,8 +45,7 @@ p {
   color: #000000;
 }
 
-.error {
-  font-size: 8px;
+.validation {
+  font-size: 11px;
   line-height: 10px;
-  color: #e04136;
 }

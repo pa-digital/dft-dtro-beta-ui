@@ -8,7 +8,6 @@
 
 .headerContainer {
     width: 70%;
-    border-bottom: 1px solid rgb(217, 217, 217);
 }
 
 .inputContainer {
@@ -29,4 +28,23 @@
     .buttonContainer {
         width: 100%;
     }
+}
+
+.validationMessageContainer {
+    visibility: hidden;
+    height: 32px;
+    padding-top: 8px;
+}
+
+.show {
+    visibility: visible;
+}
+
+.valid {
+    color: rgb(21, 181, 66);
+    
+}
+
+.invalid {
+    color: #e04136;
 }
