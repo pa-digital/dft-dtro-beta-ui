@@ -71,10 +71,11 @@ const AppDetailsPage: React.FC = () => {
     <div className={styles.content}>
       <NavLinkComponent text="Create a new test app" />
       <div className={styles.headerContainer}>
-        <TextComponent
+        <h2>{`Your app credentials for ${appDetails?.appName}`}</h2>
+        {/* <TextComponent
           type={TypographyType.SubHeading}
           content={`Your app credentials for ${appDetails?.appName}`}
-        />
+        /> */}
       </div>
       <div className={styles.inputContainer}>
         <div className="inputRow">
@@ -115,9 +116,10 @@ const AppDetailsPage: React.FC = () => {
               trailingIcons={[
                 {
                   text: showAPIKey ? "Hide" : "Show",
+                  show: true,
                   onClick: () => setShowAPIKey((prev) => !prev),
                 },
-                { src: Copy, onClick: handleAPIKeyIconClick },
+                { src: Copy, show: true, onClick: handleAPIKeyIconClick },
               ]}
             />
           </div>
@@ -132,9 +134,10 @@ const AppDetailsPage: React.FC = () => {
               trailingIcons={[
                 {
                   text: showAPISecret ? "Hide" : "Show",
+                  show: true,
                   onClick: () => setShowAPISecret((prev) => !prev),
                 },
-                { src: Copy, onClick: handleAPISecretIconClick },
+                { src: Copy, show: true, onClick: handleAPISecretIconClick },
               ]}
             />
           </div>

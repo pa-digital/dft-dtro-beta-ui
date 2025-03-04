@@ -1,11 +1,21 @@
 .container {
     display: flex;
-    position: relative;
     height: 100%;
     width: 100%;
-    padding: 20px;
 }
 
+.logoWrapper {
+    position: relative;
+    height: 100%;
+    width: 360px;
+}
+
+.logo {
+    position: absolute;
+    bottom: -25px;
+    left: 0;
+    z-index: -1;
+}
 
 .loginContent {
     display: flex;
@@ -16,6 +26,15 @@
     max-width: 650px;    
 }
 
+@media (max-width: 1000px) {
+    .logoWrapper {
+        display: none;
+    }
+
+    .loginContent {
+        padding-left: 20px;
+    }
+}
 
 .inlineText {
     display: inline;
@@ -25,40 +44,8 @@
     display: inline;
 }
 
-.formContainer {
-    width: 80%; 
-    max-width: 400px; 
+.buttonContainer {
     display: flex;
-    flex-direction: column;
-    gap: 16px;
-    align-items: center;
+    max-width: 240px;
 }
 
-.loginButton {
-    width: 50%;
-    align-self: flex-start;
-}
-
-.logoWrapper {
-    width: 300px;
-}
-
-.logo {
-    position: absolute;
-    bottom: -20px;
-    left: 0;
-    z-index: -1;
-}
-
-@media (max-width: 1000px) {
-    .logoWrapper {
-        display: none;
-    }
-}
-
-.formContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    max-width: 80%;
-}

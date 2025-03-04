@@ -26,8 +26,9 @@ const PublisherAppCreationPage: React.FC = () => {
   const options: RadioButtonOption[] = [
     {
       title: "Publishing on behalf of a TRA",
-      subtitle:
-        "I confirm I have permission to publish on behalf of [name] in line with the terms and conditions",
+      subtitle: selectedTra
+        ? `I confirm I have permission to publish on behalf of ${selectedTra} in line with the terms and conditions`
+        : "",
       value: 0,
     },
     {

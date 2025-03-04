@@ -6,8 +6,12 @@ import InputComponent, {
 } from "../../components/input/input.component";
 import Copy from "../../assets/copy.svg";
 import { ToastContainer, toast } from "react-toastify";
-import TextComponent, { TypographyType } from "../../components/text/typography.component";
-import ButtonComponent, { ButtonType,} from "../../components/button/button.component";
+import TextComponent, {
+  TypographyType,
+} from "../../components/text/typography.component";
+import ButtonComponent, {
+  ButtonType,
+} from "../../components/button/button.component";
 
 interface AppCredentialsPageProps {
   appID: string;
@@ -69,7 +73,10 @@ const AppCredentialsPage: React.FC<AppCredentialsPageProps> = ({ appID }) => {
     <div className={styles.content}>
       <NavLinkComponent text="All app credentials" link="/" />
       <div className={styles.headerContainer}>
-        <TextComponent type={TypographyType.SubHeading} content={`App credentials for ${appCredentials?.appName}`}/>
+        <TextComponent
+          type={TypographyType.SubHeading}
+          content={`App credentials for ${appCredentials?.appName}`}
+        />
       </div>
       <div className={styles.inputContainer}>
         <div className="inputRow">
@@ -100,7 +107,7 @@ const AppCredentialsPage: React.FC<AppCredentialsPageProps> = ({ appID }) => {
             />
           </div>
         </div>
-        <TextComponent type={TypographyType.Label} content="API key"/>
+        <TextComponent type={TypographyType.Label} content="API key" />
         <div className="inputRow">
           <div style={{ width: "560px" }}>
             <InputComponent
@@ -109,14 +116,16 @@ const AppCredentialsPage: React.FC<AppCredentialsPageProps> = ({ appID }) => {
               editable={true}
               trailingIcons={[
                 {
+                  text: showAPIKey ? "Hide" : "Show",
+                  show: true,
                   onClick: () => setShowAPIKey((prev) => !prev),
                 },
-                { src: Copy, onClick: handleAPIKeyIconClick },
+                { src: Copy, show: true, onClick: handleAPIKeyIconClick },
               ]}
             />
           </div>
         </div>
-        <TextComponent type={TypographyType.Label} content="API secret"/>
+        <TextComponent type={TypographyType.Label} content="API secret" />
         <div className="inputRow">
           <div style={{ width: "560px" }}>
             <InputComponent
@@ -140,7 +149,7 @@ const AppCredentialsPage: React.FC<AppCredentialsPageProps> = ({ appID }) => {
               text="Generate new credentials"
               onClick={handleGenerateNewCredentialsButtonClick}
               disabled={isButtonDisabled}
-              />
+            />
           </div>
         </div>
       </div>

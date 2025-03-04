@@ -13,4 +13,24 @@
     font-size: 18px;
     font-weight: 400;
     color: rgba(26, 7, 16, 0.65);
+    padding: 12px 0;
+}
+
+.validationMessageContainer {
+    visibility: hidden;
+    height: 32px;
+    padding-top: 8px;
+}
+
+.show {
+    visibility: visible;
+}
+
+.valid {
+    color: rgb(21, 181, 66);
+    
+}
+
+.invalid {
+    color: #e04136;
 }
