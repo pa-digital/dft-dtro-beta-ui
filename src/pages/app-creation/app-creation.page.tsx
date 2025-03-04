@@ -57,16 +57,8 @@ const AppCreationPage: React.FC = () => {
       <NavLinkComponent text="Home" />
       <div className={styles.headerContainer}>
         <h2>Create a new test app</h2>
-        {/* <TextComponent
-          type={TypographyType.SubHeading}
-          content="Create a new test app"
-        /> */}
       </div>
       <p>Provide a unique name for your new test app.</p>
-      {/* <TextComponent
-        type={TypographyType.SubDescription}
-        content="Provide a unique name for your new test app."
-      /> */}
       <div className="inputRow">
         <div style={{ width: "720px" }}>
           <InputComponent
