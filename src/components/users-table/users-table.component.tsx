@@ -11,8 +11,8 @@ interface UsersTableProps {
 const UsersTableComponent: React.FC<UsersTableProps> = ({ users }) => {
   const navigate = useNavigate();
 
-  const handleOnClick = (requestID: string): void => {
-    navigate("/request-details", { state: { requestID } });
+  const handleOnClick = (userID: string): void => {
+    navigate("/user", { state: { userID } });
   };
 
   return (

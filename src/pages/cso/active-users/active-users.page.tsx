@@ -5,7 +5,7 @@ import Up from "../../../assets/up-arrow.svg";
 import Refresh from "../../../assets/refresh.svg";
 import More from "../../../assets/more.svg";
 import PaginationComponent from "../../../components/pagination/pagination.component";
-import { SortOrder } from "../pending-requests/pending-requests.component";
+import { SortOrder } from "../pending-requests/pending-requests.page";
 import UsersTableComponent from "../../../components/users-table/users-table.component";
 
 interface UsersView {
@@ -14,7 +14,7 @@ interface UsersView {
   users: User[];
 }
 
-enum UserStatus {
+export enum UserStatus {
   Active = "active",
   Inactive = "inactive",
 }

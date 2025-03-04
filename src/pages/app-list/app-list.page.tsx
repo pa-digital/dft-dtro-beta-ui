@@ -4,7 +4,7 @@ import NavLinkComponent from "../../components/nav-link/nav-link.component";
 import AppListTableComponent from "../../components/app-list-table/app-list-table.component";
 import PaginationComponent from "../../components/pagination/pagination.component";
 
-enum AppType {
+export enum AppType {
   Publisher = "Publisher",
   Consumer = "Consumer",
 }

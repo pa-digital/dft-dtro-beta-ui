@@ -6,6 +6,7 @@ interface ModalProps {
   title: string;
   subtitle: string;
   buttonText: string;
+  buttonType: ButtonType;
   onClick: () => void;
   cancelOnClick: () => void;
 }
@@ -14,6 +15,7 @@ const ModalComponent: React.FC<ModalProps> = ({
   title,
   subtitle,
   buttonText,
+  buttonType,
   onClick,
   cancelOnClick,
 }) => {
@@ -23,7 +25,7 @@ const ModalComponent: React.FC<ModalProps> = ({
       <div className={styles.subtitle}>{subtitle}</div>
       <div className={styles.buttonContainer}>
         <ButtonComponent
-          type={ButtonType.Primary}
+          type={buttonType}
           text={buttonText}
           onClick={onClick}
         />

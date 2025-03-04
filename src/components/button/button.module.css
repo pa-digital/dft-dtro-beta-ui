@@ -29,6 +29,11 @@ button {
     border: 2px solid var(--button-secondary);
 }
 
+.warning {
+    background-color: #e74c3c;
+    color: rgb(255, 255, 255);
+}
+
 .disabled {
     background-color: grey;
     cursor: not-allowed;

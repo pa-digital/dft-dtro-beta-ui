@@ -9,6 +9,10 @@ import AppCreationPage from "./pages/app-creation/app-creation.page";
 import AppDetailsPage from "./pages/app-details/app-details.page";
 import AppListPage from "./pages/app-list/app-list.page";
 import PublisherAppCreationPage from "./pages/publisher-app-creation/publisher-app-creation.page";
+import CSOBasePage from "./pages/cso/base/base.page";
+import PendingRequestsPage from "./pages/cso/pending-requests/pending-requests.page";
+import ActiveUsersPage from "./pages/cso/active-users/active-users.page";
+import UserDetailsPage from "./pages/cso/user-details/user-details.page";
 
 function App() {
   return (
@@ -27,6 +31,9 @@ function App() {
               path="/publisher-create"
               element={<PublisherAppCreationPage />}
             ></Route>
+            <Route path="/requests" element={<PendingRequestsPage />}></Route>
+            <Route path="/users" element={<ActiveUsersPage />}></Route>
+            <Route path="/user" element={<UserDetailsPage />}></Route>
           </Routes>
         </Router>
       </div>
