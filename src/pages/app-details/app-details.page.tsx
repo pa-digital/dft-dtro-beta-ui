@@ -21,6 +21,7 @@ interface AppDetails {
 }
 
 const AppDetailsPage: React.FC = () => {
+  const env = import.meta.env.VITE_ENV;
   const [appDetails, setAppDetails] = useState<AppDetails>();
   const [showAPIKey, setShowAPIKey] = useState<boolean>(false);
   const [showAPISecret, setShowAPISecret] = useState<boolean>(false);
@@ -68,7 +69,7 @@ const AppDetailsPage: React.FC = () => {
 
   return (
     <div className={styles.content}>
-      <NavLinkComponent text="Create a new test app" link="/" />
+      <NavLinkComponent text="Create a new test app" />
       <div className={styles.headerContainer}>
         <TextComponent
           type={TypographyType.SubHeading}
@@ -89,7 +90,7 @@ const AppDetailsPage: React.FC = () => {
             <InputComponent
               type={InputType.Text}
               value={appDetails?.swaCode.toString() || ""}
-              label="SWA code"
+              label={env === "PROD" ? "SWA code" : "Test TRA ID"}
               editable={false}
             />
           </div>

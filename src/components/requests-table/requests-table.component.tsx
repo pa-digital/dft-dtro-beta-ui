@@ -2,7 +2,7 @@ import React from "react";
 import styles from "../table/table.module.css";
 import Eye from "../../assets/eye.svg";
 import { useNavigate } from "react-router-dom";
-import { PendingRequest } from "../../pages/cso/pending-requests/pending-requests.component";
+import { PendingRequest } from "../../pages/cso/pending-requests/pending-requests.page";
 
 interface RequestsTableProps {
   requests: PendingRequest[];

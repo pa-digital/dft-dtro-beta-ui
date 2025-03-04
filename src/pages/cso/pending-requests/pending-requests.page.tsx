@@ -21,7 +21,7 @@ export interface PendingRequest {
   date: Date;
 }
 
-enum SortOrder {
+export enum SortOrder {
   Ascending = "ascending",
   Descending = "descending",
 }
@@ -30,7 +30,7 @@ const PendingRequestsPage: React.FC = () => {
   const requestsPerPage = 10;
   const [requests, setRequests] = useState<RequestsView>();
   const [page, setPage] = useState<number>(1);
-  const [sortOrder, setSortOrder] = useState<SortOrder>(SortOrder.Ascending);
+  const [sortOrder, setSortOrder] = useState<SortOrder>(SortOrder.Descending);
   const [allRequests, setAllRequests] = useState<PendingRequest[]>([
     {
       id: "some Id",
@@ -126,7 +126,7 @@ const PendingRequestsPage: React.FC = () => {
     const endIndex = startIndex + requestsPerPage;
     const requests = allRequests.slice(startIndex, endIndex);
     setRequests({
-      pages: Math.floor(allRequests.length / requestsPerPage) + 1,
+      pages: Math.ceil(allRequests.length / requestsPerPage),
       currentPage: page,
       requests,
     });
@@ -167,9 +167,7 @@ const PendingRequestsPage: React.FC = () => {
               <RequestsTableComponent requests={requests.requests} />
               <PaginationComponent
                 currentPage={page}
-                totalPages={
-                  Math.floor(allRequests.length / requestsPerPage) + 1
-                }
+                totalPages={Math.ceil(allRequests.length / requestsPerPage)}
                 onClickDown={() => setPage((prev) => prev - 1)}
                 onClickNumber={(index: number) => {
                   setPage(index);

@@ -6,9 +6,13 @@ import { App } from "../../pages/app-list/app-list.page";
 
 interface AppListTableProps {
   apps: App[];
+  readOnly?: boolean;
 }
 
-const AppListTableComponent: React.FC<AppListTableProps> = ({ apps }) => {
+const AppListTableComponent: React.FC<AppListTableProps> = ({
+  apps,
+  readOnly = false,
+}) => {
   const navigate = useNavigate();
 
   const handleOnClick = (appID: string): void => {
@@ -22,7 +26,7 @@ const AppListTableComponent: React.FC<AppListTableProps> = ({ apps }) => {
           <th>Name</th>
           <th>Type</th>
           <th>Linked TRA</th>
-          <th>Action</th>
+          {!readOnly && <th>Action</th>}
         </tr>
       </thead>
       <tbody>
@@ -30,18 +34,20 @@ const AppListTableComponent: React.FC<AppListTableProps> = ({ apps }) => {
           <tr>
             <td>{app.name}</td>
             <td>{app.type}</td>
-            <td>{app.tra}</td>
-            <td>
-              <button className={styles.button}>
-                <div
-                  className={styles.buttonContent}
-                  onClick={() => handleOnClick(app.id)}
-                >
-                  <p>View</p>
-                  <img src={Eye}></img>
-                </div>
-              </button>
-            </td>
+            <td>{app.tra || "-"}</td>
+            {!readOnly && (
+              <td>
+                <button className={styles.button}>
+                  <div
+                    className={styles.buttonContent}
+                    onClick={() => handleOnClick(app.id)}
+                  >
+                    <p>View</p>
+                    <img src={Eye}></img>
+                  </div>
+                </button>
+              </td>
+            )}
           </tr>
         ))}
       </tbody>
