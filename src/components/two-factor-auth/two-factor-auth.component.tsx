@@ -18,11 +18,27 @@ const TwoFactorAuthComponent: React.FC<TwoFactorAuthComponentProps> = ({
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const value = event.target.value;
-    if (!/^\d?$/.test(value)) return;
+    if (!/^\d?$/.test(value) || value.length > 1) return;
     onChange(index, value);
 
     if (value && index < n - 1) {
       inputsRef.current[index + 1]?.focus();
+    }
+  };
+
+  const handleKeyDown = (
+    event: React.KeyboardEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    const key = event.key;
+    if (
+      (!/^\d$/.test(key) &&
+        key !== "Backspace" &&
+        key !== "Delete" &&
+        key !== "Tab") ||
+      (inputsRef.current[index]?.value.length === 1 && /^\d$/.test(key))
+    ) {
+      event.preventDefault();
     }
   };
 
@@ -38,7 +54,7 @@ const TwoFactorAuthComponent: React.FC<TwoFactorAuthComponentProps> = ({
             [styles.valid]: inputsRef.current[index]?.value,
           })}
           onChange={(event) => handleOnChange(index, event)}
-          pattern="[0-9]"
+          onKeyDown={(event) => handleKeyDown(event, index)}
         ></input>
       ))}
     </div>

@@ -15,6 +15,7 @@ button {
     font-weight: 500;
     cursor: pointer;
     text-align: center;
+    box-sizing: border-box;
 }
 
 .primary {
@@ -26,6 +27,11 @@ button {
     background-color: rgb(255, 255, 255);
     color: rgb(0, 26, 112);
     border: 2px solid var(--button-secondary);
+}
+
+.warning {
+    background-color: #e74c3c;
+    color: rgb(255, 255, 255);
 }
 
 .disabled {

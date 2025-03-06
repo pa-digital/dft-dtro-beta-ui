@@ -1,12 +1,16 @@
+p {
+    margin-bottom: 0 !important;
+}
+
 .content {
     padding: 24px 88px;
     display: flex;
     flex-direction: column;
+    gap: 24px;
 }
 
 .headerContainer {
     width: 70%;
-    border-bottom: 1px solid rgb(217, 217, 217);
 }
 
 .headerContainer > h2 {

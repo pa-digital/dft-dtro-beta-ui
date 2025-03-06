@@ -9,7 +9,7 @@ export enum TypographyType {
   SubDescription = "subDescription",
   Label = "label",
   Email = "email",
-  Error = "error",
+  Validation = "validation",
 }
 
 interface TypographyComponentProps {
@@ -22,24 +22,23 @@ interface TypographyComponentProps {
 const TextComponent: React.FC<TypographyComponentProps> = ({
   type = TypographyType.Description,
   content,
-  className = "",
   href,
 }) => {
   const isLink = type === TypographyType.Email;
 
   return isLink ? (
-    <a href={href ?? `mailto:${content}`} className={classNames(styles.email, className)}>
+    <a href={href ?? `mailto:${content}`} className={styles.email}>
       {content}
     </a>
   ) : (
     <p
-      className={classNames(className, {
+      className={classNames(styles.text, {
         [styles.mainHeading]: type === TypographyType.MainHeading,
         [styles.subHeading]: type === TypographyType.SubHeading,
         [styles.description]: type === TypographyType.Description,
         [styles.subDescription]: type === TypographyType.SubDescription,
         [styles.label]: type === TypographyType.Label,
-        [styles.error]: type === TypographyType.Error,
+        [styles.validation]: type === TypographyType.Validation,
       })}
     >
       {content}

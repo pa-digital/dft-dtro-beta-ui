@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import styles from "./navigation.module.css";
 import NavLinkComponent from "../../components/nav-link/nav-link.component";
-import BackArrow from "../../assets/back-arrow.svg";
-import classNames from "classnames";
-import { useNavigate } from "react-router-dom";
+import NavigationItemComponent from "../../components/navigation-item/navigation-item.component";
 
 const NavigationPage: React.FC = () => {
   const [createProductionAppDisabled, setCreateProductionAppDisabled] =
-    useState<boolean>(true);
+    useState<boolean>(false);
 
   return (
     <div className={styles.content}>
@@ -25,7 +23,7 @@ const NavigationPage: React.FC = () => {
           navTitle="Request new publisher app"
           navSubtitle="Request credentials for a new app to publish to the D-TRO production environment."
           disabled={createProductionAppDisabled}
-          link="/"
+          link="/publisher-create"
         />
         <NavigationItemComponent
           navTitle="View credentials"
@@ -33,36 +31,6 @@ const NavigationPage: React.FC = () => {
           link="/list"
         />
       </div>
-    </div>
-  );
-};
-
-interface NavigationItemComponentProps {
-  navTitle: string;
-  navSubtitle: string;
-  disabled?: boolean;
-  link: string;
-}
-
-const NavigationItemComponent: React.FC<NavigationItemComponentProps> = ({
-  navTitle,
-  navSubtitle,
-  disabled = false,
-  link,
-}) => {
-  const navigate = useNavigate();
-
-  return (
-    <div
-      className={classNames(styles.navigationItemContainer, {
-        [styles.disabled]: disabled,
-      })}
-    >
-      <div className={styles.navTitleContainer} onClick={() => navigate(link)}>
-        <p className={styles.navTitle}>{navTitle}</p>
-        <img src={BackArrow}></img>
-      </div>
-      <p className={styles.navSubtitle}>{navSubtitle}</p>
     </div>
   );
 };

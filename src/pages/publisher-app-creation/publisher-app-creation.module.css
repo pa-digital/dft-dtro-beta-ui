@@ -1,0 +1,50 @@
+.content {
+    padding: 24px 88px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-width: 900px;
+}
+
+.headerContainer {
+    width: 70%;
+}
+
+.inputContainer {
+    padding-bottom: 36px;
+    border-bottom: 1px solid rgb(217, 217, 217);
+}
+
+.textContainer {
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgb(217, 217, 217);
+}
+
+.buttonContainer {
+    width: 50%;
+}
+
+@media (max-width: 760px) {
+    .buttonContainer {
+        width: 100%;
+    }
+}
+
+.validationMessageContainer {
+    visibility: hidden;
+    height: 32px;
+    padding-top: 8px;
+}
+
+.show {
+    visibility: visible;
+}
+
+.valid {
+    color: rgb(21, 181, 66);
+    
+}
+
+.invalid {
+    color: #e04136;
+}

@@ -18,7 +18,9 @@ interface InputComponentProps {
 
 interface TrailingIcon {
   src?: string;
+  show?: boolean;
   text?: string;
+  element?: React.ReactNode;
   onClick?: () => void;
 }
 
@@ -54,23 +56,29 @@ const InputComponent: React.FC<InputComponentProps> = ({
         {label}
       </label>
       {trailingIcons &&
-        trailingIcons.map((icon, index) =>
-          icon.src ? (
-            <img
-              key={index}
-              className={styles.icon}
-              src={icon.src}
-              onClick={icon.onClick}
-            />
-          ) : (
-            <div
-              key={index}
-              className={classNames(styles.icon, styles.textIcon)}
-              onClick={icon.onClick}
-            >
-              {icon.text}
-            </div>
-          )
+        trailingIcons.map(
+          (icon, index) =>
+            icon.show &&
+            (icon.element ? (
+              <div key={index} className={styles.icon} onClick={icon.onClick}>
+                {icon.element}
+              </div>
+            ) : icon.src ? (
+              <img
+                key={index}
+                className={styles.icon}
+                src={icon.src}
+                onClick={icon.onClick}
+              />
+            ) : (
+              <div
+                key={index}
+                className={classNames(styles.icon, styles.textIcon)}
+                onClick={icon.onClick}
+              >
+                {icon.text}
+              </div>
+            ))
         )}
     </div>
   );
