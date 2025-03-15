@@ -12,12 +12,12 @@ const CSONavigationPage: React.FC = () => {
         <NavigationItemComponent
           navTitle="Pending requests"
           navSubtitle="View and approve pending requests."
-          link="/"
+          link="/requests"
         />
         <NavigationItemComponent
           navTitle="View and manage active users"
           navSubtitle="View and manage user accounts."
-          link="/"
+          link="/users"
         />
         <NavigationItemComponent
           navTitle="View TRAs and TROs"
