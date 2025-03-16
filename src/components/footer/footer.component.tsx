@@ -13,7 +13,7 @@ const FooterComponent: React.FC = () => {
       <div className={styles.footerLogoContainer}>
         <img src={OGLLogo}></img>
         <img className={styles.armsLogo} src={ArmsLogo}></img>
-        <p>© Copyright 2025 DFT</p>
+        <p className={styles.copyright}>© Copyright 2025 DFT</p>
       </div>
       <div className={styles.linkGrid}>
         <a href="/">Home</a>
