@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styles from "./radio-button.module.css";
+import classNames from "classnames";
 
 export interface RadioButtonOption {
   value: number;
@@ -8,13 +9,17 @@ export interface RadioButtonOption {
 }
 
 interface RadioButtonComponentProps {
+  name: string;
   options: RadioButtonOption[];
   onChange: (value: number) => void;
+  outline?: boolean;
 }
 
 const RadioButtonComponent: React.FC<RadioButtonComponentProps> = ({
+  name,
   options,
   onChange,
+  outline = false,
 }) => {
   const [selectedValue, setSelectedValue] = useState<number>();
 
@@ -25,12 +30,12 @@ const RadioButtonComponent: React.FC<RadioButtonComponentProps> = ({
   };
 
   return (
-    <div className={styles.container}>
+    <div className={classNames(styles.container, { [styles.border]: outline })}>
       {options.map((option) => (
         <div className={styles.optionContainer}>
           <div className={styles.option}>
             <input
-              name="option"
+              name={name}
               type="radio"
               value={option.value}
               checked={selectedValue === option.value}

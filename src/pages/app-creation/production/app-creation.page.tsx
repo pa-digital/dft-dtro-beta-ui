@@ -125,6 +125,7 @@ const ProductionAppCreationPage: React.FC = () => {
         content="Please confirm you have consent to publish TROs to the D-TRO service in line with the Terms and Conditions. If you are a self-publishing TRA select option 2."
       />
       <RadioButtonComponent
+        name="publishType"
         options={options}
         onChange={handlePublishTypeChange}
       />
