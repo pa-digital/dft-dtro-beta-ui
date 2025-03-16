@@ -10,6 +10,7 @@ import TextComponent, {
   TypographyType,
 } from "../../components/text/typography.component";
 import { useLocation } from "react-router-dom";
+import { isProductionEnv } from "../../utils/env";
 
 interface AppDetails {
   appID: string;
@@ -21,12 +22,12 @@ interface AppDetails {
 }
 
 const AppDetailsPage: React.FC = () => {
-  const env = import.meta.env.VITE_ENV;
   const [appDetails, setAppDetails] = useState<AppDetails>();
   const [showAPIKey, setShowAPIKey] = useState<boolean>(false);
   const [showAPISecret, setShowAPISecret] = useState<boolean>(false);
 
   const location = useLocation();
+  const from = location.state?.from;
   const appID = location.state?.appID;
 
   useEffect(() => {
@@ -69,13 +70,11 @@ const AppDetailsPage: React.FC = () => {
 
   return (
     <div className={styles.content}>
-      <NavLinkComponent text="Create a new test app" />
+      <NavLinkComponent
+        text={from == "create" ? "Create a new app" : "View apps"}
+      />
       <div className={styles.headerContainer}>
         <h2>{`Your app credentials for ${appDetails?.appName}`}</h2>
-        {/* <TextComponent
-          type={TypographyType.SubHeading}
-          content={`Your app credentials for ${appDetails?.appName}`}
-        /> */}
       </div>
       <div className={styles.inputContainer}>
         <div className="inputRow">
@@ -91,7 +90,7 @@ const AppDetailsPage: React.FC = () => {
             <InputComponent
               type={InputType.Text}
               value={appDetails?.swaCode.toString() || ""}
-              label={env === "PROD" ? "SWA code" : "Test TRA ID"}
+              label={isProductionEnv() ? "SWA code" : "Test TRA ID"}
               editable={false}
             />
           </div>

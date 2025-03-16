@@ -182,8 +182,7 @@ const AppListPage: React.FC = () => {
         <h2>View and refresh app credentials</h2>
       </div>
       <p className={styles.info}>
-        Click view to see details of your test production app and to generate
-        new credentials.
+        Click view to see details of your app and to generate new credentials.
       </p>
       {apps && (
         <div className={styles.paginationContainer}>

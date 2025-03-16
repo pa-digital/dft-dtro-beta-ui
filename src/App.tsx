@@ -5,14 +5,16 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/publisher/login/publisher-login.page";
 import TwoFactorAuthPage from "./pages/two-factor-auth/two-factor-auth.page";
 import NavigationPage from "./pages/navigation/navigation.page";
-import AppCreationPage from "./pages/app-creation/app-creation.page";
+import IntegrationAppCreationPage from "./pages/app-creation/integration/app-creation.page";
+import ProductionAppCreationPage from "./pages/app-creation/production/app-creation.page";
 import AppDetailsPage from "./pages/app-details/app-details.page";
 import AppListPage from "./pages/app-list/app-list.page";
-import PublisherAppCreationPage from "./pages/publisher-app-creation/publisher-app-creation.page";
 import PendingRequestsPage from "./pages/cso/pending-requests/pending-requests.page";
 import ActiveUsersPage from "./pages/cso/active-users/active-users.page";
 import UserDetailsPage from "./pages/cso/user-details/user-details.page";
 import CSONavigationPage from "./pages/cso/navigation/navigation.page";
+import { isProductionEnv } from "./utils/env";
+import SuccessPage from "./pages/success/success.component";
 
 function App() {
   return (
@@ -24,17 +26,23 @@ function App() {
             <Route path="/" element={<LoginPage />}></Route>
             <Route path="/auth" element={<TwoFactorAuthPage />}></Route>
             <Route path="/home" element={<NavigationPage />}></Route>
-            <Route path="/create" element={<AppCreationPage />}></Route>
+            <Route
+              path="/create"
+              element={
+                !isProductionEnv() ? (
+                  <IntegrationAppCreationPage />
+                ) : (
+                  <ProductionAppCreationPage />
+                )
+              }
+            ></Route>
             <Route path="/details" element={<AppDetailsPage />}></Route>
             <Route path="/list" element={<AppListPage />}></Route>
-            <Route
-              path="/publisher-create"
-              element={<PublisherAppCreationPage />}
-            ></Route>
             <Route path="/cso/nav" element={<CSONavigationPage />}></Route>
             <Route path="/requests" element={<PendingRequestsPage />}></Route>
             <Route path="/users" element={<ActiveUsersPage />}></Route>
             <Route path="/user" element={<UserDetailsPage />}></Route>
+            <Route path="/success" element={<SuccessPage />}></Route>
           </Routes>
         </Router>
       </div>

@@ -16,7 +16,7 @@ const AppListTableComponent: React.FC<AppListTableProps> = ({
   const navigate = useNavigate();
 
   const handleOnClick = (appID: string): void => {
-    navigate("/details", { state: { appID } });
+    navigate("/details", { state: { from: "list", appID } });
   };
 
   return (
