@@ -1,27 +1,30 @@
 import React, { useEffect, useState } from "react";
-import styles from "./publisher-app-creation.module.css";
-import NavLinkComponent from "../../components/nav-link/nav-link.component";
+import styles from "./app-creation.module.css";
+import NavLinkComponent from "../../../components/nav-link/nav-link.component";
 import TextComponent, {
   TypographyType,
-} from "../../components/text/typography.component";
+} from "../../../components/text/typography.component";
 import InputComponent, {
   InputType,
-} from "../../components/input/input.component";
-import SearchableDropdownComponent from "../../components/searchable-dropdown/searchable-dropdown.component";
-import Search from "../../assets/search.svg";
+} from "../../../components/input/input.component";
+import SearchableDropdownComponent from "../../../components/searchable-dropdown/searchable-dropdown.component";
+import Search from "../../../assets/search.svg";
 import RadioButtonComponent, {
   RadioButtonOption,
-} from "../../components/radio-button/radio-button.component";
+} from "../../../components/radio-button/radio-button.component";
 import ButtonComponent, {
   ButtonType,
-} from "../../components/button/button.component";
+} from "../../../components/button/button.component";
+import { useNavigate } from "react-router-dom";
 
-const PublisherAppCreationPage: React.FC = () => {
+const ProductionAppCreationPage: React.FC = () => {
   const [appName, setAppName] = useState<string>("");
   const [tras, setTras] = useState<string[]>([]);
   const [displayTras, setDisplayTras] = useState<string[]>([]);
   const [selectedTra, setSelectedTra] = useState<string>("");
   const [publishType, setPublishType] = useState<number>();
+
+  const navigate = useNavigate();
 
   const options: RadioButtonOption[] = [
     {
@@ -73,7 +76,7 @@ const PublisherAppCreationPage: React.FC = () => {
       tra: selectedTra,
       publishType,
     };
-    console.log(payload);
+    navigate("/success");
   };
 
   return (
@@ -139,4 +142,4 @@ const PublisherAppCreationPage: React.FC = () => {
   );
 };
 
-export default PublisherAppCreationPage;
+export default ProductionAppCreationPage;

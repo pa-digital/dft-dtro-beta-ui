@@ -1,26 +1,23 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./app-creation.module.css";
-import NavLinkComponent from "../../components/nav-link/nav-link.component";
+import NavLinkComponent from "../../../components/nav-link/nav-link.component";
 import InputComponent, {
   InputType,
-} from "../../components/input/input.component";
+} from "../../../components/input/input.component";
 import ButtonComponent, {
   ButtonType,
-} from "../../components/button/button.component";
-import TextComponent, {
-  TypographyType,
-} from "../../components/text/typography.component";
+} from "../../../components/button/button.component";
 import { useNavigate } from "react-router-dom";
-import Check from "../../assets/check.svg";
+import Check from "../../../assets/check.svg";
 import classNames from "classnames";
-import SpinnerComponent from "../../components/spinner/spinner.component";
+import SpinnerComponent from "../../../components/spinner/spinner.component";
 
 export interface ValidationResponse {
   isValid: boolean;
   message: string;
 }
 
-const AppCreationPage: React.FC = () => {
+const IntegrationAppCreationPage: React.FC = () => {
   const [appName, setAppName] = useState<string>("");
   const [isValidating, setIsValidating] = useState<boolean>(false);
   const [validationResponse, setValidationResponse] =
@@ -56,7 +53,7 @@ const AppCreationPage: React.FC = () => {
     if (appName === "") return;
     // TODO: create the app with Apigee, and return the app ID
     const appID = "9abeda12-a123-4104-9b6a-2bb6a95339ab";
-    navigate("/details", { state: { appID } });
+    navigate("/details", { state: { from: "create", appID } });
   };
 
   useEffect(() => {
@@ -120,4 +117,4 @@ const AppCreationPage: React.FC = () => {
   );
 };
 
-export default AppCreationPage;
+export default IntegrationAppCreationPage;

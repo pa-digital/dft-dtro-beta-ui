@@ -5,13 +5,17 @@ import { useNavigate } from "react-router-dom";
 
 interface NavLinkComponentProps {
   text: string;
+  link?: string;
 }
 
-const NavLinkComponent: React.FC<NavLinkComponentProps> = ({ text }) => {
+const NavLinkComponent: React.FC<NavLinkComponentProps> = ({ text, link }) => {
   const navigate = useNavigate();
 
   return (
-    <div className={styles.navContent} onClick={() => navigate(-1)}>
+    <div
+      className={styles.navContent}
+      onClick={() => (link ? navigate(link) : navigate(-1))}
+    >
       <img src={BackArrow}></img>
       <a>{text}</a>
     </div>
