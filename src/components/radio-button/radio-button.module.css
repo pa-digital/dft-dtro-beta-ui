@@ -71,3 +71,8 @@ input[type="radio"]::before {
 input[type="radio"]:checked::before {
   transform: translate(-50%, -50%) scale(1);
 }
+
+input[type="radio"]:focus-visible {
+  outline: 2px solid rgb(0, 106, 176);
+  outline-offset: 2px;
+}

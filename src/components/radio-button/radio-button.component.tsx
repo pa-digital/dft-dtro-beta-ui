@@ -32,7 +32,7 @@ const RadioButtonComponent: React.FC<RadioButtonComponentProps> = ({
   return (
     <div className={classNames(styles.container, { [styles.border]: outline })}>
       {options.map((option) => (
-        <div className={styles.optionContainer}>
+        <div className={styles.optionContainer} key={option.value}>
           <div className={styles.option}>
             <input
               name={name}
