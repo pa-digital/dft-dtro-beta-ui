@@ -1,0 +1,25 @@
+.item {
+  cursor: pointer;
+  padding: 8px;
+}
+
+.item:hover {
+  background-color: rgb(238, 241, 242);
+  color: rgb(0, 106, 176);
+}
+
+.indented {
+  margin-left: 28px;
+}
+
+input[type="checkbox"] {
+  all: unset;
+  -webkit-appearance: checkbox;
+  appearance: checkbox;
+  width: 22px;
+  height: 22px;
+  border: 1px solid #000;
+  border-radius: 2px;
+  background-color: white;
+  margin-right: 16px;
+}
