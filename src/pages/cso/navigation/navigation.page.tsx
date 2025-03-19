@@ -20,7 +20,7 @@ const CSONavigationPage: React.FC = () => {
           link="/users"
         />
         <NavigationItemComponent
-          navTitle="View TRAs and TROs"
+          navTitle="View TROs"
           navSubtitle="View your existing TROs and search them by filtering them down."
           link="/"
         />

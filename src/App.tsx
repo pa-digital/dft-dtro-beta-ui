@@ -38,7 +38,7 @@ function App() {
             ></Route>
             <Route path="/details" element={<AppDetailsPage />}></Route>
             <Route path="/list" element={<AppListPage />}></Route>
-            <Route path="/cso/nav" element={<CSONavigationPage />}></Route>
+            <Route path="/" element={<CSONavigationPage />}></Route>
             <Route path="/requests" element={<PendingRequestsPage />}></Route>
             <Route path="/users" element={<ActiveUsersPage />}></Route>
             <Route path="/user" element={<UserDetailsPage />}></Route>
