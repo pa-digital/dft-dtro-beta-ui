@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styles from "../pending-requests/pending-requests.module.css";
+import sharedStyles from "../../../styles/shared.module.css";
 import SidebarComponent from "../../../components/sidebar/sidebar.component";
 import Up from "../../../assets/up-arrow.svg";
 import Refresh from "../../../assets/refresh.svg";
@@ -210,40 +210,43 @@ const ActiveUsersPage: React.FC = () => {
   };
 
   return (
-    <div className={styles.content}>
+    <div className={sharedStyles.content}>
       <SidebarComponent />
-      <div className={styles.dynamicContent}>
+      <div className={sharedStyles.dynamicContent}>
         <h2>Active users</h2>
         <p>
           View all users and click through to view details and manage user
           accounts
         </p>
-        <div className={styles.card}>
-          <div className={styles.cardHeader}>Request log</div>
-          <div className={styles.tableControls}>
-            <div className={styles.controlItem}>
+        <div className={sharedStyles.card}>
+          <div className={sharedStyles.cardHeader}>Request log</div>
+          <div className={sharedStyles.tableControls}>
+            <div className={sharedStyles.controlItem}>
               <div>ASC</div>
               <img src={Up} />
             </div>
-            <div className={styles.controlItem}>
+            <div className={sharedStyles.controlItem}>
               <div>DESC</div>
-              <img className={styles.downArrow} src={Up} />
+              <img className={sharedStyles.downArrow} src={Up} />
             </div>
-            <div className={styles.trailingControls}>
-              <div className={styles.controlItem} onClick={() => setPage(1)}>
+            <div className={sharedStyles.trailingControls}>
+              <div
+                className={sharedStyles.controlItem}
+                onClick={() => setPage(1)}
+              >
                 {/* Calling setPage triggers fetching of the data */}
                 <img src={Refresh}></img>
               </div>
-              <div className={styles.controlItem}>
-                <img className={styles.downArrow} src={Up}></img>
+              <div className={sharedStyles.controlItem}>
+                <img className={sharedStyles.downArrow} src={Up}></img>
               </div>
-              <div className={styles.controlItem}>
+              <div className={sharedStyles.controlItem}>
                 <img src={More}></img>
               </div>
             </div>
           </div>
           {users && (
-            <div className={styles.tableContainer}>
+            <div className={sharedStyles.tableContainer}>
               <UsersTableComponent users={users.users} />
               <PaginationComponent
                 currentPage={page}
