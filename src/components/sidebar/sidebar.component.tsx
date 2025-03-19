@@ -9,7 +9,7 @@ const SidebarComponent: React.FC = ({}) => {
       <div className={styles.sidebarHeader}>Menu</div>
       <SidebarLinkComponent text="Pending requests" link="/requests" />
       <SidebarLinkComponent text="Active users" link="/users" />
-      <SidebarLinkComponent text="TRAs & TROs" link="" />
+      <SidebarLinkComponent text="TROs" link="/tros" />
     </div>
   );
 };

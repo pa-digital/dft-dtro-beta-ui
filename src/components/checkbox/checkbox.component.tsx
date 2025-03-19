@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./checkbox.module.css";
 import classNames from "classnames";
 import { RadioButtonOption } from "../radio-button/radio-button.component";
@@ -6,32 +6,33 @@ import { RadioButtonOption } from "../radio-button/radio-button.component";
 interface CheckboxComponentProps {
   items: RadioButtonOption[];
   allowSelectAll?: boolean;
+  selectedItems: boolean[];
   onChange: (selected: boolean[]) => void;
 }
 
 const CheckboxComponent: React.FC<CheckboxComponentProps> = ({
   items,
   allowSelectAll = false,
+  selectedItems,
   onChange,
 }) => {
-  const [allSelected, setAllSelected] = useState(false);
-  const [selectedItems, setSelectedItems] = useState<boolean[]>(
-    new Array(items.length).fill(false)
+  const [allSelected, setAllSelected] = useState(
+    selectedItems.every((item) => item)
   );
+
+  useEffect(() => {
+    setAllSelected(selectedItems.every((item) => item));
+  }, [selectedItems]);
 
   const handleSelectAll = () => {
     const newSelectAllState = !allSelected;
-    setAllSelected(newSelectAllState);
     const newSelectedItems = new Array(items.length).fill(newSelectAllState);
-    setSelectedItems(newSelectedItems);
     onChange(newSelectedItems);
   };
 
   const handleChange = (index: number) => {
     const newSelectedItems = [...selectedItems];
     newSelectedItems[index] = !newSelectedItems[index];
-    setSelectedItems(newSelectedItems);
-    setAllSelected(newSelectedItems.every((item) => item));
     onChange(newSelectedItems);
   };
 

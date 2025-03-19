@@ -2,7 +2,6 @@ import "./App.css";
 import FooterComponent from "./components/footer/footer.component";
 import NavbarComponent from "./components/navbar/navbar.component";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import LoginPage from "./pages/publisher/login/publisher-login.page";
 import TwoFactorAuthPage from "./pages/two-factor-auth/two-factor-auth.page";
 import NavigationPage from "./pages/navigation/navigation.page";
 import IntegrationAppCreationPage from "./pages/app-creation/integration/app-creation.page";
@@ -16,6 +15,7 @@ import CSONavigationPage from "./pages/cso/navigation/navigation.page";
 import { isProductionEnv } from "./utils/env";
 import SuccessPage from "./pages/success/success.component";
 import ConsumerAppCreationPage from "./pages/app-creation/consumer/consumer-app-creation..page";
+import TrosPage from "./pages/cso/tros/tros.page";
 
 function App() {
   return (
@@ -24,7 +24,6 @@ function App() {
       <div className="content">
         <Router>
           <Routes>
-            <Route path="/" element={<LoginPage />}></Route>
             <Route path="/auth" element={<TwoFactorAuthPage />}></Route>
             <Route path="/home" element={<NavigationPage />}></Route>
             <Route
@@ -48,6 +47,7 @@ function App() {
               path="/consumer/create"
               element={<ConsumerAppCreationPage />}
             ></Route>
+            <Route path="/tros" element={<TrosPage />}></Route>
           </Routes>
         </Router>
       </div>

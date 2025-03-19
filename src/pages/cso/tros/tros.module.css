@@ -1,0 +1,80 @@
+.container {
+  display: flex;
+  gap: 24px;
+  padding: 12px 0;
+}
+
+.container p {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.filters {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.paginationContainer {
+  display: flex;
+  align-items: center;
+}
+
+.paginationComponentContainer {
+  margin-left: auto;
+}
+
+.filterItem {
+  position: relative;
+}
+
+.filterItemContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 12px;
+  background-color: rgb(238, 241, 242);
+  border: 1px solid rgb(221, 221, 221);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.selected {
+  border-color: rgb(0, 106, 176);
+}
+
+.chevron {
+  transition: transform 0.2s ease-in-out;
+}
+
+.chevronOpen {
+  transform: rotate(-90deg);
+}
+
+.chevronClosed {
+  transform: rotate(90deg);
+}
+
+.overlay {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid rgba(217, 217, 217, 1);
+  border-radius: 14px;
+  z-index: 1000;
+  background-color: rgb(255, 255, 255);
+  width: max-content;
+}
+
+.buttonContainer {
+  width: 320px;
+}
+
+.countContainer {
+  font-size: 14px;
+  color: rgb(171, 172, 190);
+}

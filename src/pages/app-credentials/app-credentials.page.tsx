@@ -36,7 +36,7 @@ const AppCredentialsPage: React.FC<AppCredentialsPageProps> = ({ appID }) => {
     const appCredentials = {
       appID: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
       appName: "Integration test 3",
-      swaCode: "ABCD1234",
+      swaCode: 10566,
       purpose: "Publish",
       apiKey: "12345abcde67890fghij09876klmnop",
       apiSecret: "thisismyapisecret",

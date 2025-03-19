@@ -223,6 +223,7 @@ const ConsumerAppCreationPage: React.FC = () => {
       <div className={styles.cardContainer}>
         <CheckboxComponent
           items={geographyOptions}
+          selectedItems={geography}
           allowSelectAll={true}
           onChange={handleGeographyChange}
         />
@@ -231,6 +232,7 @@ const ConsumerAppCreationPage: React.FC = () => {
       <div className={styles.cardContainer}>
         <CheckboxComponent
           items={interestOptions}
+          selectedItems={interest}
           onChange={handleInterestChange}
         />
         {interestIsOther() && (
