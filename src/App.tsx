@@ -15,6 +15,7 @@ import UserDetailsPage from "./pages/cso/user-details/user-details.page";
 import CSONavigationPage from "./pages/cso/navigation/navigation.page";
 import { isProductionEnv } from "./utils/env";
 import SuccessPage from "./pages/success/success.component";
+import ConsumerAppCreationPage from "./pages/app-creation/consumer/consumer-app-creation..page";
 
 function App() {
   return (
@@ -43,6 +44,10 @@ function App() {
             <Route path="/users" element={<ActiveUsersPage />}></Route>
             <Route path="/user" element={<UserDetailsPage />}></Route>
             <Route path="/success" element={<SuccessPage />}></Route>
+            <Route
+              path="/consumer/create"
+              element={<ConsumerAppCreationPage />}
+            ></Route>
           </Routes>
         </Router>
       </div>
