@@ -40,18 +40,6 @@ public class XappIdService : IXappIdService
             var accessToken = await GetAccessTokenAsync();
             httpRequestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
         }
-
-        if (_xAppIdOverride != Guid.Empty)
-        {
-            httpRequestMessage.Headers.Add("x-app-id-override", _xAppIdOverride.ToString());
-        }
-        if (string.IsNullOrEmpty(_tokenEndpoint))
-        {
-            httpRequestMessage.Headers.Add("x-app-id", _xAppIdOverride.ToString());
-        }
-
-        httpRequestMessage.Headers.Add("X-Correlation-ID", Guid.NewGuid().ToString());
-
         return true;
     }
 
