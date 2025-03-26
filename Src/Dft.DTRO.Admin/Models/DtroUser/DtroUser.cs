@@ -6,7 +6,7 @@ public class DtroUser
 {
     public Guid Id { get; set; }
 
-    public Guid xAppId { get; set; }
+    public Guid AppId { get; set; }
 
     [Range(1, 9999, ErrorMessage = "TraId must be between 1 and 9999.")]
     public int? TraId { get; set; }

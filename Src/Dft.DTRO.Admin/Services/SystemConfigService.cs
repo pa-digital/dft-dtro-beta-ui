@@ -4,28 +4,28 @@ namespace Dft.DTRO.Admin.Services;
 public class SystemConfigService : ISystemConfigService
 {
     private readonly HttpClient _client;
-    private readonly IXappIdService _xappIdService;
+    private readonly IAppIdService _appIdService;
     private readonly IErrHandlingService _errHandlingService;
-    public SystemConfigService(IHttpClientFactory clientFactory, IXappIdService xappIdService, IErrHandlingService errHandlingService)
+    public SystemConfigService(IHttpClientFactory clientFactory, IAppIdService appIdService, IErrHandlingService errHandlingService)
     {
         _client = clientFactory.CreateClient("ExternalApi");
-        _xappIdService = xappIdService;
+        _appIdService = appIdService;
         _errHandlingService = errHandlingService;
     }
 
     public async Task<bool> UpdateSystemConfig(SystemConfig systemConfig)
     {
         var content = JsonContent.Create(systemConfig);
-        var request = new HttpRequestMessage(HttpMethod.Put, ConfigHelper.Version + $"/systemConfig/updateFromBody/")
+        var request = new HttpRequestMessage(HttpMethod.Put, ConfigHelper.ApiBaseUrl + $"/systemConfig/updateFromBody/")
         {
             Content = content
         };
-        await _xappIdService.AddXAppIdHeader(request);
+        await _appIdService.AddAppIdHeader(request);
 
         var response = await _client.SendAsync(request);
         await _errHandlingService.RedirectIfErrors(response);
 
-        _xappIdService.ChangeXAppId(systemConfig.xAppId);
+        _appIdService.ChangeAppId(systemConfig.AppId);
         return true;
     }
 
@@ -35,8 +35,8 @@ public class SystemConfigService : ISystemConfigService
         var unknown = new SystemConfig() { SystemName = "Unknown", IsTest = false };
         try
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, ConfigHelper.Version + "/systemConfig");
-            await _xappIdService.AddXAppIdHeader(request);
+            var request = new HttpRequestMessage(HttpMethod.Get, ConfigHelper.ApiBaseUrl + "/systemConfig");
+            await _appIdService.AddAppIdHeader(request);
 
             var response = await _client.SendAsync(request);
 
@@ -50,7 +50,7 @@ public class SystemConfigService : ISystemConfigService
             {
                 return unknown;
             }
-            ret.xAppId = _xappIdService.MyXAppId();
+            ret.AppId = _appIdService.MyAppId();
             return ret;
         }
         catch (Exception)

@@ -12,7 +12,7 @@
     <table class="table">
         <thead>
             <tr>
-                <th>x-App-Id</th>
+                <th>App-Id</th>
                 <th>Group</th>
                 <th>TRA Id</th>
                 <th>Prefix</th>
@@ -26,13 +26,13 @@
             @foreach (var dtroUser in Model.FilteredDtroUsers)
             {
                 <tr>
-                    <td>@(dtroUser.xAppId == Guid.Empty ? "(Not Set)" : dtroUser.xAppId.ToString())</td>
+                    <td>@(dtroUser.AppId == Guid.Empty ? "(Not Set)" : dtroUser.AppId.ToString())</td>
                     <td>@dtroUser.UserGroup.ToString()</td>
                     <td>@dtroUser.TraId</td>
                     <td>@dtroUser.Prefix</td>
                     <td>@dtroUser.Name</td>
                     <td>
-                        @if (dtroUser.xAppId != Guid.Empty)
+                        @if (dtroUser.AppId != Guid.Empty)
                         {
                             <img src="@Url.Content("~/images/tick.png")" alt="Active" style="max-height:20px; vertical-align: middle;" />
                         }

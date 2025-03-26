@@ -2,7 +2,7 @@
 {
     public Guid Id { get; set; }
 
-    public Guid xAppId { get; set; }
+    public Guid AppId { get; set; }
 
     public int? TraId { get; set; }
 
