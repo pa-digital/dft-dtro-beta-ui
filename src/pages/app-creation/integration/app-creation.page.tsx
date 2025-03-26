@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import Check from "../../../assets/check.svg";
 import classNames from "classnames";
 import SpinnerComponent from "../../../components/spinner/spinner.component";
+import axiosInstance from "../../../utils/axios-instance";
 
 export interface ValidationResponse {
   isValid: boolean;
@@ -37,28 +38,33 @@ const IntegrationAppCreationPage: React.FC = () => {
     }
 
     debounceTimeout.current = setTimeout(() => {
-      // TODO: make API call to validate app name
       setIsValidating(false);
-      setValidationResponse({
-        isValid: name !== "Duplicate App Name",
-        message:
-          name === "Duplicate App Name"
-            ? "App name already in use"
-            : "Application name available",
-      });
+      checkAppNameValid(name);
     }, 2000);
   };
 
-  const handleClick = () => {
-    if (appName === "") return;
-    // TODO: create the app with Apigee, and return the app ID
-    const appID = "9abeda12-a123-4104-9b6a-2bb6a95339ab";
-    navigate("/details", { state: { from: "create", appID } });
-  };
+  const checkAppNameValid = async (appName: string) => {
+    try {
+      const response = await axiosInstance.get(`/applications/validateName?name=${appName}`);
+      setValidationResponse(response.data);
+    } catch (error) {
+      console.error('Error validating app name:', error);
+    }
+  }
 
-  useEffect(() => {
-    console.log(validationResponse);
-  }, [validationResponse]);
+  const handleClick = async () => {
+    if (appName === "") return;
+    try {
+      const body = {
+        name: appName,
+        type: "Publish"
+      };
+      const response = await axiosInstance.post("/applications", body);
+      navigate("/details", { state: { from: "create", appID: response.data.appId } });
+    } catch (error) {
+      console.error("Error creating application:", error);
+    }
+  };
 
   return (
     <div className={styles.content}>
