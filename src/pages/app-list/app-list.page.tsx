@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import styles from "./app-list.module.css";
+import sharedStyles from "../../styles/shared.module.css";
 import NavLinkComponent from "../../components/nav-link/nav-link.component";
 import AppListTableComponent from "../../components/app-list-table/app-list-table.component";
 import PaginationComponent from "../../components/pagination/pagination.component";
+import axiosInstance from "../../utils/axios-instance";
+import SpinnerComponent from "../../components/spinner/spinner.component";
 
 export enum AppType {
   Publisher = "Publisher",
@@ -10,9 +13,10 @@ export enum AppType {
 }
 
 interface AppView {
-  pages: number;
-  currentPage: number;
-  apps: App[];
+  results: App[];
+  page: number;
+  pageSize: number;
+  totalCount: number;
 }
 
 export interface App {
@@ -25,138 +29,9 @@ export interface App {
 const AppListPage: React.FC = () => {
   const [apps, setApps] = useState<AppView>();
   const [page, setPage] = useState<number>(1);
-  const appsPerPage = 5;
-  const allApps: App[] = [
-    {
-      id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
-      name: "Surrey County Council PUB",
-      type: AppType.Publisher,
-      tra: "Surrey County Council",
-    },
-    {
-      id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
-      name: "Surrey County Council PUB",
-      type: AppType.Publisher,
-      tra: "Surrey County Council",
-    },
-    {
-      id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
-      name: "Surrey County Council PUB",
-      type: AppType.Publisher,
-      tra: "Surrey County Council",
-    },
-    {
-      id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
-      name: "Surrey County Council PUB",
-      type: AppType.Publisher,
-      tra: "Surrey County Council",
-    },
-    {
-      id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
-      name: "Surrey County Council PUB",
-      type: AppType.Publisher,
-      tra: "Surrey County Council",
-    },
-    {
-      id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
-      name: "Blurrey County Council PUB",
-      type: AppType.Consumer,
-      tra: "Blurrey County Council",
-    },
-    {
-      id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
-      name: "Blurrey County Council PUB",
-      type: AppType.Consumer,
-      tra: "Blurrey County Council",
-    },
-    {
-      id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
-      name: "Blurrey County Council PUB",
-      type: AppType.Consumer,
-      tra: "Blurrey County Council",
-    },
-    {
-      id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
-      name: "Blurrey County Council PUB",
-      type: AppType.Consumer,
-      tra: "Blurrey County Council",
-    },
-    {
-      id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
-      name: "Blurrey County Council PUB",
-      type: AppType.Consumer,
-      tra: "Blurrey County Council",
-    },
-    {
-      id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
-      name: "Blurrey County Council PUB",
-      type: AppType.Consumer,
-      tra: "Blurrey County Council",
-    },
-    {
-      id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
-      name: "Blurrey County Council PUB",
-      type: AppType.Consumer,
-      tra: "Blurrey County Council",
-    },
-    {
-      id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
-      name: "Blurrey County Council PUB",
-      type: AppType.Consumer,
-      tra: "Blurrey County Council",
-    },
-    {
-      id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
-      name: "Blurrey County Council PUB",
-      type: AppType.Consumer,
-      tra: "Blurrey County Council",
-    },
-    {
-      id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
-      name: "Blurrey County Council PUB",
-      type: AppType.Consumer,
-      tra: "Blurrey County Council",
-    },
-    {
-      id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
-      name: "Blurrey County Council PUB",
-      type: AppType.Consumer,
-      tra: "Blurrey County Council",
-    },
-    {
-      id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
-      name: "Blurrey County Council PUB",
-      type: AppType.Consumer,
-      tra: "Blurrey County Council",
-    },
-    {
-      id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
-      name: "Blurrey County Council PUB",
-      type: AppType.Consumer,
-      tra: "Blurrey County Council",
-    },
-    {
-      id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
-      name: "Blurrey County Council PUB",
-      type: AppType.Consumer,
-      tra: "Blurrey County Council",
-    },
-    {
-      id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
-      name: "Blurrey County Council PUB",
-      type: AppType.Consumer,
-      tra: "Blurrey County Council",
-    },
-    {
-      id: "9abeda12-a123-4104-9b6a-2bb6a95339ab",
-      name: "Blurrey County Council PUB",
-      type: AppType.Consumer,
-      tra: "Blurrey County Council",
-    },
-  ];
+  const appsPerPage = 2;
 
   useEffect(() => {
-    // TODO: fetch apps from the backend for this page
     fetchApps(page);
   }, []);
 
@@ -164,15 +39,19 @@ const AppListPage: React.FC = () => {
     fetchApps(page);
   }, [page]);
 
-  const fetchApps = (page: number): void => {
-    const startIndex = (page - 1) * appsPerPage;
-    const endIndex = startIndex + appsPerPage;
-    const apps = allApps.slice(startIndex, endIndex);
-    setApps({
-      pages: Math.ceil(allApps.length / appsPerPage),
-      currentPage: page,
-      apps,
-    });
+  const fetchApps = async (page: number): Promise<void> => {
+    try {
+      const response = await axiosInstance.get('/applications', {
+        params: {
+          page: page,
+          pageSize: appsPerPage
+        }
+      });
+
+      setApps(response.data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
   };
 
   return (
@@ -181,29 +60,31 @@ const AppListPage: React.FC = () => {
       <div className={styles.headerContainer}>
         <h2>View and refresh app credentials</h2>
       </div>
-      <p className={styles.info}>
-        Click view to see details of your app and to generate new credentials.
-      </p>
-      {apps && (
+      {!apps && <div className={sharedStyles.loadingContainer}><SpinnerComponent /></div>}
+      {apps && apps.results.length > 0 && <div>
+        <p className={styles.info}>
+          Click view to see details of your app and to generate new credentials.
+        </p>
         <div className={styles.paginationContainer}>
-          <PaginationComponent
+          {apps.totalCount > 1 && <PaginationComponent
             currentPage={page}
-            totalPages={Math.ceil(allApps.length / appsPerPage)}
+            totalPages={apps.totalCount}
             onClickDown={() => {
-              if (apps.currentPage === 1) return;
-              setPage(apps.currentPage - 1);
+              if (apps.page === 1) return;
+              setPage(apps.page - 1);
             }}
             onClickNumber={(index: number) => {
               setPage(index);
             }}
             onClickUp={() => {
-              if (apps.currentPage === apps.pages) return;
-              setPage(apps.currentPage + 1);
+              if (apps.page === apps.totalCount) return;
+              setPage(apps.page + 1);
             }}
-          />
+          />}
         </div>
-      )}
-      {apps && <AppListTableComponent apps={apps.apps} />}
+        <AppListTableComponent apps={apps.results} />
+      </div>}
+      {apps?.results.length == 0 && <p className={styles.info}>There are no apps to display</p>}
     </div>
   );
 };

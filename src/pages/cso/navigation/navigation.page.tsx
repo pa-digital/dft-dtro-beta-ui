@@ -15,14 +15,14 @@ const CSONavigationPage: React.FC = () => {
           link="/requests"
         />
         <NavigationItemComponent
-          navTitle="View and manage active users"
+          navTitle="View and manage users"
           navSubtitle="View and manage user accounts."
           link="/users"
         />
         <NavigationItemComponent
           navTitle="View TRAs and TROs"
           navSubtitle="View your existing TROs and search them by filtering them down."
-          link="/"
+          link="/tros"
         />
       </div>
     </div>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./app-details.module.css";
+import sharedStyles from "../../styles/shared.module.css";
 import NavLinkComponent from "../../components/nav-link/nav-link.component";
 import InputComponent, {
   InputType,

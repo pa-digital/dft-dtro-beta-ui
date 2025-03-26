@@ -22,8 +22,8 @@ export interface PendingRequest {
 }
 
 export enum SortOrder {
-  Ascending = "ascending",
-  Descending = "descending",
+  Ascending = "asc",
+  Descending = "desc",
 }
 
 const PendingRequestsPage: React.FC = () => {
