@@ -14,7 +14,7 @@ public class DtroService : IDtroService
 
     public async Task<List<DtroHistoryProvisionResponse>> DtroProvisionHistory(Guid id)
     {
-        var request = new HttpRequestMessage(HttpMethod.Get, ConfigHelper.Version + $"/dtros/provisionHistory/{id}");
+        var request = new HttpRequestMessage(HttpMethod.Get, ConfigHelper.ApiBaseUrl + $"/dtros/provisionHistory/{id}");
         await _appIdService.AddAppIdHeader(request);
 
         var response = await _client.SendAsync(request);
@@ -27,7 +27,7 @@ public class DtroService : IDtroService
 
     public async Task<List<DtroHistorySourceResponse>> DtroSourceHistory(Guid id)
     {
-        var request = new HttpRequestMessage(HttpMethod.Get, ConfigHelper.Version + $"/dtros/sourceHistory/{id}");
+        var request = new HttpRequestMessage(HttpMethod.Get, ConfigHelper.ApiBaseUrl + $"/dtros/sourceHistory/{id}");
         await _appIdService.AddAppIdHeader(request);
 
         var response = await _client.SendAsync(request);
@@ -50,7 +50,7 @@ public class DtroService : IDtroService
 
         var jsonContent = JsonSerializer.Serialize(search);
         var param = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-        var request = new HttpRequestMessage(HttpMethod.Post, ConfigHelper.Version + "/search")
+        var request = new HttpRequestMessage(HttpMethod.Post, ConfigHelper.ApiBaseUrl + "/search")
         {
             Content = param
         };
@@ -72,7 +72,7 @@ public class DtroService : IDtroService
             { new StreamContent(file.OpenReadStream()), "file", file.FileName }
         };
 
-        var request = new HttpRequestMessage(HttpMethod.Post, ConfigHelper.Version + "/dtros/createFromFile")
+        var request = new HttpRequestMessage(HttpMethod.Post, ConfigHelper.ApiBaseUrl + "/dtros/createFromFile")
         {
             Content = content
         };
@@ -90,7 +90,7 @@ public class DtroService : IDtroService
             { new StreamContent(file.OpenReadStream()), "file", file.FileName }
         };
 
-        var request = new HttpRequestMessage(HttpMethod.Put, ConfigHelper.Version + $"/dtros/updateFromFile/{id}")
+        var request = new HttpRequestMessage(HttpMethod.Put, ConfigHelper.ApiBaseUrl + $"/dtros/updateFromFile/{id}")
         {
             Content = content
         };
@@ -103,7 +103,7 @@ public class DtroService : IDtroService
 
     public async Task<IActionResult> ReassignDtroAsync(Guid id, Guid toDtroUserId)
     {
-        var request = new HttpRequestMessage(HttpMethod.Post, ConfigHelper.Version + $"/dtros/ownership/{id}/{toDtroUserId}");
+        var request = new HttpRequestMessage(HttpMethod.Post, ConfigHelper.ApiBaseUrl + $"/dtros/ownership/{id}/{toDtroUserId}");
         await _appIdService.AddAppIdHeader(request);
 
         var response = await _client.SendAsync(request);

@@ -16,7 +16,7 @@ public class SystemConfigService : ISystemConfigService
     public async Task<bool> UpdateSystemConfig(SystemConfig systemConfig)
     {
         var content = JsonContent.Create(systemConfig);
-        var request = new HttpRequestMessage(HttpMethod.Put, ConfigHelper.Version + $"/systemConfig/updateFromBody/")
+        var request = new HttpRequestMessage(HttpMethod.Put, ConfigHelper.ApiBaseUrl + $"/systemConfig/updateFromBody/")
         {
             Content = content
         };
@@ -35,7 +35,7 @@ public class SystemConfigService : ISystemConfigService
         var unknown = new SystemConfig() { SystemName = "Unknown", IsTest = false };
         try
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, ConfigHelper.Version + "/systemConfig");
+            var request = new HttpRequestMessage(HttpMethod.Get, ConfigHelper.ApiBaseUrl + "/systemConfig");
             await _appIdService.AddAppIdHeader(request);
 
             var response = await _client.SendAsync(request);

@@ -13,7 +13,7 @@ public class SchemaService : ISchemaService
 
     public async Task<List<SchemaTemplateOverview>> GetSchemaVersionsAsync()
     {
-        var request = new HttpRequestMessage(HttpMethod.Get, ConfigHelper.Version + "/schemas/versions");
+        var request = new HttpRequestMessage(HttpMethod.Get, ConfigHelper.ApiBaseUrl + "/schemas/versions");
         await _appIdService.AddAppIdHeader(request);
 
         var response = await _client.SendAsync(request);
@@ -25,7 +25,7 @@ public class SchemaService : ISchemaService
 
     public async Task ActivateSchemaAsync(string version)
     {
-        var request = new HttpRequestMessage(HttpMethod.Patch, ConfigHelper.Version + $"/schemas/activate/{version}");
+        var request = new HttpRequestMessage(HttpMethod.Patch, ConfigHelper.ApiBaseUrl + $"/schemas/activate/{version}");
         await _appIdService.AddAppIdHeader(request);
 
         var response = await _client.SendAsync(request);
@@ -35,7 +35,7 @@ public class SchemaService : ISchemaService
     public async Task DeactivateSchemaAsync(string version)
     {
         //var response = await _client.PatchAsync($"/schemas/deactivate/{version}", null);
-        var request = new HttpRequestMessage(HttpMethod.Patch, ConfigHelper.Version + $"/schemas/deactivate/{version}");
+        var request = new HttpRequestMessage(HttpMethod.Patch, ConfigHelper.ApiBaseUrl + $"/schemas/deactivate/{version}");
         await _appIdService.AddAppIdHeader(request);
 
         var response = await _client.SendAsync(request);
@@ -48,7 +48,7 @@ public class SchemaService : ISchemaService
         {
             { new StreamContent(file.OpenReadStream()), "file", file.FileName }
         };
-        var request = new HttpRequestMessage(HttpMethod.Put, ConfigHelper.Version + $"/schemas/updateFromFile/{version}")
+        var request = new HttpRequestMessage(HttpMethod.Put, ConfigHelper.ApiBaseUrl + $"/schemas/updateFromFile/{version}")
         {
             Content = content
         };
@@ -60,7 +60,7 @@ public class SchemaService : ISchemaService
 
     public async Task DeleteSchemaAsync(string version)
     {
-        var request = new HttpRequestMessage(HttpMethod.Delete, ConfigHelper.Version + $"/schemas/{version}");
+        var request = new HttpRequestMessage(HttpMethod.Delete, ConfigHelper.ApiBaseUrl + $"/schemas/{version}");
         await _appIdService.AddAppIdHeader(request);
 
         var response = await _client.SendAsync(request);
@@ -73,7 +73,7 @@ public class SchemaService : ISchemaService
         {
             { new StreamContent(file.OpenReadStream()), "file", file.FileName }
         };
-        var request = new HttpRequestMessage(HttpMethod.Post, ConfigHelper.Version + $"/schemas/createFromFile/{version}")
+        var request = new HttpRequestMessage(HttpMethod.Post, ConfigHelper.ApiBaseUrl + $"/schemas/createFromFile/{version}")
         {
             Content = content
         };

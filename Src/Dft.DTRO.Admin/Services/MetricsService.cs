@@ -15,7 +15,7 @@ public class MetricsService : IMetricsService
     {
         try
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, ConfigHelper.Version + "/healthApi");
+            var request = new HttpRequestMessage(HttpMethod.Get, ConfigHelper.ApiBaseUrl + "/healthApi");
             await _appIdService.AddAppIdHeader(request);
 
             var response = await _client.SendAsync(request);
@@ -35,7 +35,7 @@ public class MetricsService : IMetricsService
     {
         try
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, ConfigHelper.Version + "/healthDatabase");
+            var request = new HttpRequestMessage(HttpMethod.Get, ConfigHelper.ApiBaseUrl + "/healthDatabase");
             await _appIdService.AddAppIdHeader(request);
 
             var response = await _client.SendAsync(request);
@@ -55,7 +55,7 @@ public class MetricsService : IMetricsService
     {
         var jsonContent = JsonSerializer.Serialize(metricRequest);
         var param = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-        var request = new HttpRequestMessage(HttpMethod.Post, ConfigHelper.Version + "/metricsForDtroUser")
+        var request = new HttpRequestMessage(HttpMethod.Post, ConfigHelper.ApiBaseUrl + "/metricsForDtroUser")
         {
             Content = param
         };
@@ -77,7 +77,7 @@ public class MetricsService : IMetricsService
     {
         var jsonContent = JsonSerializer.Serialize(metricRequest);
         var param = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-        var request = new HttpRequestMessage(HttpMethod.Post, ConfigHelper.Version + "/fullMetricsForDtroUser")
+        var request = new HttpRequestMessage(HttpMethod.Post, ConfigHelper.ApiBaseUrl + "/fullMetricsForDtroUser")
         {
             Content = param
         };

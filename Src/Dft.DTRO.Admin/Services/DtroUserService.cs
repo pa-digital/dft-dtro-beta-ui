@@ -27,7 +27,7 @@ public class DtroUserService : IDtroUserService
 
     public async Task<List<DtroUser>> GetDtroUsersAsync()
     {
-        var request = new HttpRequestMessage(HttpMethod.Get, ConfigHelper.Version + "/dtroUsers");
+        var request = new HttpRequestMessage(HttpMethod.Get, ConfigHelper.ApiBaseUrl + "/dtroUsers");
         await _appIdService.AddAppIdHeader(request);
 
         var response = await _client.SendAsync(request);
@@ -46,7 +46,7 @@ public class DtroUserService : IDtroUserService
 
     public async Task<DtroUser> GetDtroUserAsync(Guid dtroUserId)
     {
-        var request = new HttpRequestMessage(HttpMethod.Get, ConfigHelper.Version + $"/dtroUsers/{dtroUserId}");
+        var request = new HttpRequestMessage(HttpMethod.Get, ConfigHelper.ApiBaseUrl + $"/dtroUsers/{dtroUserId}");
         await _appIdService.AddAppIdHeader(request);
 
         var response = await _client.SendAsync(request);
@@ -69,7 +69,7 @@ public class DtroUserService : IDtroUserService
 
     public async Task<List<DtroUser>> SearchDtroUsersAsync(string partialName)
     {
-        var request = new HttpRequestMessage(HttpMethod.Get, ConfigHelper.Version + $"/dtroUsers/search/{partialName}");
+        var request = new HttpRequestMessage(HttpMethod.Get, ConfigHelper.ApiBaseUrl + $"/dtroUsers/search/{partialName}");
         await _appIdService.AddAppIdHeader(request);
 
         var response = await _client.SendAsync(request);
@@ -86,7 +86,7 @@ public class DtroUserService : IDtroUserService
 
     public async Task ActivateDtroUserAsync(Guid dtroUserId)
     {
-        var request = new HttpRequestMessage(HttpMethod.Patch, ConfigHelper.Version + $"/dtroUsers/activate/{dtroUserId}");
+        var request = new HttpRequestMessage(HttpMethod.Patch, ConfigHelper.ApiBaseUrl + $"/dtroUsers/activate/{dtroUserId}");
         await _appIdService.AddAppIdHeader(request);
         var response = await _client.SendAsync(request);
         await _errHandlingService.RedirectIfErrors(response);
@@ -94,7 +94,7 @@ public class DtroUserService : IDtroUserService
 
     public async Task DeactivateDtroUserAsync(Guid dtroUserId)
     {
-        var request = new HttpRequestMessage(HttpMethod.Patch, ConfigHelper.Version + $"/dtroUsers/deactivate/{dtroUserId}");
+        var request = new HttpRequestMessage(HttpMethod.Patch, ConfigHelper.ApiBaseUrl + $"/dtroUsers/deactivate/{dtroUserId}");
         await _appIdService.AddAppIdHeader(request);
         var response = await _client.SendAsync(request);
         await _errHandlingService.RedirectIfErrors(response);
@@ -104,7 +104,7 @@ public class DtroUserService : IDtroUserService
     {
 
         var content = JsonContent.Create(dtroUser);
-        var request = new HttpRequestMessage(HttpMethod.Put, ConfigHelper.Version + $"/dtroUsers/updateFromBody/")
+        var request = new HttpRequestMessage(HttpMethod.Put, ConfigHelper.ApiBaseUrl + $"/dtroUsers/updateFromBody/")
         {
             Content = content
         };
@@ -117,7 +117,7 @@ public class DtroUserService : IDtroUserService
     {
         var content = new StringContent(JsonSerializer.Serialize(new { Ids = dtroUserIds }), Encoding.UTF8, "application/json");
         var request =
-            new HttpRequestMessage(HttpMethod.Delete, ConfigHelper.Version + $"/dtroUsers/redundant")
+            new HttpRequestMessage(HttpMethod.Delete, ConfigHelper.ApiBaseUrl + $"/dtroUsers/redundant")
             {
                 Content = content
             };
@@ -137,7 +137,7 @@ public class DtroUserService : IDtroUserService
     public async Task CreateDtroUserAsync(DtroUser dtroUser)
     {
         var content = JsonContent.Create(dtroUser);
-        var request = new HttpRequestMessage(HttpMethod.Post, ConfigHelper.Version + $"/dtroUsers/createFromBody/")
+        var request = new HttpRequestMessage(HttpMethod.Post, ConfigHelper.ApiBaseUrl + $"/dtroUsers/createFromBody/")
         {
             Content = content
         };
