@@ -5,7 +5,7 @@ public class SearchModel : PageModel
     private readonly IDtroService _dtroService;
     private readonly IDtroUserService _dtroUserService;
     private readonly ISystemConfigService _systemConfigService;
-    private readonly IXappIdService _xappIdService;
+    private readonly IAppIdService _appIdService;
     private readonly IErrHandlingService _errHandlingService;
 
     [BindProperty(SupportsGet = true)]
@@ -17,13 +17,13 @@ public class SearchModel : PageModel
     public SearchModel(IDtroService dtroService,
                         IDtroUserService dtroUserService,
                         ISystemConfigService systemConfigService,
-                        IXappIdService xappIdService,
+                        IAppIdService appIdService,
                         IErrHandlingService errHandlingService)
     {
         _dtroService = dtroService;
         _dtroUserService = dtroUserService;
         _systemConfigService = systemConfigService;
-        _xappIdService = xappIdService;
+        _appIdService = appIdService;
         _errHandlingService = errHandlingService;
     }
 
@@ -46,7 +46,7 @@ public class SearchModel : PageModel
 
 
             var users = await _dtroUserService.GetDtroUsersAsync();
-            var myUser = users.FirstOrDefault(x => x.xAppId == _xappIdService.MyXAppId());
+            var myUser = users.FirstOrDefault(x => x.AppId == _appIdService.MyAppId());
 
             var systemConfig = await _systemConfigService.GetSystemConfig();
 

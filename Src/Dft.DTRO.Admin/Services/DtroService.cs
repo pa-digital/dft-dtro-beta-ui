@@ -3,19 +3,19 @@ namespace Dft.DTRO.Admin.Services;
 public class DtroService : IDtroService
 {
     private readonly HttpClient _client;
-    private readonly IXappIdService _xappIdService;
+    private readonly IAppIdService _appIdService;
     private readonly IErrHandlingService _errHandlingService;
-    public DtroService(IHttpClientFactory clientFactory, IXappIdService xappIdService, IErrHandlingService errHandlingService)
+    public DtroService(IHttpClientFactory clientFactory, IAppIdService appIdService, IErrHandlingService errHandlingService)
     {
         _client = clientFactory.CreateClient("ExternalApi");
-        _xappIdService = xappIdService;
+        _appIdService = appIdService;
         _errHandlingService = errHandlingService;
     }
 
     public async Task<List<DtroHistoryProvisionResponse>> DtroProvisionHistory(Guid id)
     {
         var request = new HttpRequestMessage(HttpMethod.Get, ConfigHelper.Version + $"/dtros/provisionHistory/{id}");
-        await _xappIdService.AddXAppIdHeader(request);
+        await _appIdService.AddAppIdHeader(request);
 
         var response = await _client.SendAsync(request);
         await _errHandlingService.RedirectIfErrors(response);
@@ -28,7 +28,7 @@ public class DtroService : IDtroService
     public async Task<List<DtroHistorySourceResponse>> DtroSourceHistory(Guid id)
     {
         var request = new HttpRequestMessage(HttpMethod.Get, ConfigHelper.Version + $"/dtros/sourceHistory/{id}");
-        await _xappIdService.AddXAppIdHeader(request);
+        await _appIdService.AddAppIdHeader(request);
 
         var response = await _client.SendAsync(request);
         await _errHandlingService.RedirectIfErrors(response);
@@ -55,7 +55,7 @@ public class DtroService : IDtroService
             Content = param
         };
 
-        await _xappIdService.AddXAppIdHeader(request);
+        await _appIdService.AddAppIdHeader(request);
 
         var response = await _client.SendAsync(request);
         await _errHandlingService.RedirectIfErrors(response);
@@ -77,7 +77,7 @@ public class DtroService : IDtroService
             Content = content
         };
 
-        await _xappIdService.AddXAppIdHeader(request);
+        await _appIdService.AddAppIdHeader(request);
 
         var response = await _client.SendAsync(request);
         await _errHandlingService.RedirectIfErrors(response);
@@ -95,7 +95,7 @@ public class DtroService : IDtroService
             Content = content
         };
 
-        await _xappIdService.AddXAppIdHeader(request);
+        await _appIdService.AddAppIdHeader(request);
 
         var response = await _client.SendAsync(request);
         await _errHandlingService.RedirectIfErrors(response);
@@ -104,7 +104,7 @@ public class DtroService : IDtroService
     public async Task<IActionResult> ReassignDtroAsync(Guid id, Guid toDtroUserId)
     {
         var request = new HttpRequestMessage(HttpMethod.Post, ConfigHelper.Version + $"/dtros/ownership/{id}/{toDtroUserId}");
-        await _xappIdService.AddXAppIdHeader(request);
+        await _appIdService.AddAppIdHeader(request);
 
         var response = await _client.SendAsync(request);
         await _errHandlingService.RedirectIfErrors(response);

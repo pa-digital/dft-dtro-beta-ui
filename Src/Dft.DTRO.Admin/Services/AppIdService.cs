@@ -1,15 +1,15 @@
 ﻿using System.Net.Http.Headers;
 
 namespace Dft.DTRO.Admin.Services;
-public class XappIdService : IXappIdService
+public class AppIdService : IAppIdService
 {
-    private Guid _xAppIdOverride = Guid.Empty;
+    private Guid _appIdOverride = Guid.Empty;
     private readonly string _clientId;
     private readonly string _clientSecret;
     private readonly string _tokenEndpoint;
     private TokenResponse _token;
 
-    public XappIdService(IConfiguration configuration)
+    public AppIdService(IConfiguration configuration)
     {
         _clientId = ConfigHelper.ClientId;
         _clientSecret = ConfigHelper.ClientSecret;
@@ -25,15 +25,15 @@ public class XappIdService : IXappIdService
         }
 
 
-        var xAppIdConfigValue = ConfigHelper.XAppIdOverride;
+        var appIdConfigValue = ConfigHelper.AppIdOverride;
 
-        if (!string.IsNullOrEmpty(xAppIdConfigValue) && Guid.TryParse(xAppIdConfigValue, out Guid configXAppId))
+        if (!string.IsNullOrEmpty(appIdConfigValue) && Guid.TryParse(appIdConfigValue, out Guid configAppId))
         {
-            _xAppIdOverride = configXAppId;
+            _appIdOverride = configAppId;
         }
     }
 
-    public async Task<bool> AddXAppIdHeader(HttpRequestMessage httpRequestMessage)
+    public async Task<bool> AddAppIdHeader(HttpRequestMessage httpRequestMessage)
     {
         if (!string.IsNullOrEmpty(_tokenEndpoint))
         {
@@ -43,14 +43,14 @@ public class XappIdService : IXappIdService
         return true;
     }
 
-    public Guid MyXAppId()
+    public Guid MyAppId()
     {
-        return _xAppIdOverride;
+        return _appIdOverride;
     }
 
-    public void ChangeXAppId(Guid guid)
+    public void ChangeAppId(Guid guid)
     {
-        _xAppIdOverride = guid;
+        _appIdOverride = guid;
     }
 
     private async Task<string> GetAccessTokenAsync()
@@ -97,9 +97,9 @@ public class XappIdService : IXappIdService
             {
                 throw new Exception("Invalid oAuth token response.");
             }
-            if (_xAppIdOverride == Guid.Empty)
+            if (_appIdOverride == Guid.Empty)
             {
-                _xAppIdOverride = new Guid(tokenResponse.application_name);
+                _appIdOverride = new Guid(tokenResponse.application_name);
             }
             return tokenResponse;
         }
