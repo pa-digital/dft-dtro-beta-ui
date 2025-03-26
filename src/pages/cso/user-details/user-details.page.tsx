@@ -3,7 +3,7 @@ import styles from "./user-details.module.css";
 import SidebarComponent from "../../../components/sidebar/sidebar.component";
 import NavLinkComponent from "../../../components/nav-link/nav-link.component";
 import { useLocation, useNavigate } from "react-router";
-import { User, UserStatus } from "../active-users/active-users.page";
+import { UserStatus } from "../active-users/active-users.page";
 import InputComponent, {
   InputType,
 } from "../../../components/input/input.component";
@@ -16,33 +16,17 @@ import ModalComponent from "../../../components/modal/modal.component";
 
 const UserDetailsPage: React.FC = () => {
   const location = useLocation();
-  const userID = location.state?.userID;
+  const user = location.state?.user;
   const navigate = useNavigate();
 
-  const [userDetails, setUserDetails] = useState<User>();
   const [userApps, setUserApps] = useState<App[]>();
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
 
   useEffect(() => {
-    // TODO: Fetch user details for this user ID
-    const userDetails = fetchUserDetails(userID);
-    setUserDetails(userDetails);
-
     // Fetch app details for this user ID
-    const userApps = fetchUserAppDetails(userID);
+    const userApps = fetchUserAppDetails(user?.id);
     setUserApps(userApps);
   }, []);
-
-  const fetchUserDetails = (userID: string): User => {
-    return {
-      id: userID,
-      user: "Test User",
-      email: "user@test.com",
-      role: "",
-      createdOn: new Date(),
-      status: UserStatus.Active,
-    };
-  };
 
   const fetchUserAppDetails = (userID: string): App[] => {
     return [
@@ -61,7 +45,7 @@ const UserDetailsPage: React.FC = () => {
   };
 
   const handleDeleteOnClick = (): void => {
-    console.log(`Deleting user ${userDetails?.user}`);
+    console.log(`Deleting user ${user?.id}`);
     setShowDeleteModal(false);
     navigate(-1);
   };
@@ -72,23 +56,23 @@ const UserDetailsPage: React.FC = () => {
         <SidebarComponent />
         <div className={styles.dynamicContent}>
           <NavLinkComponent text="All Users" />
-          <h2>{userDetails?.user}</h2>
+          <h2>{user?.name}</h2>
           <h3>Account and user details</h3>
-          {userDetails && (
+          {user && (
             <div className={styles.inputContainer}>
               <InputComponent
                 type={InputType.Text}
-                value={userDetails.user}
+                value={user?.name}
                 editable={false}
                 label="Username"
               />
               <InputComponent
                 type={InputType.Text}
-                value={userDetails.email}
+                value={user?.email}
                 editable={false}
                 label="Email"
               />
-              {userDetails.status === UserStatus.Active && (
+              {user?.status.toLowerCase() === UserStatus.Active && (
                 <ButtonComponent
                   type={ButtonType.Warning}
                   text="Delete"
@@ -97,7 +81,7 @@ const UserDetailsPage: React.FC = () => {
               )}
             </div>
           )}
-          <h3>All apps for {userDetails?.user}</h3>
+          <h3>All apps for {user?.name}</h3>
           {userApps && (
             <AppListTableComponent apps={userApps} readOnly={true} />
           )}
@@ -106,7 +90,7 @@ const UserDetailsPage: React.FC = () => {
       {showDeleteModal && (
         <div className={styles.modalContainer}>
           <ModalComponent
-            title={`Confirm deletion of user ${userDetails?.user}`}
+            title={`Confirm deletion of user ${user?.name}`}
             subtitle="This action is permanent and you will not be able to reverse this"
             buttonText="Delete"
             buttonType={ButtonType.Warning}

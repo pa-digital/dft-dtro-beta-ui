@@ -11,8 +11,8 @@ interface UsersTableProps {
 const UsersTableComponent: React.FC<UsersTableProps> = ({ users }) => {
   const navigate = useNavigate();
 
-  const handleOnClick = (userID: string): void => {
-    navigate("/user", { state: { userID } });
+  const handleOnClick = (user: User): void => {
+    navigate("/user", { state: { user } });
   };
 
   return (
@@ -21,7 +21,6 @@ const UsersTableComponent: React.FC<UsersTableProps> = ({ users }) => {
         <tr>
           <th>User</th>
           <th>Email</th>
-          <th>Role</th>
           <th>Created On</th>
           <th>Status</th>
           <th>Action</th>
@@ -30,10 +29,9 @@ const UsersTableComponent: React.FC<UsersTableProps> = ({ users }) => {
       <tbody>
         {users.map((user) => (
           <tr>
-            <td>{user.user}</td>
+            <td>{user.name}</td>
             <td>{user.email}</td>
-            <td>{user.role}</td>
-            <td>{user.createdOn.toDateString()}</td>
+            <td>{user.created}</td>
             <td>
               {user.status.replace(/\b\w/g, (char) => char.toUpperCase())}
             </td>
@@ -41,7 +39,7 @@ const UsersTableComponent: React.FC<UsersTableProps> = ({ users }) => {
               <button className={styles.button}>
                 <div
                   className={styles.buttonContent}
-                  onClick={() => handleOnClick(user.id)}
+                  onClick={() => handleOnClick(user)}
                 >
                   <p>View</p>
                   <img src={Eye}></img>

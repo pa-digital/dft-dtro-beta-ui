@@ -2,6 +2,7 @@
     padding: 24px 88px;
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
 
 .headerContainer {
@@ -12,7 +13,6 @@
     font-size: 24px;
     font-weight: 600;
     color: rgb(35, 35, 35);
-
 }
 
 .info {
@@ -24,4 +24,13 @@
 
 .paginationContainer {
     padding-bottom: 12px;
+}
+
+.messageContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
 }
