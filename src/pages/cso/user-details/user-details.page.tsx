@@ -75,9 +75,10 @@ const UserDetailsPage: React.FC = () => {
               {user?.status.toLowerCase() === UserStatus.Active && (
                 <ButtonComponent
                   type={ButtonType.Warning}
-                  text="Delete"
                   onClick={() => setShowDeleteModal(true)}
-                />
+                >
+                  Delete
+                </ButtonComponent>
               )}
             </div>
           )}

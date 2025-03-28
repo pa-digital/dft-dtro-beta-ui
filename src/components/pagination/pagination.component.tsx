@@ -29,6 +29,7 @@ const PaginationComponent: React.FC<PaginationProps> = ({
       ></img>
       {Array.from({ length: totalPages || 1 }, (_, index) => (
         <div
+          key={index}
           className={classNames(styles.pageLink, {
             [styles.activePage]: index === currentPage - 1,
           })}

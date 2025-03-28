@@ -4,8 +4,10 @@ import NavbarComponent from "./components/navbar/navbar.component";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import TwoFactorAuthPage from "./pages/two-factor-auth/two-factor-auth.page";
 import NavigationPage from "./pages/navigation/navigation.page";
-import IntegrationAppCreationPage from "./pages/app-creation/integration/app-creation.page";
-import ProductionAppCreationPage from "./pages/app-creation/production/app-creation.page";
+import IntegrationAppCreationPage from "./pages/app-creation/publisher/integration/app-creation.page";
+import ProductionAppCreationPage from "./pages/app-creation/publisher/production/app-creation.page";
+import ConsumerAppCreationNamePage from './pages/app-creation/consumer/app-creation-name/app-creation-name.page';
+import ConsumerAppCreationDetailsPage from './pages/app-creation/consumer/app-creation-details/app-creation-details.page';
 import AppDetailsPage from "./pages/app-details/app-details.page";
 import AppListPage from "./pages/app-list/app-list.page";
 import PendingRequestsPage from "./pages/cso/pending-requests/pending-requests.page";
@@ -14,7 +16,6 @@ import UserDetailsPage from "./pages/cso/user-details/user-details.page";
 import CSONavigationPage from "./pages/cso/navigation/navigation.page";
 import { isProductionEnv } from "./utils/env";
 import SuccessPage from "./pages/success/success.component";
-import ConsumerAppCreationPage from "./pages/app-creation/consumer/consumer-app-creation..page";
 import PublisherLoginPage from "./pages/login/publisher-login.page";
 
 function App() {
@@ -28,7 +29,7 @@ function App() {
             <Route path="/auth" element={<TwoFactorAuthPage />}></Route>
             <Route path="/home" element={<NavigationPage />}></Route>
             <Route
-              path="/create"
+              path="/publisher/create"
               element={
                 !isProductionEnv() ? (
                   <IntegrationAppCreationPage />
@@ -44,10 +45,8 @@ function App() {
             <Route path="/users" element={<ActiveUsersPage />}></Route>
             <Route path="/user" element={<UserDetailsPage />}></Route>
             <Route path="/success" element={<SuccessPage />}></Route>
-            <Route
-              path="/consumer/create"
-              element={<ConsumerAppCreationPage />}
-            ></Route>
+            <Route path="/consumer/create/1" element={<ConsumerAppCreationNamePage />} />
+            <Route path="/consumer/create/2" element={<ConsumerAppCreationDetailsPage />} />
           </Routes>
         </Router>
       </div>

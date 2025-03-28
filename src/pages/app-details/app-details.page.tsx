@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styles from "./app-details.module.css";
-import sharedStyles from "../../styles/shared.module.css";
 import NavLinkComponent from "../../components/nav-link/nav-link.component";
 import InputComponent, {
   InputType,
@@ -72,7 +71,8 @@ const AppDetailsPage: React.FC = () => {
   return (
     <div className={styles.content}>
       <NavLinkComponent
-        text={from == "create" ? "Create a new app" : "View apps"}
+        text={from == "create" ? "Home" : "View apps"}
+        link={from == "create" ? "/list" : undefined}
       />
       <div className={styles.headerContainer}>
         <h2>{`Your app credentials for ${appDetails?.appName}`}</h2>

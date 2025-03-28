@@ -30,8 +30,8 @@ const AppListTableComponent: React.FC<AppListTableProps> = ({
         </tr>
       </thead>
       <tbody>
-        {apps.map((app) => (
-          <tr>
+        {apps.map((app, index) => (
+          <tr key={index}>
             <td>{app.name}</td>
             <td>{app.type}</td>
             <td>{app.tra || "-"}</td>

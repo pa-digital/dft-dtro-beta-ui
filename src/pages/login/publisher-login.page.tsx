@@ -78,10 +78,11 @@ const PublisherLoginPage: React.FC = () => {
         <div className={styles.buttonContainer}>
           <ButtonComponent
             type={ButtonType.Primary}
-            text="Login"
             onClick={handleClick}
             disabled={!isEmailRegex(email) || !isPasswordValid(password)}
-          />
+          >
+            Login
+          </ButtonComponent>
         </div>
       </div>
     </div>

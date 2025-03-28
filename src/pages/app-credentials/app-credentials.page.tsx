@@ -146,10 +146,11 @@ const AppCredentialsPage: React.FC<AppCredentialsPageProps> = ({ appID }) => {
           <div style={{ width: "240px" }}>
             <ButtonComponent
               type={ButtonType.Primary}
-              text="Generate new credentials"
               onClick={handleGenerateNewCredentialsButtonClick}
               disabled={isButtonDisabled}
-            />
+            >
+              Generate new credentials
+            </ButtonComponent>
           </div>
         </div>
       </div>

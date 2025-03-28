@@ -66,9 +66,10 @@ const CSOUserApprovalPage: React.FC = () => {
             />
             <ButtonComponent
               type={ButtonType.Primary}
-              text="Approve"
               onClick={handleOnClick}
-            />
+            >
+              Approve
+            </ButtonComponent>
           </div>
         </div>
       )}
@@ -78,6 +79,7 @@ const CSOUserApprovalPage: React.FC = () => {
             title="Confirm user approval"
             subtitle="Are you sure you want to approve this user?"
             buttonText="Approve"
+            buttonType={ButtonType.Primary}
             onClick={approveUser}
             cancelOnClick={() => setShowApprovalModal(false)}
           />

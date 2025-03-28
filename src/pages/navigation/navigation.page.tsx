@@ -6,7 +6,7 @@ import { isProductionEnv } from "../../utils/env";
 
 const NavigationPage: React.FC = () => {
   const [createProductionAppDisabled, setCreateProductionAppDisabled] =
-    useState<boolean>(false);
+    useState<boolean>(true);
 
   return (
     <div className={styles.content}>
@@ -17,14 +17,14 @@ const NavigationPage: React.FC = () => {
       <div className={styles.navigationContainer}>
         {!isProductionEnv() ? (
           <NavigationItemComponent
-            navTitle="Create new test app"
-            navSubtitle="Generate app credentials for use with the D-TRO test environment."
-            link="/create"
+            navTitle="Create new publisher test app"
+            navSubtitle="Generate publisher app credentials for use with the D-TRO test environment."
+            link="/publisher/create"
           />
         ) : (
           <NavigationItemComponent
-            navTitle="Create new production app"
-            navSubtitle="Generate app credentials for use with the D-TRO production environment."
+            navTitle="Create new publisher production app"
+            navSubtitle="Generate publisher app credentials for use with the D-TRO production environment."
             link="/create"
           />
         )}
@@ -36,6 +36,11 @@ const NavigationPage: React.FC = () => {
             link="/publisher-create"
           />
         )}
+        <NavigationItemComponent
+          navTitle="Create new consumer app"
+          navSubtitle="Generate consumer app credentials for use with the D-TRO production environment"
+          link="/consumer/create/1"
+        />
         <NavigationItemComponent
           navTitle="View credentials"
           navSubtitle="View your existing app credentials and generate new credentials for an existing app."
