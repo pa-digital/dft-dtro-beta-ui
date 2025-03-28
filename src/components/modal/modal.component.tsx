@@ -26,9 +26,10 @@ const ModalComponent: React.FC<ModalProps> = ({
       <div className={styles.buttonContainer}>
         <ButtonComponent
           type={buttonType}
-          text={buttonText}
           onClick={onClick}
-        />
+        >
+          {buttonText}
+        </ButtonComponent>
       </div>
       <a className={styles.cancelLink} onClick={cancelOnClick}>
         Cancel

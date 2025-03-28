@@ -1,19 +1,29 @@
 import React, { useState } from "react";
-import styles from "./consumer-app-creation.module.css";
-import NavLinkComponent from "../../../components/nav-link/nav-link.component";
-import RadioButtonComponent from "../../../components/radio-button/radio-button.component";
-import CheckboxComponent from "../../../components/checkbox/checkbox.component";
+import styles from "./app-creation-details.module.css";
+import NavLinkComponent from "../../../../components/nav-link/nav-link.component";
+import RadioButtonComponent from "../../../../components/radio-button/radio-button.component";
+import CheckboxComponent from "../../../../components/checkbox/checkbox.component";
 import ButtonComponent, {
   ButtonType,
-} from "../../../components/button/button.component";
+} from "../../../../components/button/button.component";
 import {
   activityOptions,
-  geographyOptions,
+  geographyOptions as regions,
   interestOptions,
   usageOptions,
+  geographyOptions,
 } from "./constants";
+import axiosInstance from "../../../../utils/axios-instance";
+import SpinnerComponent from "../../../../components/spinner/spinner.component";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const ConsumerAppCreationPage: React.FC = () => {
+  const location = useLocation();
+  const appName = location.state.appName;
+
+  const navigate = useNavigate();
+
+  const [isCreating, setIsCreating] = useState<boolean>(false);
   const [usage, setUsage] = useState<number>();
   const [usageOtherDetails, setUsageOtherDetails] = useState<string>("");
   const [usageMoreInformation, setUsageMoreInformation] = useState<string>("");
@@ -22,7 +32,7 @@ const ConsumerAppCreationPage: React.FC = () => {
   const [activityOtherDetails, setActivityOtherDetails] = useState<string>("");
 
   const [geography, setGeography] = useState<boolean[]>(
-    new Array(geographyOptions.length).fill(false)
+    new Array(regions.length).fill(false)
   );
 
   const [interest, setInterets] = useState<boolean[]>(
@@ -83,16 +93,20 @@ const ConsumerAppCreationPage: React.FC = () => {
     setInterestOtherDetails(event.target.value);
   };
 
-  const getGeographies = () => {
-    return geographyOptions
+  const getRegions = () => {
+    const regions = geographyOptions
       .map((item, index) => (geography[index] ? item.title : null))
       .filter((name) => name !== null);
+
+      return regions.join(", ");
   };
 
   const getInterests = () => {
-    return interestOptions
+    const interests = interestOptions
       .map((item, index) => (interest[index] ? item.title : null))
       .filter((name) => name !== null);
+
+    return interests.join(", ");
   };
 
   const isDataValid = (): boolean => {
@@ -132,30 +146,33 @@ const ConsumerAppCreationPage: React.FC = () => {
     return true;
   };
 
-  const handleSubmission = () => {
-    if (!isDataValid()) {
+  const handleSubmission = async () => {
+    if (!isDataValid() || isCreating) {
       return;
     }
 
+    setIsCreating(true);
+
     const payload = {
-      usage: {
-        type: usageOptions[usage!].title,
-        ...(usageIsOther() && { details: usageOtherDetails }),
-      },
+      name: appName,
+      type: "Consume",
+      purpose: usageIsOther() ? `${usageOptions[usage!].title} - ${usageOtherDetails}` : usageOptions[usage!].title,
       ...(usageMoreInformation && {
         additionalInformation: usageMoreInformation,
       }),
-      activity: {
-        type: activityOptions[activity!].title,
-        ...(activityIsOther() && { details: activityOtherDetails }),
-      },
-      geography: getGeographies(),
-      interest: {
-        type: getInterests(),
-        ...(interestIsOther() && { details: interestOtherDetails }),
-      },
+      activity: activityIsOther() ? `${activityOptions[activity!].title} - ${activityOtherDetails}` : activityOptions[activity!].title,
+      regions: getRegions(),
+      dataType: interestIsOther() ? `${getInterests()} - ${interestOtherDetails}` : getInterests()
     };
-    console.log(payload);
+
+    try {
+      const response = await axiosInstance.post("/applications", payload);
+      navigate("/details", { state: { from: "create", appID: response.data.appId } });
+    } catch (error) {
+      console.error("Error creating consumer application: ", error);
+    } finally {
+      setIsCreating(false);
+    }
   };
 
   return (
@@ -222,7 +239,7 @@ const ConsumerAppCreationPage: React.FC = () => {
       <h3>What areas of the country are you interested in?</h3>
       <div className={styles.cardContainer}>
         <CheckboxComponent
-          items={geographyOptions}
+          items={regions}
           allowSelectAll={true}
           onChange={handleGeographyChange}
         />
@@ -252,10 +269,11 @@ const ConsumerAppCreationPage: React.FC = () => {
       <div className={styles.buttonContainer}>
         <ButtonComponent
           type={ButtonType.Primary}
-          text="Next"
           onClick={handleSubmission}
           disabled={!isDataValid()}
-        />
+        >
+          {isCreating ? <SpinnerComponent colour="rgb(255, 255, 255)" /> : 'Create'}
+        </ButtonComponent>
       </div>
     </div>
   );

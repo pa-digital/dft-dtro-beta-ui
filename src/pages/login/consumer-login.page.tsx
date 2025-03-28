@@ -46,9 +46,10 @@ const ConsumerLoginPage: React.FC = () => {
           <div className={styles.logInButton}>
             <ButtonComponent
               type={ButtonType.Primary}
-              text="Log In"
               onClick={() => {}}
-            />
+            >
+              Login
+            </ButtonComponent>
           </div>
         </div>
       </div>

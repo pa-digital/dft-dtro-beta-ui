@@ -9,15 +9,15 @@ export enum ButtonType {
 }
 
 interface ButtonComponentProps {
+  children: React.ReactNode;
   type: ButtonType;
-  text: string;
   disabled?: boolean;
   onClick: () => void;
 }
 
 const ButtonComponent: React.FC<ButtonComponentProps> = ({
+  children,
   type,
-  text,
   disabled,
   onClick,
 }) => {
@@ -34,7 +34,7 @@ const ButtonComponent: React.FC<ButtonComponentProps> = ({
         onClick();
       }}
     >
-      {text}
+      {children}
     </button>
   );
 };

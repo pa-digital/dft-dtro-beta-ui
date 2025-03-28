@@ -27,11 +27,12 @@ const SuccessPage: React.FC = () => {
       <div className={styles.buttonContainer}>
         <ButtonComponent
           type={ButtonType.Primary}
-          text="Home"
           onClick={() => {
             navigate("/");
           }}
-        />
+        >
+          Home
+        </ButtonComponent>
       </div>
     </div>
   );

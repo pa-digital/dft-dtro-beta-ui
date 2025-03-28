@@ -51,15 +51,17 @@ const TwoFactorAuthPage: React.FC = () => {
       <div className={styles.buttonContainer}>
         <ButtonComponent
           type={ButtonType.Primary}
-          text="Verify email"
           onClick={handleClick}
           disabled={!verifyButtonValid}
-        />
+        >
+          Verify email
+        </ButtonComponent>
         <ButtonComponent
           type={ButtonType.Secondary}
-          text="Request a new code"
           onClick={() => {}}
-        />
+        >
+          Request a new code
+        </ButtonComponent>
       </div>
     </div>
   );

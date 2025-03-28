@@ -16,6 +16,8 @@ button {
     cursor: pointer;
     text-align: center;
     box-sizing: border-box;
+    display: flex;
+    justify-content: center;
 }
 
 .primary {

@@ -1,24 +1,24 @@
-import React, { useEffect, useRef, useState } from "react";
-import styles from "./app-creation.module.css";
-import NavLinkComponent from "../../../components/nav-link/nav-link.component";
+import React, { useRef, useState } from "react";
+import styles from "../../../../styles/app-creation-name.module.css";
+import NavLinkComponent from "../../../../components/nav-link/nav-link.component";
 import InputComponent, {
   InputType,
-} from "../../../components/input/input.component";
+} from "../../../../components/input/input.component";
 import ButtonComponent, {
   ButtonType,
-} from "../../../components/button/button.component";
+} from "../../../../components/button/button.component";
 import { useNavigate } from "react-router-dom";
-import Check from "../../../assets/check.svg";
+import Check from "../../../../assets/check.svg";
 import classNames from "classnames";
-import SpinnerComponent from "../../../components/spinner/spinner.component";
-import axiosInstance from "../../../utils/axios-instance";
+import SpinnerComponent from "../../../../components/spinner/spinner.component";
+import axiosInstance from "../../../../utils/axios-instance";
 
 export interface ValidationResponse {
   isValid: boolean;
   message: string;
 }
 
-const IntegrationAppCreationPage: React.FC = () => {
+const ConsumerAppCreationNamePage: React.FC = () => {
   const [appName, setAppName] = useState<string>("");
   const [isValidating, setIsValidating] = useState<boolean>(false);
   const [validationResponse, setValidationResponse] =
@@ -38,7 +38,6 @@ const IntegrationAppCreationPage: React.FC = () => {
     }
 
     debounceTimeout.current = setTimeout(() => {
-      setIsValidating(false);
       checkAppNameValid(name);
     }, 2000);
   };
@@ -49,30 +48,26 @@ const IntegrationAppCreationPage: React.FC = () => {
       setValidationResponse(response.data);
     } catch (error) {
       console.error('Error validating app name:', error);
+      setValidationResponse({
+        isValid: false,
+        message: "Error validating app name"
+      });
+    } finally {
+      setIsValidating(false);
     }
   }
 
   const handleClick = async () => {
-    if (appName === "") return;
-    try {
-      const body = {
-        name: appName,
-        type: "Publish"
-      };
-      const response = await axiosInstance.post("/applications", body);
-      navigate("/details", { state: { from: "create", appID: response.data.appId } });
-    } catch (error) {
-      console.error("Error creating application:", error);
-    }
+    navigate("/consumer/create/2", { state: { appName } });
   };
 
   return (
     <div className={styles.content}>
       <NavLinkComponent text="Home" />
       <div className={styles.headerContainer}>
-        <h2>Create a new test app</h2>
+        <h2>Create a new consumer app</h2>
       </div>
-      <p>Provide a unique name for your new test app.</p>
+      <p>Provide a unique name for your new app.</p>
       <div className="inputRow">
         <div style={{ width: "720px" }}>
           <InputComponent
@@ -114,13 +109,14 @@ const IntegrationAppCreationPage: React.FC = () => {
       <div style={{ width: "240px", padding: "24px 0" }}>
         <ButtonComponent
           type={ButtonType.Primary}
-          text="Create"
           onClick={handleClick}
           disabled={appName.length === 0 || !validationResponse?.isValid}
-        />
+        >
+          Next
+        </ButtonComponent>
       </div>
     </div>
   );
 };
 
-export default IntegrationAppCreationPage;
+export default ConsumerAppCreationNamePage;
