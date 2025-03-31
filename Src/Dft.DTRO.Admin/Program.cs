@@ -22,9 +22,9 @@ ConfigHelper.ClientSecret =
     Environment.GetEnvironmentVariable("CLIENT_SECRET") ??
     builder.Configuration.GetValue<string>("CLIENT_SECRET");
 
-ConfigHelper.XAppIdOverride =
-    Environment.GetEnvironmentVariable("X_APP_ID_OVERRIDE") ??
-    builder.Configuration.GetValue<string>("X_APP_ID_OVERRIDE");
+ConfigHelper.AppIdOverride =
+    Environment.GetEnvironmentVariable("APP_ID_OVERRIDE") ??
+    builder.Configuration.GetValue<string>("APP_ID_OVERRIDE");
 
 ConfigHelper.TokenEndpoint =
     Environment.GetEnvironmentVariable("TOKEN_ENDPOINT") ??
@@ -59,9 +59,9 @@ builder.Services.AddScoped<ISystemConfigService, SystemConfigService>();
 
 builder.Services.AddScoped<IErrHandlingService, ErrHandlingService>();
 
-builder.Services.AddScoped<IXappIdService, XappIdService>();
+builder.Services.AddScoped<IAppIdService, AppIdService>();
 
-builder.Services.AddSingleton<IXappIdService>(provider => new XappIdService(builder.Configuration));
+builder.Services.AddSingleton<IAppIdService>(provider => new AppIdService(builder.Configuration));
 builder.Services.AddHealthChecks();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

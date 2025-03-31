@@ -10,7 +10,7 @@ public static class ConfigHelper
 
     public static string ClientSecret { get; set; }
 
-    public static string XAppIdOverride { get; set; }
+    public static string AppIdOverride { get; set; }
 
     public static string TokenEndpoint { get; set; }
 }

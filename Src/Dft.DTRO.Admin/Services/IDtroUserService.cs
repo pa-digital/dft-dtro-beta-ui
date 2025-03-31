@@ -6,7 +6,7 @@ public interface IDtroUserService
     Task DeactivateDtroUserAsync(Guid dtroUserId);
     Task<List<DtroUser>> GetDtroUsersAsync();
     Task<DtroUser> GetDtroUserAsync(Guid dtroUserId);
-    Task<DtroUser> GetDtroUserAsyncByXAppId(Guid xAppId);
+    Task<DtroUser> GetDtroUserAsyncByAppId(Guid appId);
     Task<List<DtroUser>> SearchDtroUsersAsync(string partialName);
     Task CreateDtroUserAsync(DtroUser dtroUserRequest);
     Task UpdateDtroUserAsync(DtroUser dtroUserRequest);

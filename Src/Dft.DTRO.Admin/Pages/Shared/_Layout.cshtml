@@ -5,7 +5,7 @@
     var systemConfig = await SystemConfigService.GetSystemConfig();
     var systemName = systemConfig.SystemName;
     var userName = systemConfig.CurrentUserName;
-    var user = await DtroUserService.GetDtroUserAsyncByXAppId(systemConfig.xAppId);
+    var user = await DtroUserService.GetDtroUserAsyncByAppId(systemConfig.AppId);
     var isAdmin = user.UserGroup == UserGroup.Admin;
 }
 
