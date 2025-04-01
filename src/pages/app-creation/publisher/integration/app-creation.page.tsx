@@ -82,7 +82,7 @@ const IntegrationAppCreationPage: React.FC = () => {
       <div className={styles.headerContainer}>
         <h2>Create a new test app</h2>
       </div>
-      <p>Provide a unique name for your new test app.</p>
+      <p>Provide a unique name for your new app.</p>
       <div className="inputRow">
         <div style={{ width: "720px" }}>
           <InputComponent
