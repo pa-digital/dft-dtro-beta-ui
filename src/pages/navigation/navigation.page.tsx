@@ -25,7 +25,7 @@ const NavigationPage: React.FC = () => {
           <NavigationItemComponent
             navTitle="Create new publisher production app"
             navSubtitle="Generate publisher app credentials for use with the D-TRO production environment."
-            link="/create"
+            link="/publisher/create"
           />
         )}
         {!isProductionEnv() && (
