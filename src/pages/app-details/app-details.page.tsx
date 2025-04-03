@@ -10,6 +10,7 @@ import TextComponent, {
   TypographyType,
 } from "../../components/text/typography.component";
 import { useLocation } from "react-router-dom";
+import axiosInstance from "../../utils/axios-instance";
 import { isProductionEnv } from "../../utils/env";
 
 interface AppDetails {
@@ -32,19 +33,19 @@ const AppDetailsPage: React.FC = () => {
 
   useEffect(() => {
     // TODO: Fetch app details for this app ID
-    const appDetails = fetchAppDetails(appID);
-    setAppDetails(appDetails);
+    fetchAppDetails("d82c0970-cd27-49d3-bacc-d8893c414179");
   }, []);
 
-  const fetchAppDetails = (appID: string) => {
-    return {
-      appID,
-      appName: "INT-Publisher-BenPauley",
-      swaCode: 10526,
-      purpose: "Testing",
-      apiKey: "thisismyapikey",
-      apiSecret: "thisismyapisecret",
-    };
+  const fetchAppDetails = async (appID: string): Promise<void> => {
+    try {
+      const response = await axiosInstance.get(`/applications/${appID}`, {
+        headers: {
+          "App-Id": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+        });
+      setAppDetails(response.data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
   };
 
   const handleAPIKeyIconClick = () => {
