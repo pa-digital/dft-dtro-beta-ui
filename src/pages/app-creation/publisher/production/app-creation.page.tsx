@@ -142,7 +142,7 @@ const ProductionAppCreationPage: React.FC = () => {
 
   return (
     <div className={styles.content}>
-      <NavLinkComponent text="Home" />
+      <NavLinkComponent text="Home" link={r.Home} />
       <div className={styles.headerContainer}>
         <TextComponent
           type={TypographyType.SubHeading}

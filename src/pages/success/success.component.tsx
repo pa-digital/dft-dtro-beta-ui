@@ -4,18 +4,21 @@ import NavLinkComponent from "../../components/nav-link/nav-link.component";
 import ButtonComponent, {
   ButtonType,
 } from "../../components/button/button.component";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import TextComponent, {
   TypographyType,
 } from "../../components/text/typography.component";
 import { Routes as r } from "../../constants/routes";
 
 const SuccessPage: React.FC = () => {
+  const location = useLocation();
   const navigate = useNavigate();
+
+  if (!location.state) return;
 
   return (
     <div className={styles.content}>
-      <NavLinkComponent text="Home" link="/" />
+      <NavLinkComponent text="Home" link={r.Home} />
       <div className={styles.headerContainer}>
         <div className={styles.headerContainer}>
           <h2>Your request has been successfully submitted</h2>

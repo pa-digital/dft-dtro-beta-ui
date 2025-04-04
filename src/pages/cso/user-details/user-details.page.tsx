@@ -13,6 +13,7 @@ import ButtonComponent, {
 import AppListTableComponent from "../../../components/app-list-table/app-list-table.component";
 import { App, AppType } from "../../app-list/app-list.page";
 import ModalComponent from "../../../components/modal/modal.component";
+import { Routes as r } from "../../../constants/routes";
 
 const UserDetailsPage: React.FC = () => {
   const location = useLocation();
@@ -55,7 +56,7 @@ const UserDetailsPage: React.FC = () => {
       <div className={styles.content}>
         <SidebarComponent />
         <div className={styles.dynamicContent}>
-          <NavLinkComponent text="All Users" />
+          <NavLinkComponent text="All Users" link={r.CSO.Users} />
           <h2>{user?.name}</h2>
           <h3>Account and user details</h3>
           {user && (

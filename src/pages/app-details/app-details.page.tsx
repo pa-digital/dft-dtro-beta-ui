@@ -10,8 +10,9 @@ import { ToastContainer, toast } from "react-toastify";
 import TextComponent, {
   TypographyType,
 } from "../../components/text/typography.component";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { isProductionEnv } from "../../utils/env";
+import { Routes as r } from "../../constants/routes";
 
 interface AppDetails {
   appID: string;
@@ -28,8 +29,11 @@ const AppDetailsPage: React.FC = () => {
   const [showAPISecret, setShowAPISecret] = useState<boolean>(false);
 
   const location = useLocation();
-  const from = location.state?.from;
   const appID = location.state?.appID;
+
+  const navigate = useNavigate();
+
+  if (!appID) navigate(r.Apps);
 
   useEffect(() => {
     // TODO: Fetch app details for this app ID
@@ -72,8 +76,8 @@ const AppDetailsPage: React.FC = () => {
   return (
     <div className={styles.content}>
       <NavLinkComponent
-        text={from == "create" ? "Home" : "View apps"}
-        link={from == "create" ? "/list" : undefined}
+        text="Home"
+        link={r.Home}
       />
       <div className={styles.headerContainer}>
         <h2>{`Your app credentials for ${appDetails?.appName}`}</h2>

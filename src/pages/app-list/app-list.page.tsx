@@ -6,6 +6,8 @@ import AppListTableComponent from "../../components/app-list-table/app-list-tabl
 import PaginationComponent from "../../components/pagination/pagination.component";
 import axiosInstance from "../../utils/axios-instance";
 import SpinnerComponent from "../../components/spinner/spinner.component";
+import ButtonComponent, { ButtonType } from "../../components/button/button.component";
+import { Routes as r } from "../../constants/routes";
 
 export enum AppType {
   Publisher = "Publisher",
@@ -29,6 +31,7 @@ export interface App {
 const AppListPage: React.FC = () => {
   const [apps, setApps] = useState<AppView>();
   const [page, setPage] = useState<number>(1);
+  const [isError, setIsError] = useState<boolean>();
   const appsPerPage = 5;
 
   useEffect(() => {
@@ -40,6 +43,7 @@ const AppListPage: React.FC = () => {
   }, [page]);
 
   const fetchApps = async (page: number): Promise<void> => {
+    setIsError(undefined);
     try {
       const response = await axiosInstance.get('/applications', {
         params: {
@@ -50,17 +54,17 @@ const AppListPage: React.FC = () => {
 
       setApps(response.data);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      setIsError(true);
     }
   };
 
   return (
     <div className={styles.content}>
-      <NavLinkComponent text="Home" />
+      <NavLinkComponent text="Home" link={r.Home} />
       <div className={styles.headerContainer}>
         <h2>View and refresh app credentials</h2>
       </div>
-      {!apps && <div className={sharedStyles.loadingContainer}><SpinnerComponent /></div>}
+      {!apps && !isError && <div className={sharedStyles.loadingContainer}><SpinnerComponent /></div>}
       {apps && apps.results.length > 0 && <div>
         <p className={styles.info}>
           Click view to see details of your app and to generate new credentials.
@@ -85,6 +89,11 @@ const AppListPage: React.FC = () => {
         <AppListTableComponent apps={apps.results} />
       </div>}
       {apps?.results.length == 0 && <p className={styles.info}>There are no apps to display</p>}
+      {isError && <div style={{ width: "320px" }}>
+          <p className={styles.info}>An error occurred when fetching apps</p>
+          <ButtonComponent onClick={() => fetchApps(1)} type={ButtonType.Primary}>Retry</ButtonComponent>
+        </div>
+      }
     </div>
   );
 };

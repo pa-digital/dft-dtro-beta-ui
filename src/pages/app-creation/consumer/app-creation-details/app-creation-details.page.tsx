@@ -24,6 +24,8 @@ const ConsumerAppCreationPage: React.FC = () => {
 
   const navigate = useNavigate();
 
+  if (!appName) navigate(r.Home);
+
   const [isCreating, setIsCreating] = useState<boolean>(false);
   const [usage, setUsage] = useState<number>();
   const [usageOtherDetails, setUsageOtherDetails] = useState<string>("");

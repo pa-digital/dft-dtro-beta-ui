@@ -37,7 +37,6 @@ const TwoFactorAuthPage: React.FC = () => {
 
   return (
     <div className={styles.content}>
-      <NavLinkComponent text="Sign in" />
       <div className={styles.headerContainer}>
         <TextComponent
           type={TypographyType.SubHeading}

@@ -64,7 +64,7 @@ const ConsumerAppCreationNamePage: React.FC = () => {
 
   return (
     <div className={styles.content}>
-      <NavLinkComponent text="Home" />
+      <NavLinkComponent text="Home" link={r.Home} />
       <div className={styles.headerContainer}>
         <h2>Create a new consumer app</h2>
       </div>

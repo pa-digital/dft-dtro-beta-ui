@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styles from "./navigation.module.css";
-import NavLinkComponent from "../../components/nav-link/nav-link.component";
 import NavigationItemComponent from "../../components/navigation-item/navigation-item.component";
 import { isProductionEnv } from "../../utils/env";
 import { Routes as r } from "../../constants/routes";
@@ -11,7 +10,6 @@ const NavigationPage: React.FC = () => {
 
   return (
     <div className={styles.content}>
-      <NavLinkComponent text="Sign in" />
       <div className={styles.headerContainer}>
         <h2>Publisher Account</h2>
       </div>
