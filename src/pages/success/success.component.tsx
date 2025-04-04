@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import TextComponent, {
   TypographyType,
 } from "../../components/text/typography.component";
+import { Routes as r } from "../../constants/routes";
 
 const SuccessPage: React.FC = () => {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ const SuccessPage: React.FC = () => {
         <ButtonComponent
           type={ButtonType.Primary}
           onClick={() => {
-            navigate("/");
+            navigate(r.Home);
           }}
         >
           Home

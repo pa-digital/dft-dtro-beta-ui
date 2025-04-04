@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./app-details.module.css";
+import sharedStyles from "../../styles/shared.module.css";
 import NavLinkComponent from "../../components/nav-link/nav-link.component";
 import InputComponent, {
   InputType,
@@ -143,6 +144,10 @@ const AppDetailsPage: React.FC = () => {
           </div>
         </div>
       </div>
+      <p className={sharedStyles.contactContainer}>
+        Should you need to regenerate app credentials, please contact{' '}
+        <a href="mailto:dtro-cso@dft.gov.uk">dtro-cso@dft.gov.uk</a>.
+      </p>
       <ToastContainer />
     </div>
   );

@@ -23,6 +23,7 @@ import { ValidationResponse } from "../integration/app-creation.page";
 import SpinnerComponent from "../../../../components/spinner/spinner.component";
 import Check from '../../../../assets/check.svg';
 import classNames from "classnames";
+import { Routes as r } from "../../../../constants/routes";
 
 interface TRA {
   name: string;
@@ -131,7 +132,7 @@ const ProductionAppCreationPage: React.FC = () => {
     };
     try {
       const response = await axiosInstance.post("/applications", body);
-      navigate("/details", { state: { from: "create", appID: response.data.appId } });
+      navigate(r.Details, { state: { from: "create", appID: response.data.appId } });
     } catch (error) {
       console.error("Error creating application:", error);
     } finally {

@@ -3,6 +3,7 @@ import styles from "../table/table.module.css";
 import Eye from "../../assets/eye.svg";
 import { useNavigate } from "react-router-dom";
 import { PendingRequest } from "../../pages/cso/pending-requests/pending-requests.page";
+import { Routes as r } from "../../constants/routes";
 
 interface RequestsTableProps {
   requests: PendingRequest[];
@@ -12,7 +13,7 @@ const RequestsTableComponent: React.FC<RequestsTableProps> = ({ requests }) => {
   const navigate = useNavigate();
 
   const handleOnClick = (requestID: string): void => {
-    navigate("/request-details", { state: { requestID } });
+    navigate(r.CSO.RequestDetails, { state: { requestID } });
   };
 
   return (

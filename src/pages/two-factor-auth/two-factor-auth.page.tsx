@@ -9,6 +9,7 @@ import TextComponent, {
   TypographyType,
 } from "../../components/text/typography.component";
 import { useNavigate } from "react-router-dom";
+import { Routes as r } from "../../constants/routes";
 
 const TwoFactorAuthPage: React.FC = () => {
   const n = 6;
@@ -31,7 +32,7 @@ const TwoFactorAuthPage: React.FC = () => {
 
   const handleClick = (): void => {
     if (code.some((char) => char === "")) return;
-    navigate("/home");
+    navigate(r.Home);
   };
 
   return (

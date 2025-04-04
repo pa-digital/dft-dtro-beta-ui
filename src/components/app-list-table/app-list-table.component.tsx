@@ -3,6 +3,7 @@ import styles from "../table/table.module.css";
 import Eye from "../../assets/eye.svg";
 import { useNavigate } from "react-router-dom";
 import { App } from "../../pages/app-list/app-list.page";
+import { Routes as r } from "../../constants/routes";
 
 interface AppListTableProps {
   apps: App[];
@@ -16,7 +17,7 @@ const AppListTableComponent: React.FC<AppListTableProps> = ({
   const navigate = useNavigate();
 
   const handleOnClick = (appID: string): void => {
-    navigate("/details", { state: { from: "list", appID } });
+    navigate(r.Details, { state: { from: "list", appID } });
   };
 
   return (

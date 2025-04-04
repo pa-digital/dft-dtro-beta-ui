@@ -12,6 +12,7 @@ import Check from "../../../../assets/check.svg";
 import classNames from "classnames";
 import SpinnerComponent from "../../../../components/spinner/spinner.component";
 import axiosInstance from "../../../../utils/axios-instance";
+import { Routes as r } from "../../../../constants/routes";
 
 export interface ValidationResponse {
   isValid: boolean;
@@ -68,7 +69,7 @@ const IntegrationAppCreationPage: React.FC = () => {
         type: "Publish"
       };
       const response = await axiosInstance.post("/applications", body);
-      navigate("/details", { state: { from: "create", appID: response.data.appId } });
+      navigate(r.Details, { state: { from: "create", appID: response.data.appId } });
     } catch (error) {
       console.error("Error creating application:", error);
     } finally {

@@ -12,6 +12,7 @@ import Check from "../../../../assets/check.svg";
 import classNames from "classnames";
 import SpinnerComponent from "../../../../components/spinner/spinner.component";
 import axiosInstance from "../../../../utils/axios-instance";
+import { Routes as r } from "../../../../constants/routes";
 
 export interface ValidationResponse {
   isValid: boolean;
@@ -58,7 +59,7 @@ const ConsumerAppCreationNamePage: React.FC = () => {
   }
 
   const handleClick = async () => {
-    navigate("/consumer/create/2", { state: { appName } });
+    navigate(r.Consumer.Create.Two, { state: { appName } });
   };
 
   return (

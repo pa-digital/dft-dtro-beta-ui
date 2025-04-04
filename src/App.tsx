@@ -16,7 +16,9 @@ import UserDetailsPage from "./pages/cso/user-details/user-details.page";
 import CSONavigationPage from "./pages/cso/navigation/navigation.page";
 import { isProductionEnv } from "./utils/env";
 import SuccessPage from "./pages/success/success.component";
-import PublisherLoginPage from "./pages/login/publisher-login.page";
+import LoginPage from "./pages/login/login.page";
+import PrivateRoute from "./components/private-route/private-route.component";
+import { Routes as r } from "./constants/routes";
 
 function App() {
   return (
@@ -25,28 +27,26 @@ function App() {
       <div className="content">
         <Router>
           <Routes>
-          <Route path="/" element={<PublisherLoginPage />}></Route>
-            <Route path="/auth" element={<TwoFactorAuthPage />}></Route>
-            <Route path="/home" element={<NavigationPage />}></Route>
+            <Route path={r.Login} element={<LoginPage />}></Route>
+            <Route path={r.Auth} element={<PrivateRoute element={<TwoFactorAuthPage />} />} />
+            <Route path={r.Home} element={<PrivateRoute element={<NavigationPage />} />} />
             <Route
-              path="/publisher/create"
-              element={
-                !isProductionEnv() ? (
-                  <IntegrationAppCreationPage />
-                ) : (
-                  <ProductionAppCreationPage />
-                )
-              }
-            ></Route>
-            <Route path="/details" element={<AppDetailsPage />}></Route>
-            <Route path="/list" element={<AppListPage />}></Route>
-            <Route path="/cso/nav" element={<CSONavigationPage />}></Route>
-            <Route path="/requests" element={<PendingRequestsPage />}></Route>
-            <Route path="/users" element={<ActiveUsersPage />}></Route>
-            <Route path="/user" element={<UserDetailsPage />}></Route>
-            <Route path="/success" element={<SuccessPage />}></Route>
-            <Route path="/consumer/create/1" element={<ConsumerAppCreationNamePage />} />
-            <Route path="/consumer/create/2" element={<ConsumerAppCreationDetailsPage />} />
+              path={r.Publisher.Create}
+              element={<PrivateRoute element={!isProductionEnv() ? (
+                <IntegrationAppCreationPage />
+              ) : (
+                <ProductionAppCreationPage />
+              )} />}
+            />
+            <Route path={r.Details} element={<PrivateRoute element={<AppDetailsPage />} />} />
+            <Route path={r.Apps} element={<PrivateRoute element={<AppListPage />} />} />
+            <Route path={r.CSO.Nav} element={<PrivateRoute element={<CSONavigationPage />} />} />
+            <Route path={r.CSO.Requests} element={<PrivateRoute element={<PendingRequestsPage />} />} />
+            <Route path={r.CSO.Users} element={<PrivateRoute element={<ActiveUsersPage />} />} />
+            <Route path={r.CSO.User} element={<PrivateRoute element={<UserDetailsPage />} />} />
+            <Route path={r.Publisher.Request} element={<PrivateRoute element={<SuccessPage />} />} />
+            <Route path={r.Consumer.Create.One} element={<PrivateRoute element={<ConsumerAppCreationNamePage />} />} />
+            <Route path={r.Consumer.Create.Two} element={<PrivateRoute element={<ConsumerAppCreationDetailsPage />} />} />
           </Routes>
         </Router>
       </div>

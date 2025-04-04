@@ -29,7 +29,7 @@ export interface App {
 const AppListPage: React.FC = () => {
   const [apps, setApps] = useState<AppView>();
   const [page, setPage] = useState<number>(1);
-  const appsPerPage = 2;
+  const appsPerPage = 5;
 
   useEffect(() => {
     fetchApps(page);

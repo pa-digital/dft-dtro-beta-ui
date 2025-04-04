@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styles from "./login.module.css";
+import sharedStyles from "../../styles/shared.module.css";
 import Logo from "../../assets/logo.svg";
 import TextComponent, {
   TypographyType,
@@ -11,10 +12,16 @@ import ButtonComponent, {
   ButtonType,
 } from "../../components/button/button.component";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../utils/axios-instance";
+import classNames from "classnames";
+import SpinnerComponent from "../../components/spinner/spinner.component";
+import { Routes as r } from "../../constants/routes";
 
-const PublisherLoginPage: React.FC = () => {
-  const [email, setEmail] = useState<string>("");
+const LoginPage: React.FC = () => {
+  const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [isAuthenticating, setIsAuthenticating] = useState<boolean>(false);
+  const [isInvalidCredentials, setIsInvalidCredentials] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -27,20 +34,34 @@ const PublisherLoginPage: React.FC = () => {
     return value !== "";
   };
 
-  const handleEmailChange = (value: string): void => {
-    setEmail(value);
+  const handleUsernameChange = (value: string): void => {
+    setUsername(value);
   };
 
   const handlePasswordChange = (value: string): void => {
     setPassword(value);
   };
 
-  const handleClick = (): void => {
-    if (!isEmailRegex(email) || !isPasswordValid(password)) {
+  const handleClick = async (): Promise<void> => {
+    if (!isEmailRegex(username) || !isPasswordValid(password)) {
       return;
     }
 
-    navigate("/auth");
+    setIsAuthenticating(true);
+    setIsInvalidCredentials(false);
+    try {
+      const response = await axiosInstance.post("/oauth/token", {
+        username,
+        password
+      });
+      console.log(response);
+      // navigate(r.Auth);
+    } catch (error) {
+      setIsInvalidCredentials(true);
+    } finally {
+      setIsAuthenticating(false);
+    }
+
   };
 
   return (
@@ -53,21 +74,15 @@ const PublisherLoginPage: React.FC = () => {
           type={TypographyType.MainHeading}
           content="Welcome to the DTRO service"
         />
-        <div className={styles.inlineText}>
-          <TextComponent
-            type={TypographyType.Description}
-            content="Enter your login details. If you can't log in or need to request access please email: "
-          />
-          <TextComponent
-            type={TypographyType.Email}
-            content="dtro-cso@dft.gov.uk"
-          />
-        </div>
+        <p className={sharedStyles.contactContainer}>
+          Enter your login details If you can't log in or need to request access please email{' '}
+          <a href="mailto:dtro-cso@dft.gov.uk">dtro-cso@dft.gov.uk</a>.
+        </p>
         <InputComponent
-          value={email}
+          value={username}
           type={InputType.Text}
           label="Email address"
-          onChange={handleEmailChange}
+          onChange={handleUsernameChange}
         />
         <InputComponent
           value={password}
@@ -75,13 +90,14 @@ const PublisherLoginPage: React.FC = () => {
           label="Password"
           onChange={handlePasswordChange}
         />
+        <p className={classNames(styles.validationMessage, { [styles.show]: isInvalidCredentials })}>Invalid username/password combination</p>
         <div className={styles.buttonContainer}>
           <ButtonComponent
             type={ButtonType.Primary}
             onClick={handleClick}
-            disabled={!isEmailRegex(email) || !isPasswordValid(password)}
+            disabled={!isEmailRegex(username) || !isPasswordValid(password)}
           >
-            Login
+            {isAuthenticating ? <SpinnerComponent colour="rgb(255, 255, 255)" /> : "Login"}
           </ButtonComponent>
         </div>
       </div>
@@ -89,4 +105,4 @@ const PublisherLoginPage: React.FC = () => {
   );
 };
 
-export default PublisherLoginPage;
+export default LoginPage;
