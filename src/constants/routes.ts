@@ -1,6 +1,7 @@
 export const Routes = {
     Login: "/login",
     Auth: "/auth",
+    Access: "/access",
     Home: "/",
     Publisher: {
         Create: "/publisher/create",

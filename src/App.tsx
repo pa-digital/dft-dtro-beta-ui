@@ -19,6 +19,7 @@ import SuccessPage from "./pages/success/success.component";
 import LoginPage from "./pages/login/login.page";
 import PrivateRoute from "./components/private-route/private-route.component";
 import { Routes as r } from "./constants/routes";
+import AccessPage from "./pages/access/access.page";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
             <Route path={r.Login} element={<LoginPage />}></Route>
             <Route path={r.Auth} element={<PrivateRoute element={<TwoFactorAuthPage />} />} />
             <Route path={r.Home} element={<PrivateRoute element={<NavigationPage />} />} />
+            <Route path={r.Access} element={<PrivateRoute element={<AccessPage />} />} />
             <Route
               path={r.Publisher.Create}
               element={<PrivateRoute element={!isProductionEnv() ? (

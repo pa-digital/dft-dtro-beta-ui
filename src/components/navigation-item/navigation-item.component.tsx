@@ -15,7 +15,7 @@ const NavigationItemComponent: React.FC<NavigationItemComponentProps> = ({
   navTitle,
   navSubtitle,
   disabled = false,
-  link,
+  link
 }) => {
   const navigate = useNavigate();
 
@@ -25,7 +25,7 @@ const NavigationItemComponent: React.FC<NavigationItemComponentProps> = ({
         [styles.disabled]: disabled,
       })}
     >
-      <div className={styles.navTitleContainer} onClick={() => navigate(link)}>
+      <div className={styles.navTitleContainer} onClick={() => { if (!disabled) navigate(link) }}>
         <p className={styles.navTitle}>{navTitle}</p>
         <img src={BackArrow}></img>
       </div>

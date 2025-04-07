@@ -1,12 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./navigation.module.css";
 import NavigationItemComponent from "../../components/navigation-item/navigation-item.component";
 import { isProductionEnv } from "../../utils/env";
 import { Routes as r } from "../../constants/routes";
+import axiosInstance from "../../utils/axios-instance";
 
 const NavigationPage: React.FC = () => {
-  const [createProductionAppDisabled] =
-    useState<boolean>(true);
+  const [canRequestProductionAccess, setCanRequestProductionAccess] =
+    useState<boolean>(false);
+
+  useEffect(() => {
+    fetchProductionAccessRequestStatus();
+  }, []);
+
+  const fetchProductionAccessRequestStatus = async () => {
+    try {
+      const response = await axiosInstance.get("/canRequestProductionAccess");
+      setCanRequestProductionAccess(response.data);
+    } catch (error) {
+      console.error("Could not determine production access status");
+    }
+  };
 
   return (
     <div className={styles.content}>
@@ -29,10 +43,10 @@ const NavigationPage: React.FC = () => {
         )}
         {!isProductionEnv() && (
           <NavigationItemComponent
-            navTitle="Request new publisher app"
-            navSubtitle="Request credentials for a new app to publish to the D-TRO production environment."
-            disabled={createProductionAppDisabled}
-            link={r.Publisher.Request}
+            navTitle="Request production access"
+            navSubtitle="Request access to the D-TRO production environment."
+            disabled={!canRequestProductionAccess}
+            link={r.Access}
           />
         )}
         <NavigationItemComponent
