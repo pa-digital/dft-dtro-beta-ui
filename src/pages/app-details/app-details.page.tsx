@@ -33,15 +33,16 @@ const AppDetailsPage: React.FC = () => {
 
   useEffect(() => {
     // TODO: Fetch app details for this app ID
-    fetchAppDetails("d82c0970-cd27-49d3-bacc-d8893c414179");
+    fetchAppDetails("b42b054c-ed20-4d88-bc11-e042fa7f4276");
   }, []);
 
   const fetchAppDetails = async (appID: string): Promise<void> => {
     try {
       const response = await axiosInstance.get(`/applications/${appID}`, {
         headers: {
-          "App-Id": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-        });
+          "Authorization": "Bearer VYvBUDpAUtTIpH3Y580MIbpu1vfD"
+        }});
+        console.log(response.data)
       setAppDetails(response.data);
     } catch (error) {
       console.error('Error fetching data:', error);
