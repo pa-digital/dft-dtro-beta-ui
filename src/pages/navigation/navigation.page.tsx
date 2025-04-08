@@ -15,7 +15,7 @@ const NavigationPage: React.FC = () => {
 
   const fetchProductionAccessRequestStatus = async () => {
     try {
-      const response = await axiosInstance.get("/canRequestProductionAccess");
+      const response = await axiosInstance.get("/canRequestProductionAccess", {});
       setCanRequestProductionAccess(response.data);
     } catch (error) {
       console.error("Could not determine production access status");

@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "../table/table.module.css";
 import Eye from "../../assets/eye.svg";
-import { useNavigate } from "react-router-dom";
+import useAuthNavigate from "../../hooks/use-auth-navigate";
 import { User } from "../../pages/cso/active-users/active-users.page";
 import { Routes as r } from "../../constants/routes";
 
@@ -10,7 +10,7 @@ interface UsersTableProps {
 }
 
 const UsersTableComponent: React.FC<UsersTableProps> = ({ users }) => {
-  const navigate = useNavigate();
+  const navigate = useAuthNavigate();
 
   const handleOnClick = (user: User): void => {
     navigate(r.CSO.User, { state: { user } });

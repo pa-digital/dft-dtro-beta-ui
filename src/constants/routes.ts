@@ -22,5 +22,6 @@ export const Routes = {
             One: "/consumer/create/1",
             Two: "/consumer/create/2",
         }
-    }
+    },
+    Unauthorized: "/unauthorized"
 }

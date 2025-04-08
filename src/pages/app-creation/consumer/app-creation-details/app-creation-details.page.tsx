@@ -15,14 +15,15 @@ import {
 } from "./constants";
 import axiosInstance from "../../../../utils/axios-instance";
 import SpinnerComponent from "../../../../components/spinner/spinner.component";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import useAuthNavigate from "../../../../hooks/use-auth-navigate";
 import { Routes as r } from "../../../../constants/routes";
 
 const ConsumerAppCreationPage: React.FC = () => {
   const location = useLocation();
   const appName = location.state.appName;
 
-  const navigate = useNavigate();
+  const navigate = useAuthNavigate();
 
   if (!appName) navigate(r.Home);
 

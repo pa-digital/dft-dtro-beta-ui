@@ -4,7 +4,8 @@ import NavLinkComponent from "../../components/nav-link/nav-link.component";
 import ButtonComponent, {
   ButtonType,
 } from "../../components/button/button.component";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import useAuthNavigate from "../../hooks/use-auth-navigate";
 import TextComponent, {
   TypographyType,
 } from "../../components/text/typography.component";
@@ -12,7 +13,7 @@ import { Routes as r } from "../../constants/routes";
 
 const SuccessPage: React.FC = () => {
   const location = useLocation();
-  const navigate = useNavigate();
+  const navigate = useAuthNavigate();
 
   if (!location.state) return;
 

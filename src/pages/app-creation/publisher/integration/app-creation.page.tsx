@@ -7,7 +7,7 @@ import InputComponent, {
 import ButtonComponent, {
   ButtonType,
 } from "../../../../components/button/button.component";
-import { useNavigate } from "react-router-dom";
+import useAuthNavigate from "../../../../hooks/use-auth-navigate";
 import Check from "../../../../assets/check.svg";
 import classNames from "classnames";
 import SpinnerComponent from "../../../../components/spinner/spinner.component";
@@ -27,7 +27,7 @@ const IntegrationAppCreationPage: React.FC = () => {
     useState<ValidationResponse>();
   const debounceTimeout = useRef<number>(null);
 
-  const navigate = useNavigate();
+  const navigate = useAuthNavigate();
 
   const handleOnChange = (name: string): void => {
     setAppName(name);
@@ -46,7 +46,7 @@ const IntegrationAppCreationPage: React.FC = () => {
 
   const checkAppNameValid = async (appName: string) => {
     try {
-      const response = await axiosInstance.get(`/applications/validateName?name=${appName}`);
+      const response = await axiosInstance.get(`/applications/validateName?name=${appName}`, {});
       setValidationResponse(response.data);
     } catch (error) {
       console.error('Error validating app name:', error);

@@ -4,7 +4,8 @@ import NavLinkComponent from "../../components/nav-link/nav-link.component";
 import ButtonComponent, {
   ButtonType,
 } from "../../components/button/button.component";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import useAuthNavigate from "../../hooks/use-auth-navigate";
 import TextComponent, {
   TypographyType,
 } from "../../components/text/typography.component";
@@ -15,7 +16,7 @@ const AccessPage: React.FC = () => {
   const [isSuccess, setIsSuccess] = useState<boolean>();
 
   const location = useLocation();
-  const navigate = useNavigate();
+  const navigate = useAuthNavigate();
 
   useEffect(() => {
     // if (!location.state) {
@@ -28,7 +29,7 @@ const AccessPage: React.FC = () => {
 
   const submitProductionAccessRequest = async () => {
     try {
-      await axiosInstance.post("/requestAccess");
+      await axiosInstance.post("/requestAccess", {});
       setIsSuccess(true);
     } catch (error) {
       setIsSuccess(false);

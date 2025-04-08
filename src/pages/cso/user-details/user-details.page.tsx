@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import styles from "./user-details.module.css";
 import SidebarComponent from "../../../components/sidebar/sidebar.component";
 import NavLinkComponent from "../../../components/nav-link/nav-link.component";
-import { useLocation, useNavigate } from "react-router";
+import { useLocation } from "react-router";
+import useAuthNavigate from "../../../hooks/use-auth-navigate";
 import { UserStatus } from "../active-users/active-users.page";
 import InputComponent, {
   InputType,
@@ -18,7 +19,7 @@ import { Routes as r } from "../../../constants/routes";
 const UserDetailsPage: React.FC = () => {
   const location = useLocation();
   const user = location.state?.user;
-  const navigate = useNavigate();
+  const navigate = useAuthNavigate();
 
   const [userApps, setUserApps] = useState<App[]>();
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);

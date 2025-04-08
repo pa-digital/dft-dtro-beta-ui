@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "../table/table.module.css";
 import Eye from "../../assets/eye.svg";
-import { useNavigate } from "react-router-dom";
+import useAuthNavigate from "../../hooks/use-auth-navigate";
 import { PendingRequest } from "../../pages/cso/pending-requests/pending-requests.page";
 import { Routes as r } from "../../constants/routes";
 
@@ -10,7 +10,7 @@ interface RequestsTableProps {
 }
 
 const RequestsTableComponent: React.FC<RequestsTableProps> = ({ requests }) => {
-  const navigate = useNavigate();
+  const navigate = useAuthNavigate();
 
   const handleOnClick = (requestID: string): void => {
     navigate(r.CSO.RequestDetails, { state: { requestID } });

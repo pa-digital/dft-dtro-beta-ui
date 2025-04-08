@@ -16,7 +16,7 @@ import RadioButtonComponent, {
 import ButtonComponent, {
   ButtonType,
 } from "../../../../components/button/button.component";
-import { useNavigate } from "react-router-dom";
+import useAuthNavigate from "../../../../hooks/use-auth-navigate";
 import axiosInstance from "../../../../utils/axios-instance";
 import axios from "axios";
 import { ValidationResponse } from "../integration/app-creation.page";
@@ -42,7 +42,7 @@ const ProductionAppCreationPage: React.FC = () => {
   const traDebounceTimeout = useRef<number>(null);
   const [isCreating, setIsCreating] = useState<boolean>(false);
 
-  const navigate = useNavigate();
+  const navigate = useAuthNavigate();
 
   const options: RadioButtonOption[] = [
     {
@@ -74,7 +74,7 @@ const ProductionAppCreationPage: React.FC = () => {
 
   const checkAppNameValid = async (appName: string) => {
     try {
-      const response = await axiosInstance.get(`/applications/validateName?name=${appName}`);
+      const response = await axiosInstance.get(`/applications/validateName?name=${appName}`, {});
       setValidationResponse(response.data);
     } catch (error) {
       console.error('Error validating app name:', error);
@@ -101,7 +101,7 @@ const ProductionAppCreationPage: React.FC = () => {
 
   const fetchTRAs = async (value: string) => {
     try {
-      const response = await axiosInstance.get(`/tras?traName=${value}`);
+      const response = await axiosInstance.get(`/tras?traName=${value}`, {});
       setDisplayTras(response.data);
     } catch (error) {
       if (axios.isAxiosError(error) && error.response?.status === 404) {

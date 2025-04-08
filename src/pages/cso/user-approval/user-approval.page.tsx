@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styles from "./user-approval.module.css";
 import NavLinkComponent from "../../../components/nav-link/nav-link.component";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import useAuthNavigate from "../../../hooks/use-auth-navigate";
 import InputComponent, {
   InputType,
 } from "../../../components/input/input.component";
@@ -23,7 +24,7 @@ const CSOUserApprovalPage: React.FC = () => {
   const [showApprovalModal, setShowApprovalModal] = useState<boolean>(false);
 
   const location = useLocation();
-  const navigate = useNavigate();
+  const navigate = useAuthNavigate();
 
   if (!location.state) navigate(r.Home);
 

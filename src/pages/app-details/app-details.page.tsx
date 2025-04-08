@@ -10,7 +10,8 @@ import { ToastContainer, toast } from "react-toastify";
 import TextComponent, {
   TypographyType,
 } from "../../components/text/typography.component";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import useAuthNavigate from "../../hooks/use-auth-navigate";
 import { isProductionEnv } from "../../utils/env";
 import { Routes as r } from "../../constants/routes";
 
@@ -31,7 +32,7 @@ const AppDetailsPage: React.FC = () => {
   const location = useLocation();
   const appID = location.state?.appID;
 
-  const navigate = useNavigate();
+  const navigate = useAuthNavigate();
 
   if (!appID) navigate(r.Apps);
 
@@ -76,8 +77,8 @@ const AppDetailsPage: React.FC = () => {
   return (
     <div className={styles.content}>
       <NavLinkComponent
-        text="Home"
-        link={r.Home}
+        text={location.state.from === "list" ? "All apps" : "Home"}
+        link={location.state.from === "list" ? r.Apps : r.Home}
       />
       <div className={styles.headerContainer}>
         <h2>{`Your app credentials for ${appDetails?.appName}`}</h2>

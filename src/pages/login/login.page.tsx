@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./login.module.css";
 import sharedStyles from "../../styles/shared.module.css";
 import Logo from "../../assets/logo.svg";
@@ -11,11 +11,13 @@ import InputComponent, {
 import ButtonComponent, {
   ButtonType,
 } from "../../components/button/button.component";
-import { useNavigate } from "react-router-dom";
+import useAuthNavigate from "../../hooks/use-auth-navigate";
 import axiosInstance from "../../utils/axios-instance";
 import classNames from "classnames";
 import SpinnerComponent from "../../components/spinner/spinner.component";
 import { Routes as r } from "../../constants/routes";
+import { useAuth } from "../../contexts/auth.context";
+import { Endpoints } from "../../constants/endpoints";
 
 const LoginPage: React.FC = () => {
   const [username, setUsername] = useState<string>("");
@@ -23,16 +25,10 @@ const LoginPage: React.FC = () => {
   const [isAuthenticating, setIsAuthenticating] = useState<boolean>(false);
   const [isInvalidCredentials, setIsInvalidCredentials] = useState<boolean>(false);
 
-  const navigate = useNavigate();
+  const { isAuthenticated, isLoading } = useAuth();
+  const { refreshAuth } = useAuth();
 
-  const isEmailRegex = (value: string): boolean => {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    return emailRegex.test(value);
-  };
-
-  const isPasswordValid = (value: string): boolean => {
-    return value !== "";
-  };
+  const navigate = useAuthNavigate();
 
   const handleUsernameChange = (value: string): void => {
     setUsername(value);
@@ -43,26 +39,27 @@ const LoginPage: React.FC = () => {
   };
 
   const handleClick = async (): Promise<void> => {
-    if (!isEmailRegex(username) || !isPasswordValid(password)) {
-      return;
-    }
-
     setIsAuthenticating(true);
     setIsInvalidCredentials(false);
     try {
-      const response = await axiosInstance.post("/oauth/token", {
+      await axiosInstance.post(Endpoints.Token.Get, {
         username,
-        password
+        password,
       });
-      console.log(response);
-      // navigate(r.Auth);
+      await refreshAuth();
+      navigate(r.Home);
     } catch (error) {
       setIsInvalidCredentials(true);
     } finally {
       setIsAuthenticating(false);
     }
-
   };
+
+  useEffect(() => {
+    if (!isLoading && isAuthenticated) {
+      navigate(r.Home);
+    }
+  }, [isAuthenticated, isLoading, navigate]);
 
   return (
     <div className={styles.container}>
@@ -75,27 +72,27 @@ const LoginPage: React.FC = () => {
           content="Welcome to the DTRO service"
         />
         <p className={sharedStyles.contactContainer}>
-          Enter your login details If you can't log in or need to request access please email{' '}
+          Enter your app ID and secret to log into the service. If you can't log in or need to request access please email{' '}
           <a href="mailto:dtro-cso@dft.gov.uk">dtro-cso@dft.gov.uk</a>.
         </p>
         <InputComponent
           value={username}
           type={InputType.Text}
-          label="Email address"
+          label="Client ID"
           onChange={handleUsernameChange}
         />
         <InputComponent
           value={password}
           type={InputType.Password}
-          label="Password"
+          label="Client secret"
           onChange={handlePasswordChange}
         />
-        <p className={classNames(styles.validationMessage, { [styles.show]: isInvalidCredentials })}>Invalid username/password combination</p>
+        <p className={classNames(styles.validationMessage, { [styles.show]: isInvalidCredentials })}>Invalid client ID/secret combination</p>
         <div className={styles.buttonContainer}>
           <ButtonComponent
             type={ButtonType.Primary}
             onClick={handleClick}
-            disabled={!isEmailRegex(username) || !isPasswordValid(password)}
+            disabled={username === "" || password === ""}
           >
             {isAuthenticating ? <SpinnerComponent colour="rgb(255, 255, 255)" /> : "Login"}
           </ButtonComponent>

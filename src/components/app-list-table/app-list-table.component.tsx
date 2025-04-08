@@ -1,9 +1,10 @@
 import React from "react";
 import styles from "../table/table.module.css";
 import Eye from "../../assets/eye.svg";
-import { useNavigate } from "react-router-dom";
+import useAuthNavigate from "../../hooks/use-auth-navigate";
 import { App } from "../../pages/app-list/app-list.page";
 import { Routes as r } from "../../constants/routes";
+import { isProductionEnv } from "../../utils/env";
 
 interface AppListTableProps {
   apps: App[];
@@ -14,7 +15,7 @@ const AppListTableComponent: React.FC<AppListTableProps> = ({
   apps,
   readOnly = false,
 }) => {
-  const navigate = useNavigate();
+  const navigate = useAuthNavigate();
 
   const handleOnClick = (appID: string): void => {
     navigate(r.Details, { state: { from: "list", appID } });
@@ -35,7 +36,7 @@ const AppListTableComponent: React.FC<AppListTableProps> = ({
           <tr key={index}>
             <td>{app.name}</td>
             <td>{app.type}</td>
-            <td>{app.tra || "-"}</td>
+            <td>{!isProductionEnv() || app.tra === null ? "-" : app.tra}</td>
             {!readOnly && (
               <td>
                 <button className={styles.button}>
