@@ -11,7 +11,7 @@ import TextComponent, {
 } from "../../components/text/typography.component";
 import { useLocation } from "react-router-dom";
 import { isProductionEnv } from "../../utils/env";
-import AppService from "../../services/application";
+import ApplicationService from "../../services/application";
 
 interface AppDetails {
   appID: string;
@@ -38,7 +38,7 @@ const AppDetailsPage: React.FC = () => {
   const fetchAppDetails = async (appID: string): Promise<void> => {
     try {
       const token = ""; // TODO: add token from login
-      const data = await AppService.getApplication(appID, token);  
+      const data = await ApplicationService.getApplication(appID, token);  
       setAppDetails(data);
     } catch (error) {
       console.error('Error fetching data:', error);
