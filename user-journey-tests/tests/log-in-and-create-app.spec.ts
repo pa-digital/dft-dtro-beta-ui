@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 import { LoginPage } from '../pages/login-page';
 import { TwoFAPage } from '../pages/twofa-page';
 import { PublisherAccountPage } from '../pages/publisher-account-page';
+import { PublisherCreateAppPage } from '../pages/publisher-create-app-page';
 
 test.describe('Tests to log in and create application', () => {
   test('publisher should log in and create application', async ({ page }) => {
@@ -9,7 +10,7 @@ test.describe('Tests to log in and create application', () => {
     await loginPage.goto();
     await loginPage.enterEmailAddress('m@c.com');
     await loginPage.enterPassword('password');
-    await loginPage.clickLogin();
+    await loginPage.logIn();
     await expect(page).toHaveURL(/.*auth/);
 
     const twoFAPage = new TwoFAPage(page);
@@ -20,5 +21,9 @@ test.describe('Tests to log in and create application', () => {
     const publisherAccountPage = new PublisherAccountPage(page);
     await publisherAccountPage.createPublisherApp();
     await expect(page).toHaveURL(/.*publisher\/create/);
+
+    const publisherCreateAppPage = new PublisherCreateAppPage(page);
+    await publisherCreateAppPage.enterAppName("My publisher app");
+    await publisherCreateAppPage.createApp();
   });
 });

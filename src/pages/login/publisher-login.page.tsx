@@ -84,7 +84,7 @@ const PublisherLoginPage: React.FC = () => {
             onClick={handleClick}
             disabled={!isEmailRegex(email) || !isPasswordValid(password)}
           >
-            Loginx
+            Login
           </ButtonComponent>
         </div>
       </div>

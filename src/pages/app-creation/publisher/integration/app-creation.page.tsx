@@ -88,6 +88,7 @@ const IntegrationAppCreationPage: React.FC = () => {
           <InputComponent
             type={InputType.Text}
             value={appName}
+            dataTestId="app-name"
             trailingIcons={[
               {
                 show:
@@ -124,6 +125,7 @@ const IntegrationAppCreationPage: React.FC = () => {
       <div style={{ width: "240px", padding: "24px 0" }}>
         <ButtonComponent
           type={ButtonType.Primary}
+          dataTestId="create"
           onClick={handleClick}
           disabled={appName.length === 0 || !validationResponse?.isValid}
         >
