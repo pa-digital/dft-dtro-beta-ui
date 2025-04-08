@@ -11,7 +11,7 @@ export enum ButtonType {
 interface ButtonComponentProps {
   children: React.ReactNode;
   type: ButtonType;
-  dataTestId: string;
+  dataTestId?: string;
   disabled?: boolean;
   onClick: () => void;
 }
