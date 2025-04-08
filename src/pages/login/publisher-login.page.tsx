@@ -67,21 +67,24 @@ const PublisherLoginPage: React.FC = () => {
           value={email}
           type={InputType.Text}
           label="Email address"
+          dataTestId="email-address"
           onChange={handleEmailChange}
         />
         <InputComponent
           value={password}
           type={InputType.Password}
           label="Password"
+          dataTestId="password"
           onChange={handlePasswordChange}
         />
         <div className={styles.buttonContainer}>
           <ButtonComponent
             type={ButtonType.Primary}
+            dataTestId="login"
             onClick={handleClick}
             disabled={!isEmailRegex(email) || !isPasswordValid(password)}
           >
-            Login
+            Loginx
           </ButtonComponent>
         </div>
       </div>

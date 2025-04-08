@@ -53,6 +53,7 @@ const TwoFactorAuthComponent: React.FC<TwoFactorAuthComponentProps> = ({
           className={classNames(styles.input, {
             [styles.valid]: inputsRef.current[index]?.value,
           })}
+          data-testid={`2fa-${index}`}
           onChange={(event) => handleOnChange(index, event)}
           onKeyDown={(event) => handleKeyDown(event, index)}
         ></input>
