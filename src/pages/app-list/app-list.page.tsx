@@ -4,8 +4,8 @@ import sharedStyles from "../../styles/shared.module.css";
 import NavLinkComponent from "../../components/nav-link/nav-link.component";
 import AppListTableComponent from "../../components/app-list-table/app-list-table.component";
 import PaginationComponent from "../../components/pagination/pagination.component";
-import axiosInstance from "../../utils/axios-instance";
 import SpinnerComponent from "../../components/spinner/spinner.component";
+import AppService from "../../services/application";
 
 export enum AppType {
   Publisher = "Publisher",
@@ -41,17 +41,9 @@ const AppListPage: React.FC = () => {
 
   const fetchApps = async (page: number): Promise<void> => {
     try {
-      const response = await axiosInstance.get('/applications', {
-        params: {
-          page: page,
-          pageSize: appsPerPage
-        },
-        headers: {
-          Authorization: `Bearer ` // TODO add bearer token from login
-        }
-      });
-  
-      setApps(response.data);
+      const token = ""; // TODO: add token from login
+      const data = await AppService.getApplications(page, appsPerPage, token);
+      setApps(data);
     } catch (error) {
       console.error('Error fetching data:', error);
     }

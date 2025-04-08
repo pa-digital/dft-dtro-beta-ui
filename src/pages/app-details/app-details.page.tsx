@@ -10,8 +10,8 @@ import TextComponent, {
   TypographyType,
 } from "../../components/text/typography.component";
 import { useLocation } from "react-router-dom";
-import axiosInstance from "../../utils/axios-instance";
 import { isProductionEnv } from "../../utils/env";
+import AppService from "../../services/application";
 
 interface AppDetails {
   appID: string;
@@ -37,11 +37,9 @@ const AppDetailsPage: React.FC = () => {
 
   const fetchAppDetails = async (appID: string): Promise<void> => {
     try {
-      const response = await axiosInstance.get(`/applications/${appID}`, {
-        headers: {
-          "Authorization": "Bearer " // TODO add bearer token from login
-        }});
-      setAppDetails(response.data);
+      const token = ""; // TODO: add token from login
+      const data = await AppService.getApplication(appID, token);  
+      setAppDetails(data);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
