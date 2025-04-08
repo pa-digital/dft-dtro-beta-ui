@@ -6,7 +6,7 @@ class ApplicationService {
     const response = await axiosInstance.get('/applications', {
       params: {
         page,
-        pageSize: pageSize,
+        pageSize,
       },
       headers: {
         Authorization: `Bearer ${token}`
@@ -37,7 +37,7 @@ class ApplicationService {
     const response = await axiosInstance.get('/applications/inactive', {
       params: {
         page,
-        pageSize: pageSize,
+        pageSize,
       },
       headers: {
         Authorization: `Bearer ${token}`
