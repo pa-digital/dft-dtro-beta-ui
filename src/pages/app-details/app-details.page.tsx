@@ -32,17 +32,15 @@ const AppDetailsPage: React.FC = () => {
   const appID = location.state?.appID;
 
   useEffect(() => {
-    // TODO: Fetch app details for this app ID
-    fetchAppDetails("b42b054c-ed20-4d88-bc11-e042fa7f4276");
+    fetchAppDetails(appID);
   }, []);
 
   const fetchAppDetails = async (appID: string): Promise<void> => {
     try {
       const response = await axiosInstance.get(`/applications/${appID}`, {
         headers: {
-          "Authorization": "Bearer VYvBUDpAUtTIpH3Y580MIbpu1vfD"
+          "Authorization": "Bearer " // TODO add bearer token from login
         }});
-        console.log(response.data)
       setAppDetails(response.data);
     } catch (error) {
       console.error('Error fetching data:', error);

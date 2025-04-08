@@ -45,9 +45,12 @@ const AppListPage: React.FC = () => {
         params: {
           page: page,
           pageSize: appsPerPage
+        },
+        headers: {
+          Authorization: `Bearer ` // TODO add bearer token from login
         }
       });
-
+  
       setApps(response.data);
     } catch (error) {
       console.error('Error fetching data:', error);
