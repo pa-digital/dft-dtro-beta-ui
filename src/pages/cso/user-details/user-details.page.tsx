@@ -13,6 +13,7 @@ import ButtonComponent, {
 import AppListTableComponent from "../../../components/app-list-table/app-list-table.component";
 import { App, AppType } from "../../app-list/app-list.page";
 import ModalComponent from "../../../components/modal/modal.component";
+import UserService from "../../../services/user";
 
 const UserDetailsPage: React.FC = () => {
   const location = useLocation();
@@ -44,10 +45,16 @@ const UserDetailsPage: React.FC = () => {
     ];
   };
 
-  const handleDeleteOnClick = (): void => {
-    console.log(`Deleting user ${user?.id}`);
-    setShowDeleteModal(false);
-    navigate(-1);
+  const handleDeleteOnClick = async (): Promise<void> => {
+    try {
+      console.log(`Deleting user ${user?.id}`);
+      const token = ""; // TODO: add token from login
+      const data = await UserService.deleteUser(user?.id, token);  
+      setShowDeleteModal(false);
+      navigate(-1);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
   };
 
   return (
