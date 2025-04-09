@@ -33,6 +33,15 @@ class ApplicationService {
     return response.data;
   };
 
+  async activateApplication(appID: string, token: string) {
+    const response = await axiosInstance.post(`/applications/${appID}/activate`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    return response.data;
+  };
+
   async getApplicationsInactive(page: number, pageSize: number, token: string) {
     const response = await axiosInstance.get('/applications/inactive', {
       params: {

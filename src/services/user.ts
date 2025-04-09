@@ -16,6 +16,15 @@ class UserService {
     });
     return response.data;
   }
+
+  async deleteUser(userID: string, token: string) {
+    const response = await axiosInstance.delete(`/users/${userID}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+    });
+    return response.data;
+  }
 }
 
 export default new UserService();
