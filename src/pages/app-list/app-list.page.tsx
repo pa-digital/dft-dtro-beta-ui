@@ -45,7 +45,6 @@ const AppListPage: React.FC = () => {
   const fetchApps = async (page: number): Promise<void> => {
     setIsError(undefined);
     try {
-      const token = ""; // TODO: add token from login
       const data = await ApplicationService.getApplications(page, appsPerPage);
       setApps(data);
     } catch (error) {
