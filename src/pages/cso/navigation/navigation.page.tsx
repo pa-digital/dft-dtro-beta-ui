@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./navigation.module.css";
 import NavigationItemComponent from "../../../components/navigation-item/navigation-item.component";
+import { Routes as r } from "../../../constants/routes";
 
 const CSONavigationPage: React.FC = () => {
   return (
@@ -17,7 +18,7 @@ const CSONavigationPage: React.FC = () => {
         <NavigationItemComponent
           navTitle="View and manage users"
           navSubtitle="View and manage user accounts."
-          link="/users"
+          link={r.CSO.Users}
         />
         <NavigationItemComponent
           navTitle="View TRAs and TROs"

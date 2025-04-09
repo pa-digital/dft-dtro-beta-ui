@@ -16,7 +16,7 @@ import { isProductionEnv } from "../../utils/env";
 import { Routes as r } from "../../constants/routes";
 import ApplicationService from "../../services/application";
 
-interface AppDetails {
+export interface AppDetails {
   appID: string;
   appName: string;
   swaCode: number;
@@ -99,7 +99,7 @@ const AppDetailsPage: React.FC = () => {
             />
           </div>
         </div>
-        <div className="inputRow">
+        {appDetails?.purpose && <div className="inputRow">
           <div style={{ width: "560px" }}>
             <InputComponent
               type={InputType.Text}
@@ -108,7 +108,7 @@ const AppDetailsPage: React.FC = () => {
               editable={false}
             />
           </div>
-        </div>
+        </div>}
         <TextComponent type={TypographyType.Label} content="API key" />
         <div className="inputRow">
           <div style={{ width: "560px" }}>

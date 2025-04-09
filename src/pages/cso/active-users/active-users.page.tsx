@@ -37,7 +37,6 @@ const ActiveUsersPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    // TODO: fetch requests from the backend for this page
     fetchUsers(page, sortOrder);
   }, []);
 
@@ -61,70 +60,61 @@ const ActiveUsersPage: React.FC = () => {
     } finally {
       setLoading(false)
     }
-  // const usersPerPage = 10;
-  // const startIndex = (page - 1) * usersPerPage;
-  // const endIndex = startIndex + usersPerPage;
-  // const users = allUsers.slice(startIndex, endIndex);
-  // setUsers({
-  //   pages: Math.ceil(allUsers.length / usersPerPage),
-  //   currentPage: page,
-  //   users,
-  // });
 };
 
-return (
-  <div className={sharedStyles.content}>
-    <SidebarComponent />
-    <div className={sharedStyles.dynamicContent}>
-      <h2>Users</h2>
-      <p>
-        View all users and click through to view details and manage user
-        accounts
-      </p>
-      <div className={sharedStyles.card}>
-        <div className={sharedStyles.tableControls}>
-          <div className={sharedStyles.controlItem} onClick={() => setSortOrder(SortOrder.Ascending)}>
-            <div>ASC</div>
-            <img src={Up} />
-          </div>
-          <div className={sharedStyles.controlItem} onClick={() => setSortOrder(SortOrder.Descending)}>
-            <div>DESC</div>
-            <img className={sharedStyles.downArrow} src={Up} />
-          </div>
-          <div className={sharedStyles.trailingControls}>
-            <div
-              className={sharedStyles.controlItem}
-              onClick={() => setPage(1)}
-            >
-              {/* Calling setPage triggers fetching of the data */}
-              <img className={classNames({[sharedStyles.spin]: loading})} src={Refresh} onClick={() => fetchUsers(page, SortOrder.Ascending)}></img>
+  return (
+    <div className={sharedStyles.content}>
+      <SidebarComponent />
+      <div className={sharedStyles.dynamicContent}>
+        <h2>Users</h2>
+        <p>
+          View all users and click through to view details and manage user
+          accounts
+        </p>
+        <div className={sharedStyles.card}>
+          <div className={sharedStyles.tableControls}>
+            <div className={sharedStyles.controlItem} onClick={() => setSortOrder(SortOrder.Ascending)}>
+              <div>ASC</div>
+              <img src={Up} />
             </div>
-            <div className={sharedStyles.controlItem}>
-              <img className={sharedStyles.downArrow} src={Up}></img>
+            <div className={sharedStyles.controlItem} onClick={() => setSortOrder(SortOrder.Descending)}>
+              <div>DESC</div>
+              <img className={sharedStyles.downArrow} src={Up} />
             </div>
-            <div className={sharedStyles.controlItem}>
-              <img src={More}></img>
+            <div className={sharedStyles.trailingControls}>
+              <div
+                className={sharedStyles.controlItem}
+                onClick={() => setPage(1)}
+              >
+                {/* Calling setPage triggers fetching of the data */}
+                <img className={classNames({ [sharedStyles.spin]: loading })} src={Refresh} onClick={() => fetchUsers(page, SortOrder.Ascending)}></img>
+              </div>
+              <div className={sharedStyles.controlItem}>
+                <img className={sharedStyles.downArrow} src={Up}></img>
+              </div>
+              <div className={sharedStyles.controlItem}>
+                <img src={More}></img>
+              </div>
             </div>
           </div>
+          {users && (
+            <div className={sharedStyles.tableContainer}>
+              <UsersTableComponent users={users.users} />
+              <PaginationComponent
+                currentPage={page}
+                totalPages={users.pages}
+                onClickDown={() => setPage((prev) => prev - 1)}
+                onClickNumber={(index: number) => {
+                  setPage(index);
+                }}
+                onClickUp={() => setPage((prev) => prev + 1)}
+              />
+            </div>
+          )}
         </div>
-        {users && (
-          <div className={sharedStyles.tableContainer}>
-            <UsersTableComponent users={users.users} />
-            <PaginationComponent
-              currentPage={page}
-              totalPages={users.pages}
-              onClickDown={() => setPage((prev) => prev - 1)}
-              onClickNumber={(index: number) => {
-                setPage(index);
-              }}
-              onClickUp={() => setPage((prev) => prev + 1)}
-            />
-          </div>
-        )}
       </div>
     </div>
-  </div>
-);
+  );
 };
 
 export default ActiveUsersPage;

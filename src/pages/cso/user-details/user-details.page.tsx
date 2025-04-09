@@ -4,7 +4,6 @@ import SidebarComponent from "../../../components/sidebar/sidebar.component";
 import NavLinkComponent from "../../../components/nav-link/nav-link.component";
 import { useLocation } from "react-router";
 import useAuthNavigate from "../../../hooks/use-auth-navigate";
-import { UserStatus } from "../active-users/active-users.page";
 import InputComponent, {
   InputType,
 } from "../../../components/input/input.component";
@@ -12,10 +11,12 @@ import ButtonComponent, {
   ButtonType,
 } from "../../../components/button/button.component";
 import AppListTableComponent from "../../../components/app-list-table/app-list-table.component";
-import { App, AppType } from "../../app-list/app-list.page";
+import { App } from "../../app-list/app-list.page";
 import ModalComponent from "../../../components/modal/modal.component";
 import { Routes as r } from "../../../constants/routes";
 import UserService from "../../../services/user";
+import { Endpoints } from "../../../constants/endpoints";
+import axiosInstance from "../../../utils/axios-instance";
 
 const UserDetailsPage: React.FC = () => {
   const location = useLocation();
@@ -26,32 +27,24 @@ const UserDetailsPage: React.FC = () => {
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
 
   useEffect(() => {
-    // Fetch app details for this user ID
-    const userApps = fetchUserAppDetails(user?.id);
-    setUserApps(userApps);
+    fetchUserAppDetails(user?.id);
   }, []);
 
-  const fetchUserAppDetails = (userID: string): App[] => {
-    return [
-      {
-        id: "some app ID",
-        name: "My Test App",
-        type: AppType.Publisher,
-        tra: "Some TRA",
-      },
-      {
-        id: "another app ID",
-        name: "Another App",
-        type: AppType.Consumer,
-      },
-    ];
+  const fetchUserAppDetails = async (userID: string): Promise<void> => {
+    try {
+      const response = await axiosInstance.get(`${Endpoints.UserDetails}/${userID}`);
+      setUserApps(response.data.applications);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleDeleteOnClick = async (): Promise<void> => {
     try {
       console.log(`Deleting user ${user?.id}`);
-      const data = await UserService.deleteUser(user?.id);  
+      await UserService.deleteUser(user?.id);  
       setShowDeleteModal(false);
+      navigate(r.CSO.Users);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -79,14 +72,12 @@ const UserDetailsPage: React.FC = () => {
                 editable={false}
                 label="Email"
               />
-              {user?.status.toLowerCase() === UserStatus.Active && (
-                <ButtonComponent
-                  type={ButtonType.Warning}
-                  onClick={() => setShowDeleteModal(true)}
-                >
-                  Delete
-                </ButtonComponent>
-              )}
+              <ButtonComponent
+                type={ButtonType.Warning}
+                onClick={() => setShowDeleteModal(true)}
+              >
+                Delete
+              </ButtonComponent>
             </div>
           )}
           <h3>All apps for {user?.name}</h3>
