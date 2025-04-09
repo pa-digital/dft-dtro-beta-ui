@@ -1,3 +1,4 @@
+import { AppDetails } from "../pages/app-details/app-details.page";
 import axiosInstance from "../utils/axios-instance";
 
 class ApplicationService {
@@ -20,11 +21,18 @@ class ApplicationService {
     return response.data;
   }
 
-  async getApplication(appID: string) {
+  async getApplication(appID: string): Promise<AppDetails> {
     const response = await axiosInstance.get(`/applications/${appID}`, {
       withCredentials: true
     });
-    return response.data;
+    return {
+      appID: response.data.appId,
+      appName: response.data.name,
+      swaCode: response.data.swaCode,
+      apiKey: response.data.credentials[0].consumerKey,
+      apiSecret: response.data.credentials[0].consumerSecret,
+      purpose: response.data.purpose
+    }
   };
 
   async activateApplication(appID: string) {

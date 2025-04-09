@@ -26,6 +26,7 @@ const AppListTableComponent: React.FC<AppListTableProps> = ({
       <thead>
         <tr>
           <th>Name</th>
+          <th>Status</th>
           <th>Type</th>
           <th>Linked TRA</th>
           {!readOnly && <th>Action</th>}
@@ -35,6 +36,7 @@ const AppListTableComponent: React.FC<AppListTableProps> = ({
         {apps.map((app, index) => (
           <tr key={index}>
             <td>{app.name}</td>
+            <td>{app.status}</td>
             <td>{app.type}</td>
             <td>{!isProductionEnv() || app.tra === null ? "-" : app.tra}</td>
             {!readOnly && (

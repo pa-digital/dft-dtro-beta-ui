@@ -24,6 +24,7 @@ interface AppView {
 export interface App {
   id: string;
   name: string;
+  status?: string;
   type: AppType;
   tra?: string;
 }

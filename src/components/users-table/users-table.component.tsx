@@ -16,6 +16,11 @@ const UsersTableComponent: React.FC<UsersTableProps> = ({ users }) => {
     navigate(r.CSO.User, { state: { user } });
   };
 
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString();
+  };
+
   return (
     <table className={styles.table}>
       <thead>
@@ -23,7 +28,6 @@ const UsersTableComponent: React.FC<UsersTableProps> = ({ users }) => {
           <th>User</th>
           <th>Email</th>
           <th>Created On</th>
-          <th>Status</th>
           <th>Action</th>
         </tr>
       </thead>
@@ -32,10 +36,10 @@ const UsersTableComponent: React.FC<UsersTableProps> = ({ users }) => {
           <tr>
             <td>{user.name}</td>
             <td>{user.email}</td>
-            <td>{user.created}</td>
-            <td>
+            <td>{formatDate(user.created)}</td>
+            {/* <td>
               {user.status.replace(/\b\w/g, (char) => char.toUpperCase())}
-            </td>
+            </td> */}
             <td>
               <button className={styles.button}>
                 <div
