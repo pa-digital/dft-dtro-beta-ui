@@ -2,14 +2,12 @@ import axiosInstance from "../utils/axios-instance";
 
 class TraService {
 
-  async getTras(traName: string, token: string) {
+  async getTras(traName: string) {
     const response = await axiosInstance.get('/tras', {
       params: {
         traName
       },
-      headers: {
-        Authorization: `Bearer ${token}`
-      },
+      withCredentials: true,
     });
     return response.data;
   }

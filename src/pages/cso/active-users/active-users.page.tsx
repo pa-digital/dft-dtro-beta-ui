@@ -48,8 +48,7 @@ const ActiveUsersPage: React.FC = () => {
   const fetchUsers = async (page: number, sortOrder: SortOrder): Promise<void> => {
     setLoading(true);
     try {
-      const token = ""; // TODO: add token from login
-      const data = await UserService.getUsers(page, sortOrder, token);
+      const data = await UserService.getUsers(page, sortOrder);
       setUsers(
         {
           pages: data.totalPages,

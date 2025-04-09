@@ -4,24 +4,20 @@ import { SortOrder } from "../pages/cso/pending-requests/pending-requests.page";
 
 class UserService {
 
-  async getUsers(page: number, sortOrder: SortOrder, token: string) {
+  async getUsers(page: number, sortOrder: SortOrder) {
     const response = await axiosInstance.get('/tras', {
       params: {
         page,
         sortOrder,
       },
-      headers: {
-        Authorization: `Bearer ${token}`
-      },
+      withCredentials: true,
     });
     return response.data;
   }
 
-  async deleteUser(userID: string, token: string) {
+  async deleteUser(userID: string) {
     const response = await axiosInstance.delete(`/users/${userID}`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      },
+      withCredentials: true,
     });
     return response.data;
   }

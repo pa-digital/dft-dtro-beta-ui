@@ -2,67 +2,55 @@ import axiosInstance from "../utils/axios-instance";
 
 class ApplicationService {
 
-  async getApplications(page: number, pageSize: number, token: string) {
+  async getApplications(page: number, pageSize: number) {
     const response = await axiosInstance.get('/applications', {
       params: {
         page,
         pageSize,
       },
-      headers: {
-        Authorization: `Bearer ${token}`
-      },
+      withCredentials: true,
     });
     return response.data;
   }
 
-  async createApp(data: object, token: string) {
+  async createApp(data: object) {
     const response = await axiosInstance.post('/applications', data, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      withCredentials: true,
     });
     return response.data;
   }
 
-  async getApplication(appID: string, token: string) {
+  async getApplication(appID: string) {
     const response = await axiosInstance.get(`/applications/${appID}`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
+      withCredentials: true
     });
     return response.data;
   };
 
-  async activateApplication(appID: string, token: string) {
+  async activateApplication(appID: string) {
     const response = await axiosInstance.post(`/applications/${appID}/activate`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
+      withCredentials: true
     });
     return response.data;
   };
 
-  async getApplicationsInactive(page: number, pageSize: number, token: string) {
+  async getApplicationsInactive(page: number, pageSize: number) {
     const response = await axiosInstance.get('/applications/inactive', {
       params: {
         page,
         pageSize,
       },
-      headers: {
-        Authorization: `Bearer ${token}`
-      },
+      withCredentials: true,
     });
     return response.data;
   }
 
-  async getApplicationValidateName(name: string, token: string) {
+  async getApplicationValidateName(name: string) {
     const response = await axiosInstance.get('/applications/validateName', {
       params: {
         name
       },
-      headers: {
-        Authorization: `Bearer ${token}`
-      },
+      withCredentials: true,
     });
     return response.data;
   }
