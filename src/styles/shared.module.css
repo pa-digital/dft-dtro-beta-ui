@@ -98,3 +98,11 @@ p {
   justify-content: center;
   align-items: center;
 }
+
+.contactContainer {
+  font-size: 14px;
+}
+
+.contactContainer > a {
+  color: rgba(0, 106, 176);
+}

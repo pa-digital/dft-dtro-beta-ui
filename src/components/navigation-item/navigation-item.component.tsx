@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./navigation-item.module.css";
-import { useNavigate } from "react-router-dom";
+import useAuthNavigate from "../../hooks/use-auth-navigate";
 import classNames from "classnames";
 import BackArrow from "../../assets/back-arrow.svg";
 
@@ -15,9 +15,9 @@ const NavigationItemComponent: React.FC<NavigationItemComponentProps> = ({
   navTitle,
   navSubtitle,
   disabled = false,
-  link,
+  link
 }) => {
-  const navigate = useNavigate();
+  const navigate = useAuthNavigate();
 
   return (
     <div
@@ -25,7 +25,7 @@ const NavigationItemComponent: React.FC<NavigationItemComponentProps> = ({
         [styles.disabled]: disabled,
       })}
     >
-      <div className={styles.navTitleContainer} onClick={() => navigate(link)}>
+      <div className={styles.navTitleContainer} onClick={() => { if (!disabled) navigate(link) }}>
         <p className={styles.navTitle}>{navTitle}</p>
         <img src={BackArrow}></img>
       </div>

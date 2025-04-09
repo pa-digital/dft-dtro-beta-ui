@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./app-details.module.css";
+import sharedStyles from "../../styles/shared.module.css";
 import NavLinkComponent from "../../components/nav-link/nav-link.component";
 import InputComponent, {
   InputType,
@@ -10,7 +11,9 @@ import TextComponent, {
   TypographyType,
 } from "../../components/text/typography.component";
 import { useLocation } from "react-router-dom";
+import useAuthNavigate from "../../hooks/use-auth-navigate";
 import { isProductionEnv } from "../../utils/env";
+import { Routes as r } from "../../constants/routes";
 
 interface AppDetails {
   appID: string;
@@ -27,8 +30,11 @@ const AppDetailsPage: React.FC = () => {
   const [showAPISecret, setShowAPISecret] = useState<boolean>(false);
 
   const location = useLocation();
-  const from = location.state?.from;
   const appID = location.state?.appID;
+
+  const navigate = useAuthNavigate();
+
+  if (!appID) navigate(r.Apps);
 
   useEffect(() => {
     // TODO: Fetch app details for this app ID
@@ -71,8 +77,8 @@ const AppDetailsPage: React.FC = () => {
   return (
     <div className={styles.content}>
       <NavLinkComponent
-        text={from == "create" ? "Home" : "View apps"}
-        link={from == "create" ? "/list" : undefined}
+        text={location.state.from === "list" ? "All apps" : "Home"}
+        link={location.state.from === "list" ? r.Apps : r.Home}
       />
       <div className={styles.headerContainer}>
         <h2>{`Your app credentials for ${appDetails?.appName}`}</h2>
@@ -143,6 +149,10 @@ const AppDetailsPage: React.FC = () => {
           </div>
         </div>
       </div>
+      <p className={sharedStyles.contactContainer}>
+        Should you need to regenerate app credentials, please contact{' '}
+        <a href="mailto:dtro-cso@dft.gov.uk">dtro-cso@dft.gov.uk</a>.
+      </p>
       <ToastContainer />
     </div>
   );

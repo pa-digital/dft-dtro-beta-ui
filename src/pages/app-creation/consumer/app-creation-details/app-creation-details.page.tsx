@@ -15,13 +15,17 @@ import {
 } from "./constants";
 import axiosInstance from "../../../../utils/axios-instance";
 import SpinnerComponent from "../../../../components/spinner/spinner.component";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import useAuthNavigate from "../../../../hooks/use-auth-navigate";
+import { Routes as r } from "../../../../constants/routes";
 
 const ConsumerAppCreationPage: React.FC = () => {
   const location = useLocation();
   const appName = location.state.appName;
 
-  const navigate = useNavigate();
+  const navigate = useAuthNavigate();
+
+  if (!appName) navigate(r.Home);
 
   const [isCreating, setIsCreating] = useState<boolean>(false);
   const [usage, setUsage] = useState<number>();
@@ -167,7 +171,7 @@ const ConsumerAppCreationPage: React.FC = () => {
 
     try {
       const response = await axiosInstance.post("/applications", payload);
-      navigate("/details", { state: { from: "create", appID: response.data.appId } });
+      navigate(r.Details, { state: { from: "create", appID: response.data.appId } });
     } catch (error) {
       console.error("Error creating consumer application: ", error);
     } finally {

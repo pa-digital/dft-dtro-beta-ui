@@ -16,44 +16,71 @@ import UserDetailsPage from "./pages/cso/user-details/user-details.page";
 import CSONavigationPage from "./pages/cso/navigation/navigation.page";
 import { isProductionEnv } from "./utils/env";
 import SuccessPage from "./pages/success/success.component";
-import PublisherLoginPage from "./pages/login/publisher-login.page";
+import LoginPage from "./pages/login/login.page";
+import PrivateRoute from "./components/private-route/private-route.component";
+import { Routes as r } from "./constants/routes";
+import AccessPage from "./pages/access/access.page";
+import { useAuth } from "./contexts/auth.context";
+import AdminRoute from "./components/admin-route/admin-route.component";
+import UnauthorizedPage from "./pages/error/unauthorized.page";
+import NotFoundPage from "./pages/error/not-found.page";
 
 function App() {
+  const { isAdmin } = useAuth();
+
   return (
-    <div className="container">
-      <NavbarComponent />
-      <div className="content">
-        <Router>
+    <Router>
+      <div className="container">
+        <NavbarComponent />
+        <div className="content">
           <Routes>
-          <Route path="/" element={<PublisherLoginPage />}></Route>
-            <Route path="/auth" element={<TwoFactorAuthPage />}></Route>
-            <Route path="/home" element={<NavigationPage />}></Route>
-            <Route
-              path="/publisher/create"
-              element={
-                !isProductionEnv() ? (
-                  <IntegrationAppCreationPage />
-                ) : (
-                  <ProductionAppCreationPage />
-                )
-              }
-            ></Route>
-            <Route path="/details" element={<AppDetailsPage />}></Route>
-            <Route path="/list" element={<AppListPage />}></Route>
-            <Route path="/cso/nav" element={<CSONavigationPage />}></Route>
-            <Route path="/requests" element={<PendingRequestsPage />}></Route>
-            <Route path="/users" element={<ActiveUsersPage />}></Route>
-            <Route path="/user" element={<UserDetailsPage />}></Route>
-            <Route path="/success" element={<SuccessPage />}></Route>
-            <Route path="/consumer/create/1" element={<ConsumerAppCreationNamePage />} />
-            <Route path="/consumer/create/2" element={<ConsumerAppCreationDetailsPage />} />
+            {/* Error pages */}
+            <Route path={r.Unauthorized} element={<UnauthorizedPage />} />
+
+            <Route path={r.Login} element={<LoginPage />} />
+
+            <Route element={<PrivateRoute />}>
+              <Route path={r.Auth} element={<TwoFactorAuthPage />} />
+              <Route path={r.Home} element={isAdmin ? <CSONavigationPage /> : <NavigationPage />} />
+              <Route path={r.Access} element={<AccessPage />} />
+              <Route
+                path={r.Publisher.Create}
+                element={
+                  !isProductionEnv() ? (
+                    <IntegrationAppCreationPage />
+                  ) : (
+                    <ProductionAppCreationPage />
+                  )
+                }
+              />
+              <Route path={r.Details} element={<AppDetailsPage />} />
+              <Route path={r.Apps} element={<AppListPage />} />
+              <Route path={r.Publisher.Request} element={<SuccessPage />} />
+              <Route
+                path={r.Consumer.Create.One}
+                element={<ConsumerAppCreationNamePage />}
+              />
+              <Route
+                path={r.Consumer.Create.Two}
+                element={<ConsumerAppCreationDetailsPage />}
+              />
+            </Route>
+
+            <Route element={<AdminRoute />}>
+              <Route path={r.CSO.Requests} element={<PendingRequestsPage />} />
+              <Route path={r.CSO.Users} element={<ActiveUsersPage />} />
+              <Route path={r.CSO.User} element={<UserDetailsPage />} />
+            </Route>
+
+            {/* Not found */}
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
-        </Router>
+        </div>
+        <div className="footer">
+          <FooterComponent />
+        </div>
       </div>
-      <div className="footer">
-        <FooterComponent />
-      </div>
-    </div>
+    </Router>
   );
 }
 
