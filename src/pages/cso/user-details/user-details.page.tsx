@@ -15,6 +15,7 @@ import AppListTableComponent from "../../../components/app-list-table/app-list-t
 import { App, AppType } from "../../app-list/app-list.page";
 import ModalComponent from "../../../components/modal/modal.component";
 import { Routes as r } from "../../../constants/routes";
+import UserService from "../../../services/user";
 
 const UserDetailsPage: React.FC = () => {
   const location = useLocation();
@@ -46,10 +47,14 @@ const UserDetailsPage: React.FC = () => {
     ];
   };
 
-  const handleDeleteOnClick = (): void => {
-    console.log(`Deleting user ${user?.id}`);
-    setShowDeleteModal(false);
-    navigate(-1);
+  const handleDeleteOnClick = async (): Promise<void> => {
+    try {
+      console.log(`Deleting user ${user?.id}`);
+      const data = await UserService.deleteUser(user?.id);  
+      setShowDeleteModal(false);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
   };
 
   return (

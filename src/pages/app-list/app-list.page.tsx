@@ -4,10 +4,10 @@ import sharedStyles from "../../styles/shared.module.css";
 import NavLinkComponent from "../../components/nav-link/nav-link.component";
 import AppListTableComponent from "../../components/app-list-table/app-list-table.component";
 import PaginationComponent from "../../components/pagination/pagination.component";
-import axiosInstance from "../../utils/axios-instance";
 import SpinnerComponent from "../../components/spinner/spinner.component";
 import ButtonComponent, { ButtonType } from "../../components/button/button.component";
 import { Routes as r } from "../../constants/routes";
+import ApplicationService from "../../services/application";
 
 export enum AppType {
   Publisher = "Publisher",
@@ -45,14 +45,8 @@ const AppListPage: React.FC = () => {
   const fetchApps = async (page: number): Promise<void> => {
     setIsError(undefined);
     try {
-      const response = await axiosInstance.get('/applications', {
-        params: {
-          page: page,
-          pageSize: appsPerPage
-        }
-      });
-
-      setApps(response.data);
+      const data = await ApplicationService.getApplications(page, appsPerPage);
+      setApps(data);
     } catch (error) {
       setIsError(true);
     }

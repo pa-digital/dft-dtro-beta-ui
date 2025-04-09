@@ -7,8 +7,8 @@ import More from "../../../assets/more.svg";
 import PaginationComponent from "../../../components/pagination/pagination.component";
 import { SortOrder } from "../pending-requests/pending-requests.page";
 import UsersTableComponent from "../../../components/users-table/users-table.component";
-import axios from "axios";
 import classNames from "classnames";
+import UserService from "../../../services/user";
 
 interface UsersView {
   pages: number;
@@ -45,22 +45,22 @@ const ActiveUsersPage: React.FC = () => {
     fetchUsers(page, sortOrder);
   }, [page, sortOrder]);
 
-  const fetchUsers = (page: number, sortOrder: SortOrder): void => {
+  const fetchUsers = async (page: number, sortOrder: SortOrder): Promise<void> => {
     setLoading(true);
-    axios.get(`https://localhost:5001/users?page=${page}&sortOrder=${sortOrder}`, {
-      headers: {
-        "X-App-Id": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-      }
-    })
-      .then((response) => setUsers(
+    try {
+      const data = await UserService.getUsers(page, sortOrder);
+      setUsers(
         {
-          pages: response.data.totalPages,
-          currentPage: response.data.page,
-          users: response.data.users
+          pages: data.totalPages,
+          currentPage: data.page,
+          users: data.users
         }
-      ))
-      .catch((error) => console.error("Error fetching data:", error))
-      .finally(() => setLoading(false));
+      )
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setLoading(false)
+    }
   // const usersPerPage = 10;
   // const startIndex = (page - 1) * usersPerPage;
   // const endIndex = startIndex + usersPerPage;

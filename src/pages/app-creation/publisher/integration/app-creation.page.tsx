@@ -11,7 +11,7 @@ import useAuthNavigate from "../../../../hooks/use-auth-navigate";
 import Check from "../../../../assets/check.svg";
 import classNames from "classnames";
 import SpinnerComponent from "../../../../components/spinner/spinner.component";
-import axiosInstance from "../../../../utils/axios-instance";
+import ApplicationService from "../../../../services/application";
 import { Routes as r } from "../../../../constants/routes";
 
 export interface ValidationResponse {
@@ -46,8 +46,8 @@ const IntegrationAppCreationPage: React.FC = () => {
 
   const checkAppNameValid = async (appName: string) => {
     try {
-      const response = await axiosInstance.get(`/applications/validateName?name=${appName}`, {});
-      setValidationResponse(response.data);
+      const data = await ApplicationService.getApplicationValidateName(appName);
+      setValidationResponse(data);
     } catch (error) {
       console.error('Error validating app name:', error);
       setValidationResponse({
@@ -68,8 +68,8 @@ const IntegrationAppCreationPage: React.FC = () => {
         name: appName,
         type: "Publish"
       };
-      const response = await axiosInstance.post("/applications", body);
-      navigate(r.Details, { state: { from: "create", appID: response.data.appId } });
+      const data = await ApplicationService.createApp(body);
+      navigate(r.Details, { state: { from: "create", appID: data.appId } });
     } catch (error) {
       console.error("Error creating application:", error);
     } finally {

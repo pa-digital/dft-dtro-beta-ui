@@ -11,8 +11,8 @@ import useAuthNavigate from "../../../../hooks/use-auth-navigate";
 import Check from "../../../../assets/check.svg";
 import classNames from "classnames";
 import SpinnerComponent from "../../../../components/spinner/spinner.component";
-import axiosInstance from "../../../../utils/axios-instance";
 import { Routes as r } from "../../../../constants/routes";
+import ApplicationService from "../../../../services/application";
 
 export interface ValidationResponse {
   isValid: boolean;
@@ -45,8 +45,8 @@ const ConsumerAppCreationNamePage: React.FC = () => {
 
   const checkAppNameValid = async (appName: string) => {
     try {
-      const response = await axiosInstance.get(`/applications/validateName?name=${appName}`, {});
-      setValidationResponse(response.data);
+      const data = await ApplicationService.getApplicationValidateName(appName);
+      setValidationResponse(data);
     } catch (error) {
       console.error('Error validating app name:', error);
       setValidationResponse({

@@ -14,6 +14,7 @@ import { useLocation } from "react-router-dom";
 import useAuthNavigate from "../../hooks/use-auth-navigate";
 import { isProductionEnv } from "../../utils/env";
 import { Routes as r } from "../../constants/routes";
+import ApplicationService from "../../services/application";
 
 interface AppDetails {
   appID: string;
@@ -37,20 +38,16 @@ const AppDetailsPage: React.FC = () => {
   if (!appID) navigate(r.Apps);
 
   useEffect(() => {
-    // TODO: Fetch app details for this app ID
-    const appDetails = fetchAppDetails(appID);
-    setAppDetails(appDetails);
+    fetchAppDetails(appID);
   }, []);
 
-  const fetchAppDetails = (appID: string) => {
-    return {
-      appID,
-      appName: "INT-Publisher-BenPauley",
-      swaCode: 10526,
-      purpose: "Testing",
-      apiKey: "thisismyapikey",
-      apiSecret: "thisismyapisecret",
-    };
+  const fetchAppDetails = async (appID: string): Promise<void> => {
+    try {
+      const data = await ApplicationService.getApplication(appID);  
+      setAppDetails(data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
   };
 
   const handleAPIKeyIconClick = () => {
