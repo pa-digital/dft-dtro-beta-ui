@@ -16,14 +16,15 @@ import RadioButtonComponent, {
 import ButtonComponent, {
   ButtonType,
 } from "../../../../components/button/button.component";
-import { useNavigate } from "react-router-dom";
+import useAuthNavigate from "../../../../hooks/use-auth-navigate";
+import ApplicationService from "../../../../services/application";
+import TraService from "../../../../services/tra";
 import axios from "axios";
 import { ValidationResponse } from "../integration/app-creation.page";
 import SpinnerComponent from "../../../../components/spinner/spinner.component";
 import Check from '../../../../assets/check.svg';
 import classNames from "classnames";
-import ApplicationService from "../../../../services/application";
-import TraService from "../../../../services/tra";
+import { Routes as r } from "../../../../constants/routes";
 
 interface TRA {
   name: string;
@@ -42,7 +43,7 @@ const ProductionAppCreationPage: React.FC = () => {
   const traDebounceTimeout = useRef<number>(null);
   const [isCreating, setIsCreating] = useState<boolean>(false);
 
-  const navigate = useNavigate();
+  const navigate = useAuthNavigate();
 
   const options: RadioButtonOption[] = [
     {
@@ -74,8 +75,7 @@ const ProductionAppCreationPage: React.FC = () => {
 
   const checkAppNameValid = async (appName: string) => {
     try {
-      const token = ""; // TODO: add token from login
-      const data = await ApplicationService.getApplicationValidateName(appName, token);
+      const data = await ApplicationService.getApplicationValidateName(appName);
       setValidationResponse(data);
     } catch (error) {
       console.error('Error validating app name:', error);
@@ -102,8 +102,7 @@ const ProductionAppCreationPage: React.FC = () => {
 
   const fetchTRAs = async (value: string) => {
     try {
-      const token = ""; // TODO: add token from login
-      const data = await TraService.getTras(value, token);
+      const data = await TraService.getTras(value);
       setDisplayTras(data);
     } catch (error) {
       if (axios.isAxiosError(error) && error.response?.status === 404) {
@@ -133,9 +132,8 @@ const ProductionAppCreationPage: React.FC = () => {
       swaCode: selectedTra?.swaCode,
     };
     try {
-      const token = ""; // TODO: add token from login
-      const data = await ApplicationService.createApp(body, token);
-      navigate("/details", { state: { from: "create", appID: data.appId } });
+      const data = await ApplicationService.createApp(body);
+      navigate(r.Details, { state: { from: "create", appID: data.appId } });
     } catch (error) {
       console.error("Error creating application:", error);
     } finally {
@@ -145,7 +143,7 @@ const ProductionAppCreationPage: React.FC = () => {
 
   return (
     <div className={styles.content}>
-      <NavLinkComponent text="Home" />
+      <NavLinkComponent text="Home" link={r.Home} />
       <div className={styles.headerContainer}>
         <TextComponent
           type={TypographyType.SubHeading}

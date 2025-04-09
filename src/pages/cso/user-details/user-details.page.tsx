@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import styles from "./user-details.module.css";
 import SidebarComponent from "../../../components/sidebar/sidebar.component";
 import NavLinkComponent from "../../../components/nav-link/nav-link.component";
-import { useLocation, useNavigate } from "react-router";
+import { useLocation } from "react-router";
+import useAuthNavigate from "../../../hooks/use-auth-navigate";
 import { UserStatus } from "../active-users/active-users.page";
 import InputComponent, {
   InputType,
@@ -13,12 +14,13 @@ import ButtonComponent, {
 import AppListTableComponent from "../../../components/app-list-table/app-list-table.component";
 import { App, AppType } from "../../app-list/app-list.page";
 import ModalComponent from "../../../components/modal/modal.component";
+import { Routes as r } from "../../../constants/routes";
 import UserService from "../../../services/user";
 
 const UserDetailsPage: React.FC = () => {
   const location = useLocation();
   const user = location.state?.user;
-  const navigate = useNavigate();
+  const navigate = useAuthNavigate();
 
   const [userApps, setUserApps] = useState<App[]>();
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
@@ -48,10 +50,8 @@ const UserDetailsPage: React.FC = () => {
   const handleDeleteOnClick = async (): Promise<void> => {
     try {
       console.log(`Deleting user ${user?.id}`);
-      const token = ""; // TODO: add token from login
-      const data = await UserService.deleteUser(user?.id, token);  
+      const data = await UserService.deleteUser(user?.id);  
       setShowDeleteModal(false);
-      navigate(-1);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -62,7 +62,7 @@ const UserDetailsPage: React.FC = () => {
       <div className={styles.content}>
         <SidebarComponent />
         <div className={styles.dynamicContent}>
-          <NavLinkComponent text="All Users" />
+          <NavLinkComponent text="All Users" link={r.CSO.Users} />
           <h2>{user?.name}</h2>
           <h3>Account and user details</h3>
           {user && (

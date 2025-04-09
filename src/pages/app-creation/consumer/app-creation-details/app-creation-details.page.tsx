@@ -14,14 +14,18 @@ import {
   geographyOptions,
 } from "./constants";
 import SpinnerComponent from "../../../../components/spinner/spinner.component";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import useAuthNavigate from "../../../../hooks/use-auth-navigate";
+import { Routes as r } from "../../../../constants/routes";
 import ApplicationService from "../../../../services/application";
 
 const ConsumerAppCreationPage: React.FC = () => {
   const location = useLocation();
   const appName = location.state.appName;
 
-  const navigate = useNavigate();
+  const navigate = useAuthNavigate();
+
+  if (!appName) navigate(r.Home);
 
   const [isCreating, setIsCreating] = useState<boolean>(false);
   const [usage, setUsage] = useState<number>();
@@ -166,9 +170,8 @@ const ConsumerAppCreationPage: React.FC = () => {
     };
 
     try {
-      const token = ""; // TODO: add token from login
-      const data = await ApplicationService.createApp(payload, token);
-      navigate("/details", { state: { from: "create", appID: data.appId } });
+      const data = await ApplicationService.createApp(payload);
+      navigate(r.Details, { state: { from: "create", appID: data.appId } });
     } catch (error) {
       console.error("Error creating consumer application: ", error);
     } finally {

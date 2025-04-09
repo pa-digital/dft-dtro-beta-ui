@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./user-approval.module.css";
 import NavLinkComponent from "../../../components/nav-link/nav-link.component";
 import { useLocation } from "react-router-dom";
+import useAuthNavigate from "../../../hooks/use-auth-navigate";
 import InputComponent, {
   InputType,
 } from "../../../components/input/input.component";
@@ -9,6 +10,7 @@ import ButtonComponent, {
   ButtonType,
 } from "../../../components/button/button.component";
 import ModalComponent from "../../../components/modal/modal.component";
+import { Routes as r } from "../../../constants/routes";
 
 interface UserDetails {
   userId: string;
@@ -22,6 +24,9 @@ const CSOUserApprovalPage: React.FC = () => {
   const [showApprovalModal, setShowApprovalModal] = useState<boolean>(false);
 
   const location = useLocation();
+  const navigate = useAuthNavigate();
+
+  if (!location.state) navigate(r.Home);
 
   useEffect(() => {
     const userId = location.state?.userId;
@@ -45,7 +50,7 @@ const CSOUserApprovalPage: React.FC = () => {
 
   return (
     <div className={styles.content}>
-      <NavLinkComponent text="All requests" />
+      <NavLinkComponent text="All requests" link={r.CSO.Requests} />
       <div className={styles.headerContainer}>
         <h2>{`Request: ${applicationDetails?.userId}`}</h2>
         <h2>{applicationDetails?.date.toDateString()}</h2>

@@ -7,10 +7,11 @@ import InputComponent, {
 import ButtonComponent, {
   ButtonType,
 } from "../../../../components/button/button.component";
-import { useNavigate } from "react-router-dom";
+import useAuthNavigate from "../../../../hooks/use-auth-navigate";
 import Check from "../../../../assets/check.svg";
 import classNames from "classnames";
 import SpinnerComponent from "../../../../components/spinner/spinner.component";
+import { Routes as r } from "../../../../constants/routes";
 import ApplicationService from "../../../../services/application";
 
 export interface ValidationResponse {
@@ -25,7 +26,7 @@ const ConsumerAppCreationNamePage: React.FC = () => {
     useState<ValidationResponse>();
   const debounceTimeout = useRef<number>(null);
 
-  const navigate = useNavigate();
+  const navigate = useAuthNavigate();
 
   const handleOnChange = (name: string): void => {
     setAppName(name);
@@ -44,8 +45,7 @@ const ConsumerAppCreationNamePage: React.FC = () => {
 
   const checkAppNameValid = async (appName: string) => {
     try {
-      const token = ""; // TODO: add token from login
-      const data = await ApplicationService.getApplicationValidateName(appName, token);
+      const data = await ApplicationService.getApplicationValidateName(appName);
       setValidationResponse(data);
     } catch (error) {
       console.error('Error validating app name:', error);
@@ -59,12 +59,12 @@ const ConsumerAppCreationNamePage: React.FC = () => {
   }
 
   const handleClick = async () => {
-    navigate("/consumer/create/2", { state: { appName } });
+    navigate(r.Consumer.Create.Two, { state: { appName } });
   };
 
   return (
     <div className={styles.content}>
-      <NavLinkComponent text="Home" />
+      <NavLinkComponent text="Home" link={r.Home} />
       <div className={styles.headerContainer}>
         <h2>Create a new consumer app</h2>
       </div>

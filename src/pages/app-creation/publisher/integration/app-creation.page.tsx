@@ -7,11 +7,12 @@ import InputComponent, {
 import ButtonComponent, {
   ButtonType,
 } from "../../../../components/button/button.component";
-import { useNavigate } from "react-router-dom";
+import useAuthNavigate from "../../../../hooks/use-auth-navigate";
 import Check from "../../../../assets/check.svg";
 import classNames from "classnames";
 import SpinnerComponent from "../../../../components/spinner/spinner.component";
 import ApplicationService from "../../../../services/application";
+import { Routes as r } from "../../../../constants/routes";
 
 export interface ValidationResponse {
   isValid: boolean;
@@ -26,7 +27,7 @@ const IntegrationAppCreationPage: React.FC = () => {
     useState<ValidationResponse>();
   const debounceTimeout = useRef<number>(null);
 
-  const navigate = useNavigate();
+  const navigate = useAuthNavigate();
 
   const handleOnChange = (name: string): void => {
     setAppName(name);
@@ -45,8 +46,7 @@ const IntegrationAppCreationPage: React.FC = () => {
 
   const checkAppNameValid = async (appName: string) => {
     try {
-      const token = ""; // TODO: add token from login
-      const data = await ApplicationService.getApplicationValidateName(appName, token);
+      const data = await ApplicationService.getApplicationValidateName(appName);
       setValidationResponse(data);
     } catch (error) {
       console.error('Error validating app name:', error);
@@ -68,9 +68,8 @@ const IntegrationAppCreationPage: React.FC = () => {
         name: appName,
         type: "Publish"
       };
-      const token = ""; // TODO: add token from login
-      const data = await ApplicationService.createApp(body, token);
-      navigate("/details", { state: { from: "create", appID: data.appId } });
+      const data = await ApplicationService.createApp(body);
+      navigate(r.Details, { state: { from: "create", appID: data.appId } });
     } catch (error) {
       console.error("Error creating application:", error);
     } finally {
@@ -80,7 +79,7 @@ const IntegrationAppCreationPage: React.FC = () => {
 
   return (
     <div className={styles.content}>
-      <NavLinkComponent text="Home" />
+      <NavLinkComponent text="Home" link={r.Home} />
       <div className={styles.headerContainer}>
         <h2>Create a new test app</h2>
       </div>
