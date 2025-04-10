@@ -14,7 +14,7 @@ const NavLinkComponent: React.FC<NavLinkComponentProps> = ({ text, link }) => {
   return (
     <div
       className={styles.navContent}
-      onClick={() => (link ? navigate(link) : navigate(-1))}
+      onClick={() => (link ? navigate(link) : navigate("-1"))}
     >
       <img src={BackArrow}></img>
       <a>{text}</a>
