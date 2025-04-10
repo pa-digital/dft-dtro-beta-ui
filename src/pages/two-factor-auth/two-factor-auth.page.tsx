@@ -50,6 +50,7 @@ const TwoFactorAuthPage: React.FC = () => {
       <div className={styles.buttonContainer}>
         <ButtonComponent
           type={ButtonType.Primary}
+          dataTestId="verify-email"
           onClick={handleClick}
           disabled={!verifyButtonValid}
         >
@@ -57,7 +58,7 @@ const TwoFactorAuthPage: React.FC = () => {
         </ButtonComponent>
         <ButtonComponent
           type={ButtonType.Secondary}
-          onClick={() => {}}
+          onClick={() => { }}
         >
           Request a new code
         </ButtonComponent>

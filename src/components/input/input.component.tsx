@@ -13,6 +13,7 @@ interface InputComponentProps {
   label?: string;
   editable?: boolean;
   trailingIcons?: TrailingIcon[];
+  dataTestId?: string;
   onChange?: (value: string) => void;
 }
 
@@ -30,6 +31,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
   label,
   editable = true,
   trailingIcons,
+  dataTestId,
   onChange,
 }) => {
   const [isFocused, setIsFocused] = useState<boolean>(false);
@@ -43,6 +45,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
         })}
         value={value}
         type={type}
+        data-testid={dataTestId}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
         onChange={(e) => onChange?.(e.target.value)}
