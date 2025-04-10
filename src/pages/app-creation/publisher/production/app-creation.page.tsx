@@ -39,8 +39,8 @@ const ProductionAppCreationPage: React.FC = () => {
   const [displayTras, setDisplayTras] = useState<TRA[]>([]);
   const [selectedTra, setSelectedTra] = useState<TRA>();
   const [publishType, setPublishType] = useState<number>();
-  const appNameDebounceTimeout = useRef<number>(null);
-  const traDebounceTimeout = useRef<number>(null);
+  const appNameDebounceTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const traDebounceTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [isCreating, setIsCreating] = useState<boolean>(false);
 
   const navigate = useAuthNavigate();

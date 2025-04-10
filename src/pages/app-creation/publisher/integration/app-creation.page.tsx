@@ -25,7 +25,7 @@ const IntegrationAppCreationPage: React.FC = () => {
   const [isValidating, setIsValidating] = useState<boolean>(false);
   const [validationResponse, setValidationResponse] =
     useState<ValidationResponse>();
-  const debounceTimeout = useRef<number>(null);
+  const debounceTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const navigate = useAuthNavigate();
 
