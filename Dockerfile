@@ -1,10 +1,17 @@
-# Choose NGINX as our base Docker image
-FROM nginx:latest
-# Copy static assets and nginx configuration into docker image
-COPY build /usr/share/nginx/html
-COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
-COPY nginx/error_pages /usr/share/nginx/html
+FROM node:18 AS build
 
-# Define environment variables for Cloud Run
-EXPOSE 8080
-CMD [ "nginx", "-g", "daemon off;"]
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+RUN npm install
+
+COPY . .
+RUN npm run build
+
+FROM nginx:alpine
+
+COPY --from=build /app/dist /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
