@@ -8,9 +8,9 @@ export default defineConfig({
   plugins: [react()],
   server: {
     https: {
-      key: fs.readFileSync(path.resolve(__dirname, 'certs/cert.key')),
-      cert: fs.readFileSync(path.resolve(__dirname, 'certs/cert.crt')),
-      ca: fs.readFileSync(path.resolve(__dirname, 'certs/ca.crt')),
+      // key: fs.readFileSync(path.resolve(__dirname, 'certs/cert.key')),
+      // cert: fs.readFileSync(path.resolve(__dirname, 'certs/cert.crt')),
+      // ca: fs.readFileSync(path.resolve(__dirname, 'certs/ca.crt')),
     },
     port: 8080,
     host: 'localhost'
