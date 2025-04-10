@@ -16,13 +16,15 @@ import RadioButtonComponent, {
 import ButtonComponent, {
   ButtonType,
 } from "../../../../components/button/button.component";
-import { useNavigate } from "react-router-dom";
-import axiosInstance from "../../../../utils/axios-instance";
+import useAuthNavigate from "../../../../hooks/use-auth-navigate";
+import ApplicationService from "../../../../services/application";
+import TraService from "../../../../services/tra";
 import axios from "axios";
 import { ValidationResponse } from "../integration/app-creation.page";
 import SpinnerComponent from "../../../../components/spinner/spinner.component";
 import Check from '../../../../assets/check.svg';
 import classNames from "classnames";
+import { Routes as r } from "../../../../constants/routes";
 
 interface TRA {
   name: string;
@@ -41,7 +43,7 @@ const ProductionAppCreationPage: React.FC = () => {
   const traDebounceTimeout = useRef<number>(null);
   const [isCreating, setIsCreating] = useState<boolean>(false);
 
-  const navigate = useNavigate();
+  const navigate = useAuthNavigate();
 
   const options: RadioButtonOption[] = [
     {
@@ -73,8 +75,8 @@ const ProductionAppCreationPage: React.FC = () => {
 
   const checkAppNameValid = async (appName: string) => {
     try {
-      const response = await axiosInstance.get(`/applications/validateName?name=${appName}`);
-      setValidationResponse(response.data);
+      const data = await ApplicationService.getApplicationValidateName(appName);
+      setValidationResponse(data);
     } catch (error) {
       console.error('Error validating app name:', error);
       setValidationResponse({
@@ -100,8 +102,8 @@ const ProductionAppCreationPage: React.FC = () => {
 
   const fetchTRAs = async (value: string) => {
     try {
-      const response = await axiosInstance.get(`/tras?traName=${value}`);
-      setDisplayTras(response.data);
+      const data = await TraService.getTras(value);
+      setDisplayTras(data);
     } catch (error) {
       if (axios.isAxiosError(error) && error.response?.status === 404) {
         setDisplayTras([]);
@@ -130,8 +132,8 @@ const ProductionAppCreationPage: React.FC = () => {
       swaCode: selectedTra?.swaCode,
     };
     try {
-      const response = await axiosInstance.post("/applications", body);
-      navigate("/details", { state: { from: "create", appID: response.data.appId } });
+      const data = await ApplicationService.createApp(body);
+      navigate(r.Details, { state: { from: "create", appID: data.appId } });
     } catch (error) {
       console.error("Error creating application:", error);
     } finally {
@@ -141,7 +143,7 @@ const ProductionAppCreationPage: React.FC = () => {
 
   return (
     <div className={styles.content}>
-      <NavLinkComponent text="Home" />
+      <NavLinkComponent text="Home" link={r.Home} />
       <div className={styles.headerContainer}>
         <TextComponent
           type={TypographyType.SubHeading}

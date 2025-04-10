@@ -1,18 +1,24 @@
 import React from "react";
 import styles from "../table/table.module.css";
 import Eye from "../../assets/eye.svg";
-import { useNavigate } from "react-router-dom";
+import useAuthNavigate from "../../hooks/use-auth-navigate";
 import { User } from "../../pages/cso/active-users/active-users.page";
+import { Routes as r } from "../../constants/routes";
 
 interface UsersTableProps {
   users: User[];
 }
 
 const UsersTableComponent: React.FC<UsersTableProps> = ({ users }) => {
-  const navigate = useNavigate();
+  const navigate = useAuthNavigate();
 
   const handleOnClick = (user: User): void => {
-    navigate("/user", { state: { user } });
+    navigate(r.CSO.User, { state: { user } });
+  };
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString();
   };
 
   return (
@@ -22,7 +28,6 @@ const UsersTableComponent: React.FC<UsersTableProps> = ({ users }) => {
           <th>User</th>
           <th>Email</th>
           <th>Created On</th>
-          <th>Status</th>
           <th>Action</th>
         </tr>
       </thead>
@@ -31,10 +36,10 @@ const UsersTableComponent: React.FC<UsersTableProps> = ({ users }) => {
           <tr>
             <td>{user.name}</td>
             <td>{user.email}</td>
-            <td>{user.created}</td>
-            <td>
+            <td>{formatDate(user.created)}</td>
+            {/* <td>
               {user.status.replace(/\b\w/g, (char) => char.toUpperCase())}
-            </td>
+            </td> */}
             <td>
               <button className={styles.button}>
                 <div

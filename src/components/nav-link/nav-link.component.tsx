@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./nav-link.module.css";
 import BackArrow from "../../assets/back-arrow.svg";
-import { useNavigate } from "react-router-dom";
+import useAuthNavigate from "../../hooks/use-auth-navigate";
 
 interface NavLinkComponentProps {
   text: string;
@@ -9,7 +9,7 @@ interface NavLinkComponentProps {
 }
 
 const NavLinkComponent: React.FC<NavLinkComponentProps> = ({ text, link }) => {
-  const navigate = useNavigate();
+  const navigate = useAuthNavigate();
 
   return (
     <div
