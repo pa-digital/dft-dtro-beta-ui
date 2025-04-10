@@ -41,23 +41,6 @@ resource "google_cloud_run_v2_service" "service_portal_service" {
           value = env.value
         }
       }
-
-      startup_probe {
-        timeout_seconds   = 3
-        period_seconds    = 15
-        failure_threshold = 10
-        http_get {
-          path = "/health"
-          port = 8080
-        }
-      }
-
-      liveness_probe {
-        http_get {
-          path = "/health"
-          port = 8080
-        }
-      }
     }
   }
 }
