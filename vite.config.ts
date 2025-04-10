@@ -12,7 +12,7 @@ export default defineConfig({
       cert: fs.readFileSync(path.resolve(__dirname, 'certs/cert.crt')),
       ca: fs.readFileSync(path.resolve(__dirname, 'certs/ca.crt')),
     },
-    port: 5173,
+    port: 8080,
     host: 'localhost'
   }
 })

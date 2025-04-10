@@ -1,0 +1,111 @@
+name: Deploy Integration Resources
+on:
+  workflow_dispatch:
+    inputs:
+      run-terraform:
+        type: boolean
+        description: Run terraform?
+        required: false
+        default: false
+
+env:
+  TF_VAR_tf_state_bucket: dft-d-tro-terraform-test
+  TF_VAR_environment: test
+  TF_VAR_integration_prefix: int
+  TF_VAR_region: ${{ vars.DEFAULT_GCP_REGION }}
+  TF_VAR_project_id: ${{ vars.GCP_PROJECT_ID_TEST }}
+  TF_VAR_execution_service_account: ${{ secrets.EXECUTION_SERVICE_ACCOUNT_TEST }}
+  TF_VAR_artifact_registry_service_ui_image_path: ${{ vars.DEFAULT_GCP_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID_TEST }}/${{ vars.GCP_PROJECT_ID_TEST }}-ui-int-repository/${{ vars.DTRO_SERVICE_UI_IMAGE_NAME }}
+  TF_VAR_service_ui_image: ${{ vars.DTRO_SERVICE_UI_IMAGE_NAME }}
+  TF_VAR_service_ui_tag: ${{ vars.DTRO_SERVICE_UI_IMAGE_TAG }}
+  TF_VAR_cloud_run_service_ui_client_id: ${{ secrets.CSO_CLIENT_ID_INT }}
+  TF_VAR_cloud_run_service_ui_client_secret: ${{ secrets.CSO_CLIENT_SECRET_INT }}
+
+permissions:
+  contents: read
+  packages: read
+  actions: read
+
+jobs:
+  build-push-dtro:
+    name: Build and Push DTRO Application to Artifact Registry - Integration
+    if: ${{ inputs.run-terraform }}
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+      packages: read
+      actions: read
+      pull-requests: write
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          path: dft-dtro-beta-ui
+
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v3.3.0
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER_TEST }}
+          service_account: ${{ secrets.WIP_SERVICE_ACCOUNT_TEST }}
+
+      - name: Authenticate Docker with the Artifact Registry repository
+        run: gcloud auth configure-docker europe-west1-docker.pkg.dev
+
+      - name: Build and push Service Portal Docker image to Artifact Registry
+        uses: docker/build-push-action@v6.1.0
+        with:
+          context: dft-dtro-beta-ui/Src/Dft.DTRO.Admin
+          platforms: linux/amd64
+          push: true
+          provenance: false
+          tags: ${{ env.TF_VAR_artifact_registry_service_ui_image_path }}:${{ env.TF_VAR_service_ui_tag }}
+
+  deploy-resources:
+    name: Deploy GCP Resources to Integration
+    if: ${{ inputs.run-terraform }}
+    needs:
+      - build-push-dtro
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+      packages: read
+      actions: read
+      pull-requests: write
+    defaults:
+      run:
+        shell: bash
+        working-directory: terraform-int
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER_TEST }}
+          service_account: ${{ secrets.WIP_SERVICE_ACCOUNT_TEST }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.9.0"
+
+      - name: Terraform Init
+        run: |
+          terraform init \
+          -backend-config "bucket=${{env.TF_VAR_tf_state_bucket}}" \
+          -backend-config "prefix=terraform/int-cloudrun-state/ui"
+
+      - name: Terraform Plan
+        run: terraform plan -input=false -out terraform-plan-gcp
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -input=false terraform-plan-gcp
