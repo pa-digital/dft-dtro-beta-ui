@@ -15,7 +15,7 @@ public class MetricsService : IMetricsService
     {
         try
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, ConfigHelper.ApiBaseUrl + "/healthApi");
+            var request = new HttpRequestMessage(HttpMethod.Get, ConfigHelper.ApiBaseUrl + "/health");
             await _appIdService.AddAppIdHeader(request);
 
             var response = await _client.SendAsync(request);
