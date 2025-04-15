@@ -11,13 +11,13 @@ import InputComponent, {
 import ButtonComponent, {
   ButtonType,
 } from "../../components/button/button.component";
-import useAuthNavigate from "../../hooks/use-auth-navigate";
 import axiosInstance from "../../utils/axios-instance";
 import classNames from "classnames";
 import SpinnerComponent from "../../components/spinner/spinner.component";
 import { Routes as r } from "../../constants/routes";
 import { useAuth } from "../../contexts/auth.context";
 import { Endpoints } from "../../constants/endpoints";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage: React.FC = () => {
   const [username, setUsername] = useState<string>("");
@@ -26,9 +26,8 @@ const LoginPage: React.FC = () => {
   const [isInvalidCredentials, setIsInvalidCredentials] = useState<boolean>(false);
 
   const { isAuthenticated, isLoading } = useAuth();
-  const { refreshAuth } = useAuth();
 
-  const navigate = useAuthNavigate();
+  const navigate = useNavigate();
 
   const handleUsernameChange = (value: string): void => {
     setUsername(value);
@@ -38,16 +37,26 @@ const LoginPage: React.FC = () => {
     setPassword(value);
   };
 
+  const isEmailRegex = (value: string): boolean => {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(value);
+  };
+
+  const isPasswordValid = (value: string): boolean => {
+    return value !== "";
+  };
+
   const handleClick = async (): Promise<void> => {
+    if (!isEmailRegex(username) || !isPasswordValid(password)) return;
+
     setIsAuthenticating(true);
     setIsInvalidCredentials(false);
     try {
-      await axiosInstance.post(Endpoints.Token.Get, {
+      const response = await axiosInstance.post(Endpoints.Authenticate, {
         username,
         password,
       });
-      await refreshAuth();
-      navigate(r.Home);
+      navigate(r.Auth, { state: { token: response.data.token } });
     } catch (error) {
       setIsInvalidCredentials(true);
     } finally {
@@ -72,27 +81,27 @@ const LoginPage: React.FC = () => {
           content="Welcome to the DTRO service"
         />
         <p className={sharedStyles.contactContainer}>
-          Enter your app ID and secret to log into the service. If you can't log in or need to request access please email{' '}
+          Enter your email and password to log into the service. If you can't log in or need to request access please email{' '}
           <a href="mailto:dtro-cso@dft.gov.uk">dtro-cso@dft.gov.uk</a>.
         </p>
         <InputComponent
           value={username}
           type={InputType.Text}
-          label="Client ID"
+          label="Email"
           onChange={handleUsernameChange}
         />
         <InputComponent
           value={password}
           type={InputType.Password}
-          label="Client secret"
+          label="Password"
           onChange={handlePasswordChange}
         />
-        <p className={classNames(styles.validationMessage, { [styles.show]: isInvalidCredentials })}>Invalid client ID/secret combination</p>
+        <p className={classNames(styles.validationMessage, { [styles.show]: isInvalidCredentials })}>Invalid username/password combination</p>
         <div className={styles.buttonContainer}>
           <ButtonComponent
             type={ButtonType.Primary}
             onClick={handleClick}
-            disabled={username === "" || password === ""}
+            disabled={!isEmailRegex(username) || !isPasswordValid(password)}
           >
             {isAuthenticating ? <SpinnerComponent colour="rgb(255, 255, 255)" /> : "Login"}
           </ButtonComponent>

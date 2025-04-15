@@ -1,3 +1,5 @@
+import TwoFactorAuthComponent from "../components/two-factor-auth/two-factor-auth.component";
+
 export const Routes = {
     Login: "/login",
     Auth: "/auth",

@@ -9,13 +9,28 @@ import TextComponent, {
 } from "../../components/text/typography.component";
 import useAuthNavigate from "../../hooks/use-auth-navigate";
 import { Routes as r } from "../../constants/routes";
+import axiosInstance from "../../utils/axios-instance";
+import { useLocation } from "react-router-dom";
+import { AxiosError } from "axios";
+import classNames from "classnames";
+
+type ErrorResponse = {
+  message: string;
+};
 
 const TwoFactorAuthPage: React.FC = () => {
   const n = 6;
   const [code, setCode] = useState<string[]>(Array(n).fill(""));
   const [verifyButtonValid, setVerifyButtonValid] = useState<boolean>(false);
+  const [validationMessage, setValidationMessage] = useState<string | undefined>("");
 
+  const location = useLocation();
   const navigate = useAuthNavigate();
+
+  useEffect(() => {
+    if (!location.state)
+      navigate(r.Login);
+  }, []);
 
   useEffect(() => {
     setVerifyButtonValid(code.every((digit) => digit !== ""));
@@ -29,9 +44,21 @@ const TwoFactorAuthPage: React.FC = () => {
     setCode(newCode);
   };
 
-  const handleClick = (): void => {
+  const handleClick = async (): Promise<void> => {
     if (code.some((char) => char === "")) return;
-    navigate(r.Home);
+
+    setValidationMessage("");
+    try {
+      await axiosInstance.post("/auth/2fa", { token: location.state.token, code: code.join("") });
+      navigate(r.Home);
+    } catch (error) {
+      const err = error as AxiosError<ErrorResponse>;
+      if (err.status === 400) {
+        setValidationMessage(err.response?.data.message);
+      } else {
+        setValidationMessage("An unknown error occurred");
+      }
+    }
   };
 
   return (
@@ -47,17 +74,18 @@ const TwoFactorAuthPage: React.FC = () => {
         content="Enter the 6-digit code sent to your email to verify your identity."
       />
       <TwoFactorAuthComponent n={n} onChange={handleOnChange} />
+      <p className={classNames(styles.validationMessage, { [styles.show]: validationMessage })}>{validationMessage}</p>
       <div className={styles.buttonContainer}>
         <ButtonComponent
           type={ButtonType.Primary}
           onClick={handleClick}
           disabled={!verifyButtonValid}
         >
-          Verify email
+          Verify code
         </ButtonComponent>
         <ButtonComponent
           type={ButtonType.Secondary}
-          onClick={() => {}}
+          onClick={() => { }}
         >
           Request a new code
         </ButtonComponent>
