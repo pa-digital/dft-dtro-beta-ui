@@ -1,11 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import styles from "../app-creation/consumer/app-creation-details/app-creation-details.module.css";
-import sharedStyles from "../../styles/shared.module.css";
 import NavLinkComponent from "../../components/nav-link/nav-link.component";
-import InputComponent, { InputType } from "../../components/input/input.component";
 import SpinnerComponent from "../../components/spinner/spinner.component";
-import Check from "../../assets/check.svg";
-import classNames from "classnames";
 import RadioButtonComponent, { RadioButtonOption } from "../../components/radio-button/radio-button.component";
 import ButtonComponent, { ButtonType } from "../../components/button/button.component";
 import TextComponent, { TypographyType } from "../../components/text/typography.component";
@@ -16,6 +12,7 @@ import CheckboxComponent from "../../components/checkbox/checkbox.component";
 import { errorTypeItems, regulationTypeItems, troTypeItems } from "./constants";
 import ImageUploadComponent from "../../components/image-upload/image-upload.component";
 import { useNavigate } from "react-router-dom";
+import { AxiosError } from "axios";
 
 interface TRA {
     name: string;
@@ -32,27 +29,23 @@ const ErrorReportingIsNoTROPage: React.FC = () => {
     const [details, setDetails] = useState<string>("");
     const [isCreating, setIsCreating] = useState<boolean>(false);
     const traDebounceTimeout = useRef<ReturnType<typeof setTimeout>>(null);
+    const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
 
     const navigate = useNavigate();
 
     const fetchTRAs = async (value: string) => {
-        const tras: TRA[] = [
-            { name: "A", swaCode: 1 },
-            { name: "B", swaCode: 2 },
-            { name: "C", swaCode: 3 },
-            { name: "D", swaCode: 4 },
-        ]
-        setDisplayTras(tras);
-        // try {
-        //     const response = await axiosInstance.get(`/tras?traName=${value}`);
-        //     setDisplayTras(response.data);
-        // } catch (error) {
-        //     if (axios.isAxiosError(error) && error.response?.status === 404) {
-        //         setDisplayTras([]);
-        //     } else {
-        //         console.error("Could not fetch TRAs");
-        //     }
-        // }
+        try {
+            const response = await axiosInstance.get<TRA[]>(`/tras?traName=${value}`);
+            const displayTras = response.data.filter(tra => !selectedTras.some(item => item.name === tra.name));
+            setDisplayTras(displayTras);
+        } catch (error) {
+            const err = error as AxiosError;
+            if (err.response?.status === 404) {
+                setDisplayTras([]);
+            } else {
+                console.error("Could not fetch TRAs");
+            }
+        }
     }
 
     const handleSearchChange = (value: string): void => {
@@ -107,16 +100,47 @@ const ErrorReportingIsNoTROPage: React.FC = () => {
         return selectedTras.length > 0 && regulationTypes.some(Boolean) && troTypes.some(Boolean) && errorType !== undefined && details !== "";
     };
 
-    const handleOnClick = (): void => {
+    const handleOnClick = async (): Promise<void> => {
         if (!isValid) return;
         setIsCreating(true);
 
-        navigate("/error-report/submitted");
-    }
+        const formData = new FormData();
+        selectedTras.forEach(t => {
+            formData.append("Tras", t.name);
+        });
 
-    useEffect(() => {
-        console.log(selectedTras);
-    }, [selectedTras]);
+        const rTypes = regulationTypeItems.filter((_, index) => regulationTypes[index]);
+        rTypes.forEach(rt => {
+            formData.append("RegulationTypes", rt.title);
+        });
+
+        const tTypes = troTypeItems.filter((_, index) => troTypes[index]);
+        tTypes.forEach(tt => {
+            formData.append("TroTypes", tt.title);
+        });
+
+        formData.append("Type", errorTypeItems.find(i => i.value === errorType)?.title ?? "");
+        formData.append("OtherType", errorTypeOtherDetails);
+        formData.append("MoreInformation", details);
+
+        uploadedFiles.forEach(file => {
+            formData.append("Files", file);
+        });
+
+        try {
+            console.log(formData);
+            const response = await axiosInstance.post("/errorReport", formData);
+            if (response.status === 200) {
+                navigate("/error-report/submitted");
+            } else {
+                console.error("An error occurred when submitting the error report");
+            }
+        } catch (error) {
+            console.error("An error occurred when submitting the error report");
+        } finally {
+            setIsCreating(false);
+        }
+    }
 
     return <div className={styles.content}>
         <NavLinkComponent text="Home" link="/home" />
@@ -164,7 +188,7 @@ const ErrorReportingIsNoTROPage: React.FC = () => {
                 onChange={handleDetailsOnChange}
             ></textarea>
         </div>
-        <ImageUploadComponent />
+        <ImageUploadComponent onFilesSelected={setUploadedFiles} />
         <div className={styles.buttonContainer}>
             <ButtonComponent
                 type={ButtonType.Primary}
