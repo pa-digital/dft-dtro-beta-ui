@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./modal.module.css";
 import ButtonComponent, { ButtonType } from "../button/button.component";
 
-interface ModalProps {
+export interface ModalProps {
   title: string;
   subtitle: string;
   buttonText: string;

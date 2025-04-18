@@ -1,0 +1,17 @@
+.content {
+    padding: 24px 88px;
+    display: flex;
+    flex-direction: column;
+    max-width: 960px;
+    gap: 24px;
+}
+
+.headerContainer {
+    width: 70%;
+}
+
+.headerContainer > h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: rgb(35, 35, 35);
+}
