@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "vite --mode development",
-    "start:local": "vite --mode local",
+    "start:dev-local": "vite --mode dev-local",
     "start:test": "vite --mode test",
     "start:integration": "vite --mode staging",
     "start:production": "vite --mode production",

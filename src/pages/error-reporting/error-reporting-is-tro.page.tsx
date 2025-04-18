@@ -10,6 +10,7 @@ import RadioButtonComponent, { RadioButtonOption } from "../../components/radio-
 import ButtonComponent, { ButtonType } from "../../components/button/button.component";
 import ImageUploadComponent from "../../components/image-upload/image-upload.component";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../utils/axios-instance";
 
 const ErrorReportingIsTROPage: React.FC = () => {
     const [troID, setTROID] = useState<string>("");
@@ -19,6 +20,7 @@ const ErrorReportingIsTROPage: React.FC = () => {
     const [otherType, setOtherType] = useState<string>("");
     const [moreInformation, setMoreInformation] = useState<string>("");
     const [isCreating, setIsCreating] = useState<boolean>(false);
+    const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
 
     const navigate = useNavigate();
 
@@ -47,6 +49,8 @@ const ErrorReportingIsTROPage: React.FC = () => {
             }
         }
 
+        if (formatted === troID) return;
+
         setTROID(formatted);
         if (isGuid(formatted)) {
             await validateTROID(formatted);
@@ -67,14 +71,12 @@ const ErrorReportingIsTROPage: React.FC = () => {
         if (guid === "") return;
 
         try {
-            // Validate GUID with API
-            setValidationResponse(true);
+            const response = await axiosInstance.post("/dtros/validate", { Id: guid });
+            setValidationResponse(response.data.valid);
         } catch (error) {
             setValidationResponse(false);
         } finally {
-            setTimeout(() => {
-                setIsValidating(false);
-            }, 2000);
+            setIsValidating(false);
         }
     }
 
@@ -98,11 +100,32 @@ const ErrorReportingIsTROPage: React.FC = () => {
         return troID !== "" && validationResponse === true && type !== undefined;
     }
 
-    const handleOnClick = (): void => {
+    const handleOnClick = async (): Promise<void> => {
         if (!isValid) return;
         setIsCreating(true);
 
-        navigate("/error-report/submitted");
+        const formData = new FormData();
+        formData.append("TroId", troID);
+        formData.append("Type", items.find(i => i.value === type)?.title ?? "");
+        formData.append("OtherType", otherType);
+        formData.append("MoreInformation", moreInformation);
+
+        uploadedFiles.forEach(file => {
+            formData.append("Files", file);
+        });
+
+        try {
+            const response = await axiosInstance.post("/errorReport", formData);
+            if (response.status === 200) {
+                navigate("/error-report/submitted");
+            } else {
+                console.error("An error occurred when submitting the error report");
+            }
+        } catch (error) {
+            console.error("An error occurred when submitting the error report");
+        } finally {
+            setIsCreating(false);
+        }
     }
 
     return <div className={styles.content}>
@@ -166,7 +189,7 @@ const ErrorReportingIsTROPage: React.FC = () => {
                 onChange={handleMoreInformationChange}
             ></textarea>
         </div>
-        <ImageUploadComponent />
+        <ImageUploadComponent onFilesSelected={setUploadedFiles} />
         <div className={styles.buttonContainer}>
             <ButtonComponent
                 type={ButtonType.Primary}

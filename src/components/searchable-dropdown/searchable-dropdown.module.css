@@ -92,6 +92,10 @@
     padding: 0 12px 12px 12px;
 }
 
+.selectedTermContainer > div {
+    text-wrap: nowrap;
+}
+
 .selectedTermContainer > img {
     cursor: pointer;
 }
