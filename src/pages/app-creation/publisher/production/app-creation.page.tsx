@@ -113,7 +113,7 @@ const ProductionAppCreationPage: React.FC = () => {
     }
   }
 
-  const handleOnSelect = (value: string) => {
+  const handleOnSelect = (value: string | string[]) => {
     const tra = displayTras.find(tra => tra.name === value);
     setSelectedTra(tra);
   };

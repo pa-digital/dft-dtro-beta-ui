@@ -31,7 +31,7 @@ const ErrorReportingIsNoTROPage: React.FC = () => {
     const [errorTypeOtherDetails, setErrorTypeOtherDetails] = useState<string>("");
     const [details, setDetails] = useState<string>("");
     const [isCreating, setIsCreating] = useState<boolean>(false);
-    const traDebounceTimeout = useRef<number>(null);
+    const traDebounceTimeout = useRef<ReturnType<typeof setTimeout>>(null);
 
     const navigate = useNavigate();
 
