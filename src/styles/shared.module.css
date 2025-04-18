@@ -9,7 +9,7 @@
   padding: 0 36px;
 }
 
-h2 {
+/* h2 {
   font-size: 36px;
   font-weight: 600;
   color: rgb(35, 35, 35);
@@ -20,7 +20,7 @@ p {
   font-weight: 400;
   color: rgb(98, 98, 98);
   margin-bottom: 48px;
-}
+} */
 
 .card {
   padding: 16px;
@@ -84,10 +84,11 @@ p {
 
 @keyframes spin {
   0% {
-      transform: rotate(0deg);
+    transform: rotate(0deg);
   }
+
   100% {
-      transform: rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 
@@ -99,10 +100,62 @@ p {
   align-items: center;
 }
 
-.contactContainer {
-  font-size: 14px;
+.validationMessageContainer {
+  visibility: hidden;
+  height: 32px;
+  padding-top: 8px;
+}
+
+.show {
+  visibility: visible;
+}
+
+.validation {
+  font-size: 11px;
+}
+
+.valid {
+  color: rgb(21, 181, 66);
+}
+
+.invalid {
+  color: #e04136;
+}
+
+.wrapper {
+  display: flex;
+  gap: 24px;
+  width: 100%;
+  height: 120px;
+}
+
+.indicator {
+  height: 100%;
+  width: 6px;
+  background-color: rgb(177, 180, 182);
+  border-radius: 12px;
+}
+
+.infoContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-grow: 1;
+}
+
+.infoContainer > p {
+  font-size: 16px;
+}
+
+.messageContainer {
+  font-size: 13px;
+}
+
+.messageContainer > p > a {
+  color: rgb(0, 106, 176);
 }
 
 .contactContainer > a {
+  font-size: 14px;
   color: rgba(0, 106, 176);
 }
