@@ -1,27 +1,40 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./navigation.module.css";
-import NavLinkComponent from "../../components/nav-link/nav-link.component";
 import NavigationItemComponent from "../../components/navigation-item/navigation-item.component";
 import { isProductionEnv } from "../../utils/env";
 import { ButtonType } from "../../components/button/button.component";
 import ModalComponent from "../../components/modal/modal.component";
 import { useNavigate } from "react-router-dom";
+import { Routes as r } from "../../constants/routes";
+import axiosInstance from "../../utils/axios-instance";
 
 const NavigationPage: React.FC = () => {
+  const [canRequestProductionAccess, setCanRequestProductionAccess] =
+    useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [createProductionAppDisabled, setCreateProductionAppDisabled] =
-    useState<boolean>(true);
+
+  useEffect(() => {
+    fetchProductionAccessRequestStatus();
+  }, []);
+
+  const fetchProductionAccessRequestStatus = async () => {
+    try {
+      const response = await axiosInstance.get("/canRequestProductionAccess", {});
+      setCanRequestProductionAccess(response.data);
+    } catch (error) {
+      console.error("Could not determine production access status");
+    }
+  };
 
   const navigate = useNavigate();
 
-    const handleConfirmNavigation = () => {
-      setShowModal(false);
-      navigate("/error-report/1");
-    };
+  const handleConfirmNavigation = () => {
+    setShowModal(false);
+    navigate("/error-report/1");
+  };
 
   return (
     <div className={styles.content}>
-      <NavLinkComponent text="Sign in" />
       <div className={styles.headerContainer}>
         <h2>Publisher Account</h2>
       </div>
@@ -30,32 +43,32 @@ const NavigationPage: React.FC = () => {
           <NavigationItemComponent
             navTitle="Create new publisher test app"
             navSubtitle="Generate publisher app credentials for use with the D-TRO test environment."
-            link="/publisher/create"
+            link={r.Publisher.Create}
           />
         ) : (
           <NavigationItemComponent
             navTitle="Create new publisher production app"
             navSubtitle="Generate publisher app credentials for use with the D-TRO production environment."
-            link="/create"
+            link={r.Publisher.Create}
           />
         )}
         {!isProductionEnv() && (
           <NavigationItemComponent
-            navTitle="Request new publisher app"
-            navSubtitle="Request credentials for a new app to publish to the D-TRO production environment."
-            disabled={createProductionAppDisabled}
-            link="/publisher-create"
+            navTitle="Request production access"
+            navSubtitle="Request access to the D-TRO production environment."
+            disabled={!canRequestProductionAccess}
+            link={r.Access}
           />
         )}
         <NavigationItemComponent
           navTitle="Create new consumer app"
           navSubtitle="Generate consumer app credentials for use with the D-TRO production environment"
-          link="/consumer/create/1"
+          link={r.Consumer.Create.One}
         />
         <NavigationItemComponent
           navTitle="View credentials"
           navSubtitle="View your existing app credentials and generate new credentials for an existing app."
-          link="/list"
+          link={r.Apps}
         />
         <NavigationItemComponent
           navTitle="Report a data error"

@@ -1,0 +1,167 @@
+name: Deploy Resources
+
+on:
+  workflow_call:
+    secrets:
+      workload_identity_provider:
+        required: true
+      wip_service_account:
+        required: true
+      execution_service_account:
+        required: true
+      service_ui_client_id:
+        required: true
+      service_ui_client_secret:
+        required: true
+      gcp_project_number:
+        required: true
+    inputs:
+      gcp-project-id:
+        type: string
+        required: true
+      gcp-project:
+        type: string
+        required: true
+      gcp-region:
+        type: string
+        required: true
+      environment:
+        type: string
+        required: true
+      service-ui-image-name:
+        type: string
+        required: true
+      service-ui-image-tag:
+        type: string
+        required: true
+      do-validation-checks:
+        type: boolean
+        required: false
+        default: false
+      run-build-push:
+        type: boolean
+        description: Run Build and Push job?
+        required: false
+        default: false
+      run-deploy-CR-job:
+        type: boolean
+        description: Run deploy Cloud Run job?
+        required: false
+        default: false
+
+env:
+  TF_VAR_tf_state_bucket: dft-d-tro-terraform-${{ inputs.environment }}
+  TF_VAR_environment: ${{ inputs.environment }}
+  TF_VAR_region: ${{ inputs.gcp-region }}
+  TF_VAR_project_id: ${{ inputs.gcp-project-id }}
+  TF_VAR_execution_service_account: ${{ secrets.execution_service_account }}
+  TF_VAR_artifact_registry_service_ui_image_path: ${{ inputs.gcp-region }}-docker.pkg.dev/${{ inputs.gcp-project-id }}/${{ inputs.gcp-project }}-ui-repository/${{ inputs.service-ui-image-name }}
+  TF_VAR_service_ui_image: ${{ inputs.service-ui-image-name }}
+  TF_VAR_service_ui_tag: ${{  inputs.service-ui-image-tag }}
+  TF_VAR_cloud_run_service_ui_client_id: ${{ secrets.service_ui_client_id }}
+  TF_VAR_cloud_run_service_ui_client_secret: ${{ secrets.service_ui_client_secret }}
+
+permissions:
+  contents: read
+  packages: read
+  actions: read
+
+jobs:
+  build-push-dtro:
+    if: ${{ inputs.run-build-push }}
+    name: Build and Push DTRO Application to Artifact Registry - ${{ inputs.environment }}
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+      packages: read
+      actions: read
+      pull-requests: write
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          path: dft-dtro-beta-ui
+
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v3.3.0
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.workload_identity_provider }}
+          service_account: ${{ secrets.wip_service_account }}
+
+      - name: Authenticate Docker with the Artifact Registry repository
+        run: gcloud auth configure-docker europe-west1-docker.pkg.dev
+
+      - name: Build and push Service Portal Docker image to Artifact Registry
+        uses: docker/build-push-action@v6.1.0
+        with:
+          context: dft-dtro-beta-ui
+          platforms: linux/amd64
+          push: true
+          provenance: false
+          tags: ${{ env.TF_VAR_artifact_registry_service_ui_image_path }}:${{ env.TF_VAR_service_ui_tag }}
+
+  deploy-dtro:
+    if: ${{ inputs.run-deploy-CR-job }}
+    name: Deploy DTRO Application to Cloud Run - ${{ inputs.environment }}
+    needs:
+      - build-push-dtro
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+      packages: read
+      actions: read
+      pull-requests: write
+    defaults:
+      run:
+        shell: bash
+        working-directory: terraform
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.workload_identity_provider }}
+          service_account: ${{ secrets.wip_service_account }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.9.0"
+
+      - name: Terraform Format
+        if: ${{ inputs.do-validation-checks }}
+        run: terraform fmt -check -recursive
+
+      - name: terraform validate
+        if: ${{ inputs.do-validation-checks }}
+        uses: dflook/terraform-validate@v1
+
+      - name: Checkov GitHub Action
+        if: ${{ inputs.do-validation-checks }}
+        uses: bridgecrewio/checkov-action@v12
+        with:
+          skip_check: ${{ inputs.checkov-skip-check }}
+          output_format: github_failed_only
+          output_file_path: console
+
+      - name: Terraform Init
+        run: |
+          terraform init \
+          -backend-config "bucket=${{env.TF_VAR_tf_state_bucket}}" \
+          -backend-config "prefix=terraform/cloudrun-state/ui"
+
+      - name: Terraform Plan
+        run: terraform plan -input=false -out terraform-plan-gcp-cr
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -input=false terraform-plan-gcp-cr

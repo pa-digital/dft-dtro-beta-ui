@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from "./navigation-item.module.css";
-import { useNavigate } from "react-router-dom";
+import useAuthNavigate from "../../hooks/use-auth-navigate";
 import classNames from "classnames";
 import BackArrow from "../../assets/back-arrow.svg";
 
@@ -19,7 +19,7 @@ const NavigationItemComponent: React.FC<NavigationItemComponentProps> = ({
   link,
   onClick
 }) => {
-  const navigate = useNavigate();
+  const navigate = useAuthNavigate();
 
   const handleClick = () => {
     if (disabled) return;

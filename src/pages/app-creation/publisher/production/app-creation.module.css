@@ -10,11 +10,6 @@
     width: 70%;
 }
 
-.inputContainer {
-    padding-bottom: 36px;
-    border-bottom: 1px solid rgb(217, 217, 217);
-}
-
 .textContainer {
     padding-bottom: 24px;
     border-bottom: 1px solid rgb(217, 217, 217);
@@ -30,21 +25,7 @@
     }
 }
 
-.validationMessageContainer {
-    visibility: hidden;
-    height: 32px;
-    padding-top: 8px;
-}
-
-.show {
-    visibility: visible;
-}
-
-.valid {
-    color: rgb(21, 181, 66);
-    
-}
-
-.invalid {
-    color: #e04136;
+.appNameContainer {
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgb(217, 217, 217);
 }

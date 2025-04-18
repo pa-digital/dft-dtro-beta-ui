@@ -20,7 +20,7 @@ interface AppCredentialsPageProps {
 interface AppCredentials {
   appID: string;
   appName: string;
-  swaCode: number;
+  swaCode: string;
   purpose: string;
   apiKey: string;
   apiSecret: string;

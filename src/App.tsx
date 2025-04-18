@@ -18,44 +18,76 @@ import ErrorReportingPage from "./pages/error-reporting/error-reporting.page";
 import ErrorReportingIsTROPage from "./pages/error-reporting/error-reporting-is-tro.page";
 import ErrorReportingIsNoTROPage from "./pages/error-reporting/error-reporting-is-no-tro.page";
 import ErrorReportingSubmittedPage from "./pages/error-reporting/submitted/submitted.page";
+import LoginPage from "./pages/login/login.page";
+import PrivateRoute from "./components/private-route/private-route.component";
+import { Routes as r } from "./constants/routes";
+import AccessPage from "./pages/access/access.page";
+import { useAuth } from "./contexts/auth.context";
+import AdminRoute from "./components/admin-route/admin-route.component";
+import UnauthorizedPage from "./pages/error/unauthorized.page";
+import NotFoundPage from "./pages/error/not-found.page";
+import ConsumerAppCreationNamePage from "./pages/app-creation/consumer/app-creation-name/app-creation-name.page";
 
 function App() {
+  const { isAdmin } = useAuth();
+
   return (
-    <div className="container">
-      <NavbarComponent />
-      <div className="content">
-        <Router>
+    <Router>
+      <div className="container">
+        <NavbarComponent />
+        <div className="content">
           <Routes>
-            <Route path="/auth" element={<TwoFactorAuthPage />}></Route>
-            <Route path="/home" element={<NavigationPage />}></Route>
-            <Route
-              path="/publisher/create"
-              element={
-                !isProductionEnv() ? (
-                  <IntegrationAppCreationPage />
-                ) : (
-                  <ProductionAppCreationPage />
-                )
-              }
-            ></Route>
-            <Route path="/details" element={<AppDetailsPage />}></Route>
-            <Route path="/list" element={<AppListPage />}></Route>
-            <Route path="/cso/nav" element={<CSONavigationPage />}></Route>
-            <Route path="/requests" element={<PendingRequestsPage />}></Route>
-            <Route path="/users" element={<ActiveUsersPage />}></Route>
-            <Route path="/user" element={<UserDetailsPage />}></Route>
-            <Route path="/success" element={<SuccessPage />}></Route>
-            <Route path="/error-report/1" element={<ErrorReportingPage />}></Route>
-            <Route path="/error-report/is-tro" element={<ErrorReportingIsTROPage />}></Route>
-            <Route path="/error-report/no-tro" element={<ErrorReportingIsNoTROPage />}></Route>
-            <Route path="/error-report/submitted" element={<ErrorReportingSubmittedPage />}></Route>
+            {/* Error pages */}
+            <Route path={r.Unauthorized} element={<UnauthorizedPage />} />
+
+            <Route path={r.Login} element={<LoginPage />} />
+
+            <Route element={<PrivateRoute />}>
+              <Route path={r.Auth} element={<TwoFactorAuthPage />} />
+              <Route path={r.Home} element={isAdmin ? <CSONavigationPage /> : <NavigationPage />} />
+              <Route path={r.Access} element={<AccessPage />} />
+              <Route
+                path={r.Publisher.Create}
+                element={
+                  !isProductionEnv() ? (
+                    <IntegrationAppCreationPage />
+                  ) : (
+                    <ProductionAppCreationPage />
+                  )
+                }
+              />
+              <Route path={r.Details} element={<AppDetailsPage />} />
+              <Route path={r.Apps} element={<AppListPage />} />
+              <Route path={r.Publisher.Request} element={<SuccessPage />} />
+              <Route
+                path={r.Consumer.Create.One}
+                element={<ConsumerAppCreationNamePage />}
+              />
+              <Route
+                path={r.Consumer.Create.Two}
+                element={<ConsumerAppCreationNamePage />}
+              />
+              <Route path="/error-report/1" element={<ErrorReportingPage />}></Route>
+              <Route path="/error-report/is-tro" element={<ErrorReportingIsTROPage />}></Route>
+              <Route path="/error-report/no-tro" element={<ErrorReportingIsNoTROPage />}></Route>
+              <Route path="/error-report/submitted" element={<ErrorReportingSubmittedPage />}></Route>
+            </Route>
+
+            <Route element={<AdminRoute />}>
+              <Route path={r.CSO.Requests} element={<PendingRequestsPage />} />
+              <Route path={r.CSO.Users} element={<ActiveUsersPage />} />
+              <Route path={r.CSO.User} element={<UserDetailsPage />} />
+            </Route>
+
+            {/* Not found */}
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
-        </Router>
+        </div>
+        <div className="footer">
+          <FooterComponent />
+        </div>
       </div>
-      <div className="footer">
-        <FooterComponent />
-      </div>
-    </div>
+    </Router>
   );
 }
 

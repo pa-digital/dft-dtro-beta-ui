@@ -4,18 +4,18 @@ import TwoFactorAuthComponent from "../../components/two-factor-auth/two-factor-
 import ButtonComponent, {
   ButtonType,
 } from "../../components/button/button.component";
-import NavLinkComponent from "../../components/nav-link/nav-link.component";
 import TextComponent, {
   TypographyType,
 } from "../../components/text/typography.component";
-import { useNavigate } from "react-router-dom";
+import useAuthNavigate from "../../hooks/use-auth-navigate";
+import { Routes as r } from "../../constants/routes";
 
 const TwoFactorAuthPage: React.FC = () => {
   const n = 6;
   const [code, setCode] = useState<string[]>(Array(n).fill(""));
   const [verifyButtonValid, setVerifyButtonValid] = useState<boolean>(false);
 
-  const navigate = useNavigate();
+  const navigate = useAuthNavigate();
 
   useEffect(() => {
     setVerifyButtonValid(code.every((digit) => digit !== ""));
@@ -31,12 +31,11 @@ const TwoFactorAuthPage: React.FC = () => {
 
   const handleClick = (): void => {
     if (code.some((char) => char === "")) return;
-    navigate("/home");
+    navigate(r.Home);
   };
 
   return (
     <div className={styles.content}>
-      <NavLinkComponent text="Sign in" />
       <div className={styles.headerContainer}>
         <TextComponent
           type={TypographyType.SubHeading}

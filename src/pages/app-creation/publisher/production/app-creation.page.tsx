@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./app-creation.module.css";
+import sharedStyles from "../../../../styles/app-creation-name.module.css";
 import NavLinkComponent from "../../../../components/nav-link/nav-link.component";
 import TextComponent, {
   TypographyType,
@@ -15,16 +16,34 @@ import RadioButtonComponent, {
 import ButtonComponent, {
   ButtonType,
 } from "../../../../components/button/button.component";
-import { useNavigate } from "react-router-dom";
+import useAuthNavigate from "../../../../hooks/use-auth-navigate";
+import ApplicationService from "../../../../services/application";
+import TraService from "../../../../services/tra";
+import axios from "axios";
+import { ValidationResponse } from "../integration/app-creation.page";
+import SpinnerComponent from "../../../../components/spinner/spinner.component";
+import Check from '../../../../assets/check.svg';
+import classNames from "classnames";
+import { Routes as r } from "../../../../constants/routes";
+
+interface TRA {
+  name: string;
+  swaCode: number;
+}
 
 const ProductionAppCreationPage: React.FC = () => {
   const [appName, setAppName] = useState<string>("");
-  const [tras, setTras] = useState<string[]>([]);
-  const [displayTras, setDisplayTras] = useState<string[]>([]);
-  const [selectedTra, setSelectedTra] = useState<string>("");
+  const [isValidating, setIsValidating] = useState<boolean>(false);
+  const [validationResponse, setValidationResponse] =
+    useState<ValidationResponse>();
+  const [displayTras, setDisplayTras] = useState<TRA[]>([]);
+  const [selectedTra, setSelectedTra] = useState<TRA>();
   const [publishType, setPublishType] = useState<number>();
+  const appNameDebounceTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const traDebounceTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [isCreating, setIsCreating] = useState<boolean>(false);
 
-  const navigate = useNavigate();
+  const navigate = useAuthNavigate();
 
   const options: RadioButtonOption[] = [
     {
@@ -40,48 +59,91 @@ const ProductionAppCreationPage: React.FC = () => {
     },
   ];
 
-  useEffect(() => {
-    // Fetch TRAs
-    const tras = [
-      "Surrey County Council",
-      "Suffolk County Council",
-      "East Sussex County Council",
-      "West Sussex County Council",
-    ];
-    setTras(tras);
-  }, []);
+  const handleChange = (name: string): void => {
+    setAppName(name);
+    if (name === "") return;
+    setIsValidating(true);
 
-  const handleChange = (value: string): void => {
-    setAppName(value);
+    if (appNameDebounceTimeout.current) {
+      clearTimeout(appNameDebounceTimeout.current);
+    }
+
+    appNameDebounceTimeout.current = setTimeout(() => {
+      checkAppNameValid(name);
+    }, 2000);
   };
+
+  const checkAppNameValid = async (appName: string) => {
+    try {
+      const data = await ApplicationService.getApplicationValidateName(appName);
+      setValidationResponse(data);
+    } catch (error) {
+      console.error('Error validating app name:', error);
+      setValidationResponse({
+        isValid: false,
+        message: "Error validating app name"
+      });
+    } finally {
+      setIsValidating(false);
+    }
+  }
 
   const handleSearchChange = (value: string): void => {
-    const displayTras = tras.filter((tra) =>
-      tra.toLowerCase().includes(value.toLowerCase())
-    );
-    setDisplayTras(displayTras);
+    if (value === "") return;
+
+    if (traDebounceTimeout.current) {
+      clearTimeout(traDebounceTimeout.current);
+    }
+
+    traDebounceTimeout.current = setTimeout(() => {
+      fetchTRAs(value);
+    }, 2000);
   };
 
+  const fetchTRAs = async (value: string) => {
+    try {
+      const data = await TraService.getTras(value);
+      setDisplayTras(data);
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.status === 404) {
+        setDisplayTras([]);
+      } else {
+        console.error("Could not fetch TRAs");
+      }
+    }
+  }
+
   const handleOnSelect = (value: string) => {
-    setSelectedTra(value);
+    const tra = displayTras.find(tra => tra.name === value);
+    setSelectedTra(tra);
   };
 
   const handlePublishTypeChange = (value: number): void => {
     setPublishType(value);
   };
 
-  const handleClick = (): void => {
-    const payload = {
-      appName,
-      tra: selectedTra,
-      publishType,
+  const handleClick = async (): Promise<void> => {
+    if (appName === "" || isCreating) return;
+
+    setIsCreating(true);
+    const body = {
+      name: appName,
+      type: "Publish",
+      swaCode: selectedTra?.swaCode,
     };
-    navigate("/success");
+    try {
+      const data = await ApplicationService.createApp(body);
+      navigate(r.Details, { state: { from: "create", appID: data.appId } });
+    } catch (error) {
+      console.error("Error creating application:", error);
+    } finally {
+      setIsCreating(false);
+    }
   };
 
   return (
     <div className={styles.content}>
-      <NavLinkComponent text="Home" />
+      <NavLinkComponent text="Home" link={r.Home} />
       <div className={styles.headerContainer}>
         <TextComponent
           type={TypographyType.SubHeading}
@@ -92,19 +154,48 @@ const ProductionAppCreationPage: React.FC = () => {
         type={TypographyType.SubDescription}
         content="Give your app a name"
       />
-      <div className={styles.inputContainer}>
+      <div className={styles.appNameContainer}>
         <InputComponent
           value={appName}
           type={InputType.Text}
+          trailingIcons={[
+            {
+              show:
+                appName !== "" &&
+                validationResponse?.isValid &&
+                !isValidating,
+              src: Check,
+            },
+            {
+              show: appName !== "" && isValidating,
+              element: <SpinnerComponent />,
+            },
+          ]}
           onChange={handleChange}
         />
+        <div
+          className={classNames(sharedStyles.validationMessageContainer, {
+            [sharedStyles.show]: appName !== "" && validationResponse,
+            [sharedStyles.valid]: validationResponse?.isValid,
+            [sharedStyles.invalid]: !validationResponse?.isValid,
+          })}
+        >
+          <p
+            className={classNames(sharedStyles.validation, {
+              [sharedStyles.valid]: validationResponse?.isValid,
+              [sharedStyles.invalid]: !validationResponse?.isValid,
+            })}
+          >
+            {validationResponse?.message}
+          </p>
+        </div>
       </div>
       <TextComponent
         type={TypographyType.SubDescription}
         content="Link your app to a TRA"
       />
       <SearchableDropdownComponent
-        items={displayTras}
+        items={displayTras.map(tra => tra.name)}
         leadingIcon={Search}
         onChange={handleSearchChange}
         onSelect={handleOnSelect}
@@ -134,10 +225,10 @@ const ProductionAppCreationPage: React.FC = () => {
           type={ButtonType.Primary}
           onClick={handleClick}
           disabled={
-            appName === "" || selectedTra === "" || publishType === undefined
+            appName === "" || !selectedTra || publishType === undefined
           }
         >
-          Submit
+          {isCreating ? <SpinnerComponent colour="rgb(255, 255, 255)" /> : "Create"}
         </ButtonComponent>
       </div>
     </div>

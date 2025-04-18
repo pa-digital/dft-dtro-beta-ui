@@ -84,10 +84,11 @@ p {
 
 @keyframes spin {
   0% {
-      transform: rotate(0deg);
+    transform: rotate(0deg);
   }
+
   100% {
-      transform: rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 
@@ -152,4 +153,9 @@ p {
 
 .messageContainer > p > a {
   color: rgb(0, 106, 176);
+}
+
+.contactContainer > a {
+  font-size: 14px;
+  color: rgba(0, 106, 176);
 }
