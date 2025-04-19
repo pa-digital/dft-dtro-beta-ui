@@ -41,9 +41,9 @@ function App() {
             <Route path={r.Unauthorized} element={<UnauthorizedPage />} />
 
             <Route path={r.Login} element={<LoginPage />} />
+            <Route path={r.Auth} element={<TwoFactorAuthPage />} />
 
             <Route element={<PrivateRoute />}>
-              <Route path={r.Auth} element={<TwoFactorAuthPage />} />
               <Route path={r.Home} element={isAdmin ? <CSONavigationPage /> : <NavigationPage />} />
               <Route path={r.Access} element={<AccessPage />} />
               <Route

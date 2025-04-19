@@ -29,7 +29,7 @@ import { Endpoints } from '../constants/endpoints';
   export const AuthProvider = ({ children }: AuthProviderProps) => {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
-    const [isAdmin, setIsAdmin] = useState<boolean>(true);
+    const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
     const checkAuth = async () => {
       try {
